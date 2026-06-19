@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scientific Articles & Research | HB Creations</title>
+<meta name="description" content="Access specialized health literature, biomechanics research briefs, and deep dives into natural ecosystems.">
+<meta name="keywords" content="HB Creations, Articles, Research, Science Journals, Medical Literacy, Wellness Insights, Harish Bhatta">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* ================= GLOBAL VARIABLE DESIGN (THEME UNIFICATION) ================= */
+:root {
+  --bg-main: #f8fafc;                 /* Minimalist academic canvas */
+  --bg-sidebar: #ffffff;              /* Crisp clean sidebar */
+  --text-main: #0f172a;               /* Elegant slate dark text */
+  --text-inverted: #ffffff;           /* White text for main gradient blocks */
+  --sidebar-border: #e2e8f0;
+  
+  /* LITERARY ROYAL SAPPHIRE, ROYAL AMETHYST & MAGENTA HYBRID GRADIENT */
+  --brand-gradient: linear-gradient(135deg, #4338ca 0%, #6366f1 30%, #a855f7 70%, #ec4899 100%); 
+  --panel-bg: linear-gradient(135deg, #e0f2fe, #f3e8ff);        
+  --accent-color: #6366f1;
+
+  /* Sidebar Link Hover states */
+  --light-hover-bg: #e0e7ff;                                    
+  --light-hover-text: #4338ca;                                  
+  
+  /* Dashboard Card Layouts */
+  --dash-card-bg: #ffffff;
+  --dash-card-border: #e2e8f0;
+  --progress-track: rgba(99, 102, 241, 0.1);
+  --quote-box-bg: rgba(255, 255, 255, 0.7);
+  --card-shadow: rgba(148, 163, 184, 0.15);
+  --card-hover-shadow: rgba(99, 102, 241, 0.2);
+  
+  /* Decorative Graphics Grid Base */
+  --grid-dots: radial-gradient(rgba(99, 102, 241, 0.04) 1.5px, transparent 1.5px);
+}
+
+/* Master Dark Mode Override Palette via Body Class */
+body.dark-mode {
+  --bg-main: #020617;
+  --bg-sidebar: #0f172a;
+  --text-main: #f8fafc;
+  --text-inverted: #020617;
+  --sidebar-border: #1e293b;
+  
+  --brand-gradient: linear-gradient(135deg, #312e81 0%, #4338ca 30%, #7e22ce 70%, #be185d 100%);
+  --panel-bg: linear-gradient(135deg, #0f172a, #1e1b4b);
+  --accent-color: #818cf8;
+
+  --light-hover-bg: #4338ca;
+  --light-hover-text: #f8fafc;
+  
+  --dash-card-bg: #0f172a;
+  --dash-card-border: #1e293b;
+  --progress-track: #1e1b4b;
+  --quote-box-bg: #1e293b;
+  --card-shadow: rgba(0, 0, 0, 0.6);
+  --card-hover-shadow: rgba(129, 140, 248, 0.15);
+  
+  --grid-dots: radial-gradient(rgba(248, 248, 252, 0.02) 1.5px, transparent 1.5px);
+}
+
+/* RESET & BASE RULES */
+* {
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+  color: var(--text-main);
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.2s ease, box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+body {
+  background-color: var(--bg-main);
+  background-image: var(--grid-dots);
+  background-size: 24px 24px;
+}
+
+#pcVersion, #mobileVersion { display: none; }
+
+@media (max-width:768px) { #mobileVersion { display: block; } }
+@media (min-width:769px) { #pcVersion { display: block; } }
+
+/* ================= COMPONENT: MATCHING TOGGLE SWITCH ================= */
+.theme-switch-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0 15px 0;
+  border-bottom: 1px solid var(--sidebar-border);
+  margin-bottom: 15px;
+}
+.theme-switch-wrapper span { font-size: 0.95rem; font-weight: 600; }
+.theme-switch { display: inline-block; height: 26px; position: relative; width: 50px; }
+.theme-switch input { display: none; }
+.slider {
+  background-color: #ccc; bottom: 0; cursor: pointer; left: 0; position: absolute;
+  right: 0; top: 0; transition: .4s; border-radius: 34px;
+}
+.slider:before {
+  background-color: white; bottom: 3px; content: ""; height: 20px; left: 4px;
+  position: absolute; transition: .4s; width: 20px; border-radius: 50%;
+}
+body.dark-mode .slider { background-color: var(--accent-color); }
+body.dark-mode .slider:before { transform: translateX(22px); }
+
+/* ================= EXCLUSIVE NEW ENGINE COMPONENT: CONSUMPTION CONTROL BAR ================= */
+.graphic-wrapper {
+  position: relative;
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 15px;
+  background: var(--quote-box-bg);
+  border-radius: 12px;
+  border: 1px solid var(--dash-card-border);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.reader-controls-title { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.8; }
+.speed-selectors { display: flex; gap: 8px; }
+.speed-btn {
+  background: var(--dash-card-bg);
+  border: 1px solid var(--dash-card-border);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.speed-btn.active { background: var(--brand-gradient); color: #ffffff; border-color: transparent; }
+
+/* ================= COMPONENT: SYSTEM CONTENT CARDS (DIVISIBLE BY 3) ================= */
+.system-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+@media (max-width: 1200px) {
+  .system-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .system-grid { grid-template-columns: 1fr; }
+}
+
+.system-card {
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px var(--card-shadow);
+  border: 1px solid var(--dash-card-border);
+  background-color: var(--dash-card-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.system-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px var(--card-hover-shadow);
+}
+
+.card-top-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.card-tag { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; background: var(--panel-bg); color: var(--accent-color); }
+body.dark-mode .card-tag { color: #f8fafc; }
+
+.bookmark-action { background: none; border: none; cursor: pointer; font-size: 1.1rem; opacity: 0.4; }
+.bookmark-action:hover, .bookmark-action.bookmarked { opacity: 1; color: #ec4899; }
+
+.system-card h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: 10px; line-height: 1.4; }
+.system-card p { font-size: 0.95rem; line-height: 1.5; opacity: 0.85; margin-bottom: 15px; flex-grow: 1; }
+
+.anatomy-details {
+  list-style: none;
+  border-top: 1px dashed var(--dash-card-border);
+  padding-top: 15px;
+  margin-top: auto;
+}
+.anatomy-details li {
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.anatomy-details li i { font-size: 0.85rem; width: 16px; text-align: center; color: var(--accent-color); }
+
+/* ================= INTERACTIVE TABS MODULE ================= */
+.anatomy-explorer {
+  background-color: var(--dash-card-bg);
+  border: 1px solid var(--dash-card-border);
+  border-radius: 16px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px var(--card-shadow);
+}
+.explorer-header { font-size: 1.4rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+.tabs-container { display: flex; gap: 10px; border-bottom: 1px solid var(--dash-card-border); padding-bottom: 12px; margin-bottom: 15px; overflow-x: auto; scrollbar-width: none; }
+.tab-btn { background: none; border: none; padding: 8px 16px; font-weight: 600; font-size: 0.95rem; cursor: pointer; border-radius: 8px; white-space: nowrap; }
+.tab-btn.active { background: var(--brand-gradient); color: #ffffff; }
+.tab-panel { display: none; line-height: 1.6; font-size: 0.95rem; }
+.tab-panel.active { display: block; }
+.tab-panel h3 { margin-bottom: 10px; font-size: 1.15rem; }
+
+/* ================= PC STYLING INTERFACE ================= */
+#pcVersion .sidebar {
+  position: fixed; top: 0; left: 0; width: 360px; height: 100vh; background: var(--bg-sidebar);
+  border-right: 1px solid var(--sidebar-border); overflow-y: auto; padding: 20px; scrollbar-width: none;
+}
+#pcVersion .sidebar-section { margin-bottom: 25px; padding: 18px; border-radius: 14px; background: var(--panel-bg); border: 1px solid var(--dash-card-border); }
+#pcVersion .sidebar-section h2 { margin-bottom: 12px; font-size: 1.25rem; font-weight: 700; color: var(--text-main); }
+#pcVersion .sidebar-section ul { list-style: none; }
+#pcVersion .sidebar-section li { margin: 8px 0; font-weight: 500; }
+#pcVersion .sidebar-section li a {
+  text-decoration: none; display: block; padding: 6px 12px; border-radius: 10px; transition: all 0.25s ease;
+}
+#pcVersion .sidebar-section li a:hover, #pcVersion .sidebar-section li a.active {
+  background: var(--light-hover-bg); color: var(--light-hover-text); font-weight: 700;
+}
+#pcVersion .sidebar-section li a:hover *, #pcVersion .sidebar-section li a.active * {
+  color: var(--light-hover-text);
+}
+#pcVersion .main { margin-left: 360px; padding: 30px; height: 100vh; overflow-y: auto; background: var(--bg-main); }
+
+#pcVersion .main-title {
+  text-align: center; background: var(--brand-gradient); border: 1px solid transparent;
+  padding: 25px 15px; border-radius: 16px; font-size: 2.2rem; margin-bottom: 30px; font-weight: 800; box-shadow: 0 4px 15px var(--card-shadow);
+}
+#pcVersion .main-title span { color: var(--text-inverted); }
+
+#pcVersion footer {
+  text-align: center; padding: 20px; font-size: 1rem; font-weight: 600; background: var(--brand-gradient); border: 1px solid transparent;
+  border-radius: 12px; line-height: 1.6; margin-top: 20px; box-shadow: 0 4px 15px var(--card-shadow);
+}
+#pcVersion footer span { color: var(--text-inverted); }
+
+/* ================= MOBILE STYLING INTERFACE ================= */
+#mobileVersion .main-title {
+  display: flex; justify-content: space-between; align-items: center; background: var(--brand-gradient); border: 1px solid transparent;
+  margin: 15px 15px 0px 15px; padding: 12px 20px; border-radius: 14px; font-size: 1.6rem; position: relative; box-shadow: 0 4px 12px var(--card-shadow);
+}
+#mobileVersion .main-title * { color: var(--text-inverted) !important; }
+#mobileVersion .letters { display: flex; gap: 12px; margin-left: 45px; }
+#mobileVersion .letters a { text-decoration: none; padding: 6px 12px; border-radius: 25px; font-weight: 600; font-size: 1.1rem; color: var(--text-inverted); }
+#mobileVersion .letters a.active { font-weight: 700; background: rgba(255, 255, 255, 0.25); color: #ffffff !important; }
+#mobileVersion #menu-button { position: absolute; top: 20%; left: 12px; z-index: 1500; cursor: pointer; font-size: 1.5rem; background: transparent; }
+#mobileVersion #sidebar {
+  position: fixed; top: 0; left: -260px; width: 260px; height: 100%; background: var(--bg-sidebar); z-index: 1400;
+  padding: 15px; transition: left 0.4s ease; box-shadow: 4px 0 25px rgba(0,0,0,0.15); overflow-y: auto;
+}
+#mobileVersion #sidebar.open { left: 0; }
+#mobileVersion .sidebar-section { margin-bottom: 12px; padding: 15px; border-radius: 12px; background: var(--panel-bg); border: 1px solid var(--dash-card-border); }
+#mobileVersion .sidebar-section * { color: var(--text-main) !important; }
+#mobileVersion .sidebar-section .mobile-menu-heading { font-size: 1.3rem; font-weight: 700; margin-left: 40px; display: block; margin-bottom: 10px; }
+#mobileVersion .sidebar-section h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; }
+#mobileVersion .sidebar-section ul { list-style: none; }
+#mobileVersion .sidebar-section li { margin: 8px 0; font-weight: 500; }
+#mobileVersion .sidebar-section li a { text-decoration: none; display: block; padding: 6px 12px; border-radius: 10px; }
+#mobileVersion .sidebar-section li a.active { background: var(--light-hover-bg); color: var(--light-hover-text) !important; font-weight: 700; }
+#mobileVersion #menuOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1300; display: none; }
+#mobileVersion #menuOverlay.active { display: block; }
+#mobileVersion .main { margin: 10px; padding: 10px; flex: 1; background: var(--bg-main); }
+#mobileVersion .section-title { text-align: center; background: #ffffff; border: 1px solid var(--dash-card-border); border-left: 5px solid var(--accent-color); padding: 12px; border-radius: 14px; color: var(--text-main); font-size: 1.5rem; margin-bottom: 20px; font-weight: 700; box-shadow: 0 4px 12px var(--card-shadow); }
+#mobileVersion .section-title span { color: var(--text-main); }
+body.dark-mode #mobileVersion .section-title { background: var(--dash-card-bg); }
+
+#mobileVersion footer { margin-top: 20px; padding: 20px; text-align: center; font-weight: 600; background: var(--brand-gradient); border: 1px solid transparent; border-radius: 12px; box-shadow: 0 4px 12px var(--card-shadow); }
+#mobileVersion footer span { color: var(--text-inverted) !important; }
+</style>
+</head>
+
+<body>
+
+<!-- ================================================================= -->
+<!--                           PC VERSION                              -->
+<!-- ================================================================= -->
+<div id="pcVersion">
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="theme-switch-wrapper">
+        <span>🌙 Dark Mode</span>
+        <label class="theme-switch">
+          <input type="checkbox" class="dark-mode-input-toggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <h2>Menu</h2>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="health-advice.html">🩺 Health Advice</a></li>
+        <li><a href="body-structure.html">🧬 Body Structure</a></li>
+        <li><a href="nature.html">🌿 Nature</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Information</h2>
+      <ul>
+        <li><a href="daily-exercise.html">🏃 Daily Exercise</a></li>
+        <li><a href="articles.html" class="active">📚 Articles</a></li>
+        <li><a href="community.html">👥 Community</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Additional</h2>
+      <ul>
+        <li><a href="quiz.html">❓ Quiz</a></li>
+        <li><a href="bmi-calculator.html">⚖️ BMI Calculator</a></li>
+        <li><a href="gallery.html">🖼️ Gallery</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Connect</h2>
+      <ul>
+        <li><a href="connect.html">📞 Contact</a></li>
+        <li><a href="about.html">ℹ️ About Us</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="main-title"><span>Scientific Articles & Literature</span></div>
+
+    <!-- Exclusive Engine Selector Component -->
+    <div class="graphic-wrapper">
+      <div class="reader-controls-title"><i class="fa-solid fa-sliders"></i> Reading Engine Speed Configurator</div>
+      <div class="speed-selectors">
+        <button class="speed-btn active" onclick="recalculateTime(this, 200)">Standard (200 WPM)</button>
+        <button class="speed-btn" onclick="recalculateTime(this, 350)">Skim Reading (350 WPM)</button>
+        <button class="speed-btn" onclick="recalculateTime(this, 500)">Speed Reader (500 WPM)</button>
+      </div>
+    </div>
+
+    <!-- Interactive Tabs Component (PC View) -->
+    <div class="anatomy-explorer">
+      <div class="explorer-header"><i class="fa-solid fa-bookmark" style="color: var(--accent-color);"></i> Personal Reading Shelf</div>
+      <div class="tabs-container">
+        <button class="tab-btn active" onclick="switchTab(this, 'pc-saved')">Saved Articles (<span id="pc-saved-count">0</span>)</button>
+        <button class="tab-btn" onclick="switchTab(this, 'pc-editorial')">Editorial Standards</button>
+      </div>
+      <div id="pc-saved" class="tab-panel active">
+        <p id="pc-saved-placeholder" style="opacity:0.7;">No articles bookmarked yet. Click the ribbon icons below to pin papers directly onto this dashboard shelf.</p>
+        <ul id="pc-saved-list" style="list-style:inside square; padding-left:5px; line-height:1.8; font-weight:600; display:none;"></ul>
+      </div>
+      <div id="pc-editorial" class="tab-panel">
+        <h3>Peer-Review Process Matrix</h3>
+        <p>All literature published on HB Creations passes through intensive clinical verification filters. Data components cross-reference historical cell studies and environmental metrics to preserve long-term educational stability.</p>
+      </div>
+    </div>
+
+    <!-- Core Systems Display Grid (PC View - Exactly 6 Cards) -->
+    <div class="system-grid">
+      <!-- CARD 1 -->
+      <div class="system-card" data-words="1200">
+        <div class="card-top-meta">
+          <span class="card-tag">Neurology</span>
+          <button class="bookmark-action" onclick="toggleBookmark(this, 'Neuroplasticity Mechanisms')"><i class="fa-solid fa-bookmark"></i></button>
+        </div>
+        <h2>Neuroplasticity Mechanisms</h2>
+        <p>An exhaustive analysis concerning chemical pathway alterations across cerebral landscapes during continuous motor habit shifts.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-file-lines"></i> 1,200 Academic Words</li>
+          <li><i class="fa-solid fa-clock"></i> Est: <span class="time-calc">6</span> min read</li>
+        </ul>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="system-card" data-words="850">
+        <div class="card-top-meta">
+          <span class="card-tag">Ecosystems</span>
+          <button class="bookmark-action" onclick="toggleBookmark(this, 'Mycelial Signal Matrices')"><i class="fa-solid fa-bookmark"></i></button>
+        </div>
+        <h2>Mycelial Signal Matrices</h2>
+        <p>Investigating sub-surface root networks that exchange raw electrical signals across tree populations safely during drought phases.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-file-lines"></i> 850 Academic Words</li>
+          <li><i class="fa-solid fa-clock"></i> Est: <span class="time-calc">4</span> min read</li>
+        </ul>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="system-card" data-words="1600">
+        <div class="card-top-meta">
+          <span class="card-tag">Kinesiology</span>
+          <button class="bookmark-action" onclick="toggleBookmark(this, 'Hypertrophy Activation Curves')"><i class="fa-solid fa-bookmark"></i></button>
+        </div>
+        <h2>Hypertrophy Activation Curves</h2>
+        <p>Tracking cell walls and mechanical loads during maximum tension states to maximize muscle fiber amino rebuild rates.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-file-lines"></i> 1,600 Academic Words</li>
+          <li><i class="fa-solid fa-clock"></i> Est: <span class="time-calc">8</span> min read</li>
+        </ul>
+      </div>
+
+      <!-- CARD 4 -->
+      <div class="system-card" data-words="980">
+        <div class="card-top-meta">
+          <span class="card-tag">Cardio</span>
+          <button class="bookmark-action" onclick="toggleBookmark(this, 'VO2 Max Threshold Shifts')"><i class="fa-solid fa-bookmark"></i></button>
+        </div>
+        <h2>VO2 Max Threshold Shifts</h2>
+        <p>Methods for expanding arterial walls, maximizing blood stroke volume, and raising capillary density markers safely over time.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-file-lines"></i> 980 Academic Words</li>
+          <li><i class="fa-solid fa-clock"></i> Est: <span class="time-calc">5</span> min read</li>
+        </ul>
+      </div>
+
+      <!-- CARD 5 -->
+      <div class="system-card" data-words="1100">
+        <div class="card-top-meta">
+          <span class="card-tag">Nutrition</span>
+          <button class="bookmark-action" onclick="toggleBookmark(this, 'Mitochondrial Synthesis Protocols')"><i class="fa-solid fa-bookmark"></i></button>
+        </div>
+        <h2>Mitochondrial Protocols</h2>
+        <p>How micronutrients control cell structures, shield against oxidation, and steady human metabolic baselines.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-file-lines"></i> 1,100 Academic Words</li>
+          <li><i class="fa-solid fa-clock"></i> Est: <span class="time-calc">6</span> min read</li>
+        </ul>
+      </div>
+
+      <!-- CARD 6 -->
+      <div class="system-card" data-words="1400">
+        <div class="card-top-meta">
+          <span class="card-tag">Climatology</span>
+          <button class="bookmark-action" onclick="toggleBookmark(this, 'Albedo Thermal Balance Trends')"><i class="fa-solid fa-bookmark"></i></button>
+        </div>
+        <h2>Albedo Thermal Trends</h2>
+        <p>Mathematical calculations analyzing global ice layers and heat deflection levels across oceanic ecosystems.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-file-lines"></i> 1,400 Academic Words</li>
+          <li><i class="fa-solid fa-clock"></i> Est: <span class="time-calc">7</span> min read</li>
+        </ul>
+      </div>
+    </div>
+
+    <footer><span>© 2026 HB Creations | Literature & Journals | Empirical Knowledge Tracks</span></footer>
+  </div>
+</div>
+
+<!-- ================================================================= -->
+<!--                         MOBILE VERSION                            -->
+<!-- ================================================================= -->
+<div id="mobileVersion">
+  <div class="main-title">
+    <div id="menu-button">☰</div>
+    <div class="letters">
+      <a href="index.html">H</a>
+      <a href="daily-exercise.html">E</a>
+      <a href="articles.html" class="active">J</a>
+       <a href="community.html">R</a>
+    </div>
+    <label class="theme-switch" style="transform: scale(0.8); margin-left: auto;">
+      <input type="checkbox" class="dark-mode-input-toggle">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div id="sidebar">
+    <div class="sidebar-section">
+      <span class="mobile-menu-heading">Menu</span>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="health-advice.html">🩺 Health Advice</a></li>
+        <li><a href="body-structure.html">🧬 Body Structure</a></li>
+        <li><a href="nature.html">🌿 Nature</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <ul>
+        <li><a href="daily-exercise.html">🏃 Daily Exercise</a></li>
+        <li><a href="articles.html" class="active">📚 Articles</a></li>
+        <li><a href="community.html">👥 Community</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Additional</h2>
+      <ul>
+        <li><a href="quiz.html">❓ Quiz</a></li>
+        <li><a href="bmi-calculator.html">⚖️ BMI Calculator</a></li>
+        <li><a href="gallery.html">🖼️ Gallery</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Info</h2>
+      <ul>
+        <li><a href="connect.html">📞 Contact</a></li>
+        <li><a href="about.html">ℹ️ About Us</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="menuOverlay"></div>
+
+  <div class="main">
+    <div class="section-title"><span>Research Journals</span></div>
+
+    <!-- Interactive Tabs Component (Mobile View) -->
+    <div class="anatomy-explorer">
+      <div class="tabs-container">
+        <button class="tab-btn active" onclick="switchTab(this, 'mob-saved')">Saved Shelf (<span id="mob-saved-count">0</span>)</button>
+        <button class="tab-btn" onclick="switchTab(this, 'mob-editorial')">Standards</button>
+      </div>
+      <div id="mob-saved" class="tab-panel active">
+        <p id="mob-saved-placeholder" style="opacity:0.7; font-size:0.85rem;">Bookmark items down below to sync your mobile reading queue list.</p>
+        <ul id="mob-saved-list" style="list-style:inside circle; padding-left:2px; line-height:1.7; font-size:0.9rem; font-weight:600; display:none;"></ul>
+      </div>
+      <div id="mob-editorial" class="tab-panel">
+        <p>All literature published passes through intensive clinical verification filters to secure educational stability parameters.</p>
+      </div>
+    </div>
+
+    <!-- Core Systems Display Grid (Mobile View) -->
+    <div class="system-grid">
+      <!-- CARD 1 -->
+      <div class="system-card" data-words="1200">
+        <div class="card-top-meta">
+          <span class="card-tag">Neurology</span>
+          <button class="bookmark-action" onclick="toggleBookmark(this, 'Neuroplasticity Mechanisms')"><i class="fa-solid fa-bookmark"></i></button>
+        </div>
+        <h2>Neuroplasticity Mechanisms</h2>
+        <p>Analysis concerning chemical pathway alterations during motor habit modifications.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-clock"></i> Est: <span class="time-calc">6</span> min read</li>
+        </ul>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="system-card" data-words="850">
+        <div class="card-top-meta">
+          <span class="card-tag">Ecosystems</span>
+          <button class="bookmark-action" onclick="toggleBookmark(this, 'Mycelial Signal Matrices')"><i class="fa-solid fa-bookmark"></i></button>
+        </div>
+        <h2>Mycelial Signal Matrices</h2>
+        <p>Investigating sub-surface root networks that exchange systemic alert parameters.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-clock"></i> Est: <span class="time-calc">4</span> min read</li>
+        </ul>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="system-card" data-words="1600">
+        <div class="card-top-meta">
+          <span class="card-tag">Kinesiology</span>
+          <button class="bookmark-action" onclick="toggleBookmark(this, 'Hypertrophy Activation Curves')"><i class="fa-solid fa-bookmark"></i></button>
+        </div>
+        <h2>Hypertrophy Activation Curves</h2>
+        <p>Tracking cellular tension vectors to optimize tissue load recovery protocols.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-clock"></i> Est: <span class="time-calc">8</span> min read</li>
+        </ul>
+      </div>
+
+      <!-- CARD 4 -->
+      <div class="system-card" data-words="980">
+        <div class="card-top-meta">
+          <span class="card-tag">Cardio</span>
+          <button class="bookmark-action" onclick="toggleBookmark(this, 'VO2 Max Threshold Shifts')"><i class="fa-solid fa-bookmark"></i></button>
+        </div>
+        <h2>VO2 Max Threshold Shifts</h2>
+        <p>Maximizing heart tissue stroke capacities through structural tracking.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-clock"></i> Est: <span class="time-calc">5</span> min read</li>
+        </ul>
+      </div>
+
+      <!-- CARD 5 -->
+      <div class="system-card" data-words="1100">
+        <div class="card-top-meta">
+          <span class="card-tag">Nutrition</span>
+          <button class="bookmark-action" onclick="toggleBookmark(this, 'Mitochondrial Synthesis Protocols')"><i class="fa-solid fa-bookmark"></i></button>
+        </div>
+        <h2>Mitochondrial Protocols</h2>
+        <p>How micronutrients shield structures and secure foundational metabolic tracks.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-clock"></i> Est: <span class="time-calc">6</span> min read</li>
+        </ul>
+      </div>
+
+      <!-- CARD 6 -->
+      <div class="system-card" data-words="1400">
+        <div class="card-top-meta">
+          <span class="card-tag">Climatology</span>
+          <button class="bookmark-action" onclick="toggleBookmark(this, 'Albedo Thermal Balance Trends')"><i class="fa-solid fa-bookmark"></i></button>
+        </div>
+        <h2>Albedo Thermal Trends</h2>
+        <p>Mathematical analytics measuring heat wave deflection properties of ice surfaces.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-clock"></i> Est: <span class="time-calc">7</span> min read</li>
+        </ul>
+      </div>
+    </div>
+
+    <footer><span>© 2026 HB Creations | Made with ❤</span></footer>
+  </div>
+</div>
+
+<script>
+/* --- New Lit-Engine Reading Time Calculator --- */
+function recalculateTime(btn, wpm) {
+  document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  
+  document.querySelectorAll('.system-card[data-words]').forEach(card => {
+    const wordCount = parseInt(card.getAttribute('data-words'));
+    const dynamicMinutes = Math.max(1, Math.ceil(wordCount / wpm));
+    card.querySelectorAll('.time-calc').forEach(span => span.innerText = dynamicMinutes);
+  });
+}
+
+/* --- New Dynamic Bookmarking Index Engine --- */
+let bookmarkedArticles = [];
+
+function toggleBookmark(btn, title) {
+  btn.classList.toggle('bookmarked');
+  const icon = btn.querySelector('i');
+  
+  if(btn.classList.contains('bookmarked')) {
+    if(!bookmarkedArticles.includes(title)) bookmarkedArticles.push(title);
+    icon.style.transform = 'scale(1.3)';
+    setTimeout(() => { icon.style.transform = ''; }, 150);
+  } else {
+    bookmarkedArticles = bookmarkedArticles.filter(item => item !== title);
+  }
+  
+  // Sync bookmarks globally across PC and Mobile dashboard modules
+  document.querySelectorAll('.bookmark-action').forEach(b => {
+    if(b.getAttribute('onclick').includes(`'${title}'`)) {
+      if(btn.classList.contains('bookmarked')) { b.classList.add('bookmarked'); } 
+      else { b.classList.remove('bookmarked'); }
+    }
+  });
+
+  updateSavedUI();
+}
+
+function updateSavedUI() {
+  const countPC = document.getElementById('pc-saved-count');
+  const countMob = document.getElementById('mob-saved-count');
+  const listPC = document.getElementById('pc-saved-list');
+  const listMob = document.getElementById('mob-saved-list');
+  const placeholderPC = document.getElementById('pc-saved-placeholder');
+  const placeholderMob = document.getElementById('mob-saved-placeholder');
+  
+  if(countPC) countPC.innerText = bookmarkedArticles.length;
+  if(countMob) countMob.innerText = bookmarkedArticles.length;
+  
+  if(bookmarkedArticles.length === 0) {
+    if(placeholderPC) placeholderPC.style.display = 'block';
+    if(placeholderMob) placeholderMob.style.display = 'block';
+    if(listPC) listPC.style.display = 'none';
+    if(listMob) listMob.style.display = 'none';
+  } else {
+    if(placeholderPC) placeholderPC.style.display = 'none';
+    if(placeholderMob) placeholderMob.style.display = 'none';
+    
+    let htmlContent = '';
+    bookmarkedArticles.forEach(item => {
+      htmlContent += `<li style="margin: 4px 0; color: var(--accent-color);"><span style="color: var(--text-main);">${item}</span></li>`;
+    });
+    
+    if(listPC) { listPC.innerHTML = htmlContent; listPC.style.display = 'block'; }
+    if(listMob) { listMob.innerHTML = htmlContent; listMob.style.display = 'block'; }
+  }
+}
+
+/* --- Core UI Sidebar Engine --- */
+const menuButton = document.getElementById("menu-button");
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("menuOverlay");
+
+function openSidebar() {
+  sidebar.classList.add("open");
+  overlay.classList.add("active");
+  document.body.style.overflow = 'hidden';
+  window.scrollTo({ top: 0, behavior: 'smooth' }); 
+  history.pushState({ menu: true }, "");
+}
+
+function closeSidebar() {
+  sidebar.classList.remove("open");
+  overlay.classList.remove("active");
+  document.body.style.overflow = '';
+}
+
+function toggleSidebar() {
+  if (sidebar.classList.contains("open")) { closeSidebar(); } else { openSidebar(); }
+}
+
+if (menuButton) menuButton.addEventListener("click", toggleSidebar);
+if (overlay) overlay.addEventListener("click", closeSidebar);
+
+document.addEventListener("click", (e) => {
+  if (sidebar && sidebar.classList.contains("open") && !sidebar.contains(e.target) && e.target !== menuButton) {
+    closeSidebar();
+  }
+});
+
+let touchStartX = 0;
+let touchEndX = 0;
+document.addEventListener("touchstart", (e) => { touchStartX = e.changedTouches[0].screenX; });
+document.addEventListener("touchend", (e) => { touchEndX = e.changedTouches[0].screenX; handleSwipe(); });
+function handleSwipe() {
+  if (sidebar && sidebar.classList.contains("open") && (touchStartX - touchEndX > 60)) { closeSidebar(); }
+}
+
+window.addEventListener("popstate", () => { if (sidebar && sidebar.classList.contains("open")) { closeSidebar(); } });
+
+
+/* --- Dark Mode Persistent Layout Engine --- */
+const themeToggles = document.querySelectorAll('.dark-mode-input-toggle');
+
+function setTheme(isDark) {
+  if (isDark) {
+    document.body.classList.add('dark-mode');
+  } else {
+    document.body.classList.remove('dark-mode');
+  }
+  themeToggles.forEach(toggle => toggle.checked = isDark);
+  localStorage.setItem('hb-dark-mode', isDark ? 'enabled' : 'disabled');
+}
+
+themeToggles.forEach(toggle => {
+  toggle.addEventListener('change', (e) => {
+    setTheme(e.target.checked);
+  });
+});
+
+if (localStorage.getItem('hb-dark-mode') === 'enabled') {
+  setTheme(true);
+} else {
+  setTheme(false);
+}
+
+
+/* --- Interactive Content Tabs Engine --- */
+function switchTab(clickedTab, panelId) {
+  const container = clickedTab.closest('.anatomy-explorer');
+  
+  container.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  container.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+  
+  clickedTab.classList.add('active');
+  const targetPanel = document.getElementById(panelId);
+  if(targetPanel) targetPanel.classList.add('active');
+  
+  const alternateId = panelId.startsWith('pc-') 
+    ? panelId.replace('pc-', 'mob-') 
+    : panelId.replace('mob-', 'pc-');
+    
+  const alternatePanel = document.getElementById(alternateId);
+  if (alternatePanel) {
+    const altContainer = alternatePanel.closest('.anatomy-explorer');
+    altContainer.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    altContainer.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    
+    alternatePanel.classList.add('active');
+    const panelsArray = Array.from(altContainer.querySelectorAll('.tab-panel'));
+    const targetedIndex = panelsArray.indexOf(alternatePanel);
+    const targetButton = altContainer.querySelectorAll('.tab-btn')[targetedIndex];
+    if(targetButton) targetButton.classList.add('active');
+  }
+}
+</script>
+
+</body>
+</html>

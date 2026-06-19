@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nature & Ecosystems | HB Creations</title>
+<meta name="description" content="Explore the elegant balances of the natural world, ecosystems, and environmental cycles that sustain planetary life.">
+<meta name="keywords" content="HB Creations, Nature, Ecosystems, Environmental Science, Biodiversity, Harish Bhatta, Earth Systems">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* ================= GLOBAL VARIABLE DESIGN (THEME UNIFICATION) ================= */
+:root {
+  --bg-main: #f4f7f5;                 /* Forest-mist soft canvas */
+  --bg-sidebar: #ffffff;              /* Crisp clean sidebar */
+  --text-main: #232b25;               /* Deep organic charcoal */
+  --text-inverted: #ffffff;           /* White text for main gradient blocks */
+  --sidebar-border: #e2eae4;
+  
+  /* REFRESHING NATURAL EMERALD & SUNSET SUNRISE HYBRID GRADIENT */
+  --brand-gradient: linear-gradient(135deg, #059669 0%, #10b981 30%, #14b8a6 70%, #84cc16 100%); 
+  --panel-bg: linear-gradient(135deg, #eefdf4, #e0f2fe);        
+  --accent-color: #10b981;
+
+  /* Sidebar Link Hover states */
+  --light-hover-bg: #e6f7f4;                                    
+  --light-hover-text: #0d9488;                                  
+  
+  /* Dashboard Card Layouts */
+  --dash-card-bg: #ffffff;
+  --dash-card-border: #e2ede5;
+  --progress-track: rgba(35, 43, 37, 0.1);
+  --quote-box-bg: rgba(255, 255, 255, 0.6);
+  --card-shadow: rgba(167, 211, 184, 0.2);
+  --card-hover-shadow: rgba(16, 185, 129, 0.25);
+  
+  /* Decorative Graphics Grid Base */
+  --grid-dots: radial-gradient(rgba(16, 185, 129, 0.06) 1.5px, transparent 1.5px);
+}
+
+/* Master Dark Mode Override Palette via Body Class */
+body.dark-mode {
+  --bg-main: #0c0f0d;
+  --bg-sidebar: #121613;
+  --text-main: #ecf3ee;
+  --text-inverted: #0c0f0d;
+  --sidebar-border: #1e2620;
+  
+  --brand-gradient: linear-gradient(135deg, #047857 0%, #059669 30%, #0d9488 70%, #65a30d 100%);
+  --panel-bg: linear-gradient(135deg, #131d17, #112220);
+  --accent-color: #10b981;
+
+  --light-hover-bg: #10b981;
+  --light-hover-text: #0c0f0d;
+  
+  --dash-card-bg: #121613;
+  --dash-card-border: #1e2620;
+  --progress-track: #1b241e;
+  --quote-box-bg: #19201a;
+  --card-shadow: rgba(0, 0, 0, 0.5);
+  --card-hover-shadow: rgba(16, 185, 129, 0.15);
+  
+  --grid-dots: radial-gradient(rgba(236, 243, 238, 0.04) 1.5px, transparent 1.5px);
+}
+
+/* RESET & BASE RULES */
+* {
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+  color: var(--text-main);
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.2s ease, box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+body {
+  background-color: var(--bg-main);
+  background-image: var(--grid-dots);
+  background-size: 24px 24px;
+}
+
+#pcVersion, #mobileVersion { display: none; }
+
+@media (max-width:768px) { #mobileVersion { display: block; } }
+@media (min-width:769px) { #pcVersion { display: block; } }
+
+/* ================= COMPONENT: MATCHING TOGGLE SWITCH ================= */
+.theme-switch-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0 15px 0;
+  border-bottom: 1px solid var(--sidebar-border);
+  margin-bottom: 15px;
+}
+.theme-switch-wrapper span { font-size: 0.95rem; font-weight: 600; }
+.theme-switch { display: inline-block; height: 26px; position: relative; width: 50px; }
+.theme-switch input { display: none; }
+.slider {
+  background-color: #ccc; bottom: 0; cursor: pointer; left: 0; position: absolute;
+  right: 0; top: 0; transition: .4s; border-radius: 34px;
+}
+.slider:before {
+  background-color: white; bottom: 3px; content: ""; height: 20px; left: 4px;
+  position: absolute; transition: .4s; width: 20px; border-radius: 50%;
+}
+body.dark-mode .slider { background-color: var(--accent-color); }
+body.dark-mode .slider:before { transform: translateX(22px); }
+
+/* ================= COMPONENT: ECOSYSTEM GRAPHICS PANEL ================= */
+.graphic-wrapper {
+  position: relative;
+  width: 100%;
+  height: 85px;
+  margin-bottom: 15px;
+  background: var(--quote-box-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--dash-card-border);
+}
+
+/* Floating Atmosphere Leaf/Particle Animation */
+.nature-particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0; left: 0;
+}
+.nature-particles span {
+  position: absolute;
+  display: block;
+  width: 8px; height: 8px;
+  background: var(--accent-color);
+  opacity: 0.3;
+  border-radius: 50% 0 50% 0;
+  animation: floatUp 4s infinite linear;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(90px) translateX(0) rotate(0deg); opacity: 0; }
+  50% { opacity: 0.6; }
+  100% { transform: translateY(-20px) translateX(30px) rotate(360deg); opacity: 0; }
+}
+
+/* ================= COMPONENT: NATURE CONTENT CARDS (DIVISIBLE BY 3) ================= */
+.system-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+@media (max-width: 1200px) {
+  .system-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .system-grid { grid-template-columns: 1fr; }
+}
+
+.system-card {
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px var(--card-shadow);
+  border: 1px solid var(--dash-card-border);
+  background-color: var(--dash-card-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.system-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px var(--card-hover-shadow);
+}
+
+.system-card i.system-icon { font-size: 2.3rem; margin-bottom: 12px; display: block; }
+.system-card h2 { font-size: 1.35rem; font-weight: 700; margin-bottom: 10px; }
+.system-card p { font-size: 0.95rem; line-height: 1.5; opacity: 0.85; margin-bottom: 15px; flex-grow: 1; }
+
+.anatomy-details {
+  list-style: none;
+  border-top: 1px dashed var(--dash-card-border);
+  padding-top: 15px;
+  margin-top: auto;
+}
+.anatomy-details li {
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.anatomy-details li i { font-size: 0.85rem; width: 16px; text-align: center; }
+
+/* Dynamic Environmental Accent Blocks */
+.sys-forest { border-left: 5px solid #059669; }
+.sys-forest i.system-icon, .sys-forest h2, .sys-forest .anatomy-details li i { color: #059669; }
+body.dark-mode .sys-forest { background: #0c1a13; }
+
+.sys-marine { border-left: 5px solid #06b6d4; }
+.sys-marine i.system-icon, .sys-marine h2, .sys-marine .anatomy-details li i { color: #0891b2; }
+body.dark-mode .sys-marine { background: #0a191f; }
+
+.sys-atmosphere { border-left: 5px solid #3b82f6; }
+.sys-atmosphere i.system-icon, .sys-atmosphere h2, .sys-atmosphere .anatomy-details li i { color: #2563eb; }
+body.dark-mode .sys-atmosphere { background: #0b1524; }
+
+.sys-biodiversity { border-left: 5px solid #84cc16; }
+.sys-biodiversity i.system-icon, .sys-biodiversity h2, .sys-biodiversity .anatomy-details li i { color: #65a30d; }
+body.dark-mode .sys-biodiversity { background: #161c0d; }
+
+.sys-geosphere { border-left: 5px solid #b45309; }
+.sys-geosphere i.system-icon, .sys-geosphere h2, .sys-geosphere .anatomy-details li i { color: #b45309; }
+body.dark-mode .sys-geosphere { background: #22170c; }
+
+.sys-climate { border-left: 5px solid #14b8a6; }
+.sys-climate i.system-icon, .sys-climate h2, .sys-climate .anatomy-details li i { color: #0d9488; }
+body.dark-mode .sys-climate { background: #0c1c1a; }
+
+body.dark-mode .system-card i.system-icon, body.dark-mode .system-card h2 { color: var(--text-main); }
+
+/* ================= INTERACTIVE TABS MODULE ================= */
+.anatomy-explorer {
+  background-color: var(--dash-card-bg);
+  border: 1px solid var(--dash-card-border);
+  border-radius: 16px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px var(--card-shadow);
+}
+.explorer-header { font-size: 1.4rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+.tabs-container { display: flex; gap: 10px; border-bottom: 1px solid var(--dash-card-border); padding-bottom: 12px; margin-bottom: 15px; overflow-x: auto; scrollbar-width: none; }
+.tab-btn { background: none; border: none; padding: 8px 16px; font-weight: 600; font-size: 0.95rem; cursor: pointer; border-radius: 8px; white-space: nowrap; }
+.tab-btn.active { background: var(--brand-gradient); color: #ffffff; }
+.tab-panel { display: none; line-height: 1.6; font-size: 0.95rem; }
+.tab-panel.active { display: block; }
+.tab-panel h3 { margin-bottom: 10px; font-size: 1.15rem; }
+
+/* ================= PC STYLING INTERFACE ================= */
+#pcVersion .sidebar {
+  position: fixed; top: 0; left: 0; width: 360px; height: 100vh; background: var(--bg-sidebar);
+  border-right: 1px solid var(--sidebar-border); overflow-y: auto; padding: 20px; scrollbar-width: none;
+}
+#pcVersion .sidebar-section { margin-bottom: 25px; padding: 18px; border-radius: 14px; background: var(--panel-bg); border: 1px solid var(--dash-card-border); }
+#pcVersion .sidebar-section h2 { margin-bottom: 12px; font-size: 1.25rem; font-weight: 700; color: var(--text-main); }
+#pcVersion .sidebar-section ul { list-style: none; }
+#pcVersion .sidebar-section li { margin: 8px 0; font-weight: 500; }
+#pcVersion .sidebar-section li a {
+  text-decoration: none; display: block; padding: 6px 12px; border-radius: 10px; transition: all 0.25s ease;
+}
+#pcVersion .sidebar-section li a:hover, #pcVersion .sidebar-section li a.active {
+  background: var(--light-hover-bg); color: var(--light-hover-text); font-weight: 700;
+}
+#pcVersion .sidebar-section li a:hover *, #pcVersion .sidebar-section li a.active * {
+  color: var(--light-hover-text);
+}
+#pcVersion .main { margin-left: 360px; padding: 30px; height: 100vh; overflow-y: auto; background: var(--bg-main); }
+
+#pcVersion .main-title {
+  text-align: center; background: var(--brand-gradient); border: 1px solid transparent;
+  padding: 25px 15px; border-radius: 16px; font-size: 2.2rem; margin-bottom: 30px; font-weight: 800; box-shadow: 0 4px 15px var(--card-shadow);
+}
+#pcVersion .main-title span { color: var(--text-inverted); }
+
+#pcVersion footer {
+  text-align: center; padding: 20px; font-size: 1rem; font-weight: 600; background: var(--brand-gradient); border: 1px solid transparent;
+  border-radius: 12px; line-height: 1.6; margin-top: 20px; box-shadow: 0 4px 15px var(--card-shadow);
+}
+#pcVersion footer span { color: var(--text-inverted); }
+
+/* ================= MOBILE STYLING INTERFACE ================= */
+#mobileVersion .main-title {
+  display: flex; justify-content: space-between; align-items: center; background: var(--brand-gradient); border: 1px solid transparent;
+  margin: 15px 15px 0px 15px; padding: 12px 20px; border-radius: 14px; font-size: 1.6rem; position: relative; box-shadow: 0 4px 12px var(--card-shadow);
+}
+#mobileVersion .main-title * { color: var(--text-inverted) !important; }
+#mobileVersion .letters { display: flex; gap: 12px; margin-left: 45px; }
+#mobileVersion .letters a { text-decoration: none; padding: 6px 12px; border-radius: 25px; font-weight: 600; font-size: 1.1rem; color: var(--text-inverted); }
+#mobileVersion .letters a.active { font-weight: 700; background: rgba(255, 255, 255, 0.25); color: #ffffff !important; }
+#mobileVersion #menu-button { position: absolute; top: 20%; left: 12px; z-index: 1500; cursor: pointer; font-size: 1.5rem; background: transparent; }
+#mobileVersion #sidebar {
+  position: fixed; top: 0; left: -260px; width: 260px; height: 100%; background: var(--bg-sidebar); z-index: 1400;
+  padding: 15px; transition: left 0.4s ease; box-shadow: 4px 0 25px rgba(0,0,0,0.15); overflow-y: auto;
+}
+#mobileVersion #sidebar.open { left: 0; }
+#mobileVersion .sidebar-section { margin-bottom: 12px; padding: 15px; border-radius: 12px; background: var(--panel-bg); border: 1px solid var(--dash-card-border); }
+#mobileVersion .sidebar-section * { color: var(--text-main) !important; }
+#mobileVersion .sidebar-section .mobile-menu-heading { font-size: 1.3rem; font-weight: 700; margin-left: 40px; display: block; margin-bottom: 10px; }
+#mobileVersion .sidebar-section h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; }
+#mobileVersion .sidebar-section ul { list-style: none; }
+#mobileVersion .sidebar-section li { margin: 8px 0; font-weight: 500; }
+#mobileVersion .sidebar-section li a { text-decoration: none; display: block; padding: 6px 12px; border-radius: 10px; }
+#mobileVersion .sidebar-section li a.active { background: var(--light-hover-bg); color: var(--light-hover-text) !important; font-weight: 700; }
+#mobileVersion #menuOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1300; display: none; }
+#mobileVersion #menuOverlay.active { display: block; }
+#mobileVersion .main { margin: 10px; padding: 10px; flex: 1; background: var(--bg-main); }
+#mobileVersion .section-title { text-align: center; background: #ffffff; border: 1px solid var(--dash-card-border); border-left: 5px solid var(--accent-color); padding: 12px; border-radius: 14px; color: var(--text-main); font-size: 1.5rem; margin-bottom: 20px; font-weight: 700; box-shadow: 0 4px 12px var(--card-shadow); }
+#mobileVersion .section-title span { color: var(--text-main); }
+body.dark-mode #mobileVersion .section-title { background: var(--dash-card-bg); }
+
+#mobileVersion footer { margin-top: 20px; padding: 20px; text-align: center; font-weight: 600; background: var(--brand-gradient); border: 1px solid transparent; border-radius: 12px; box-shadow: 0 4px 12px var(--card-shadow); }
+#mobileVersion footer span { color: var(--text-inverted) !important; }
+</style>
+</head>
+
+<body>
+
+<!-- ================================================================= -->
+<!--                           PC VERSION                              -->
+<!-- ================================================================= -->
+<div id="pcVersion">
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="theme-switch-wrapper">
+        <span>🌙 Dark Mode</span>
+        <label class="theme-switch">
+          <input type="checkbox" class="dark-mode-input-toggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <h2>Menu</h2>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="health-advice.html">🩺 Health Advice</a></li>
+        <li><a href="body-structure.html">🧬 Body Structure</a></li>
+        <li><a href="nature.html" class="active">🌿 Nature</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Information</h2>
+      <ul>
+        <li><a href="daily-exercise.html">🏃 Daily Exercise</a></li>
+        <li><a href="articles.html">📚 Articles</a></li>
+        <li><a href="community.html">👥 Community</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Additional</h2>
+      <ul>
+        <li><a href="quiz.html">❓ Quiz</a></li>
+        <li><a href="bmi-calculator.html">⚖️ BMI Calculator</a></li>
+        <li><a href="gallery.html">🖼️ Gallery</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Connect</h2>
+      <ul>
+        <li><a href="connect.html">📞 Contact</a></li>
+        <li><a href="about.html">ℹ️ About Us</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="main-title"><span>Nature & Global Ecosystems</span></div>
+
+    <!-- Interactive Tabs Component (PC View) -->
+    <div class="anatomy-explorer">
+      <div class="explorer-header"><i class="fa-solid fa-seedling" style="color: var(--accent-color);"></i> Planetary Balance Modules</div>
+      <div class="tabs-container">
+        <button class="tab-btn active" onclick="switchTab(this, 'pc-carbon')">Carbon Cycle</button>
+        <button class="tab-btn" onclick="switchTab(this, 'pc-water')">Hydrology</button>
+        <button class="tab-btn" onclick="switchTab(this, 'pc-symbiosis')">Symbiosis</button>
+      </div>
+      <div id="pc-carbon" class="tab-panel active">
+        <h3>Carbon Sequestration Metrics</h3>
+        <p>Global forests and oceanic phytoplankton act as primary sinks for chemical compounds. Photosynthesis processes solar radiation into chemical elements, storing vital carbons securely beneath structural roots while refreshing broad planetary oxygen reservoirs uniformly.</p>
+      </div>
+      <div id="pc-water" class="tab-panel">
+        <h3>The Hydrological Engine</h3>
+        <p>Water purification circulates continually via natural distillation sequences. Solar heat drives surface evaporation levels high, pushing condensed vapors across atmospheric channels to descend safely back down as clean terrestrial precipitation.</p>
+      </div>
+      <div id="pc-symbiosis" class="tab-panel">
+        <h3>Interconnected Biospheres</h3>
+        <p>No environmental node exists isolated. Mycelial root paths link thousands of woodland trees together, distributing resources, signals, and protective alerts to maintain long-term ecosystem stability without manual disruption dependencies.</p>
+      </div>
+    </div>
+
+    <!-- Core Systems Display Grid (PC View - Exactly 6 Cards) -->
+    <div class="system-grid">
+      <!-- CARD 1 -->
+      <div class="system-card sys-forest">
+        <div class="graphic-wrapper">
+          <div class="nature-particles">
+            <span style="left:10%; animation-delay:0s;"></span>
+            <span style="left:50%; animation-delay:1.5s;"></span>
+            <span style="left:80%; animation-delay:0.8s;"></span>
+          </div>
+        </div>
+        <i class="fa-solid fa-tree system-icon"></i>
+        <h2>Forest Biomes</h2>
+        <p>Serves as the structural lungs of our planet, absorbing toxic emissions and building thick canopies for infinite biological wild chains.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-leaf"></i> Produces 28% of global oxygen</li>
+          <li><i class="fa-solid fa-cloud-rain"></i> Regulates localized precipitation</li>
+        </ul>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="system-card sys-marine">
+        <div class="graphic-wrapper">
+          <div class="nature-particles" style="filter: hue-rotate(180deg);">
+            <span style="left:20%; animation-delay:0.5s;"></span>
+            <span style="left:60%; animation-delay:2s;"></span>
+          </div>
+        </div>
+        <i class="fa-solid fa-water system-icon"></i>
+        <h2>Marine Ecosystems</h2>
+        <p>Controls massive ocean currents, buffers aquatic acidity indexes, and houses critical coral reefs that feed thousands of sea organisms.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-fish"></i> Supports 50%+ of planetary life</li>
+          <li><i class="fa-solid fa-temperature-arrow-down"></i> Stabilizes global thermal tracks</li>
+        </ul>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="system-card sys-atmosphere">
+        <div class="graphic-wrapper">
+          <div class="nature-particles" style="filter: hue-rotate(220deg);">
+            <span style="left:30%; animation-delay:1s;"></span>
+            <span style="left:70%; animation-delay:2.5s;"></span>
+          </div>
+        </div>
+        <i class="fa-solid fa-cloud system-icon"></i>
+        <h2>Atmospheric Matrix</h2>
+        <p>Shields the surface from harsh deep-space radiation frequencies while keeping chemical gases securely locked inside our greenhouse buffer zone.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-shield-halved"></i> Blocks cosmic ultraviolet waves</li>
+          <li><i class="fa-solid fa-wind"></i> Circulates heat across hemispheres</li>
+        </ul>
+      </div>
+
+      <!-- CARD 4 -->
+      <div class="system-card sys-biodiversity">
+        <div class="graphic-wrapper">
+          <div class="nature-particles" style="filter: hue-rotate(90deg);">
+            <span style="left:40%; animation-delay:0.2s;"></span>
+            <span style="left:90%; animation-delay:1.2s;"></span>
+          </div>
+        </div>
+        <i class="fa-solid fa-bugs system-icon"></i>
+        <h2>Genetic Biodiversity</h2>
+        <p>Provides strong systemic resilience. Varied species pools prevent ecosystem collapses during harsh droughts or unexpected viral plagues.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-clover"></i> Safeguards food chain security</li>
+          <li><i class="fa-solid fa-wheat-awn"></i> Drives organic cross-pollination</li>
+        </ul>
+      </div>
+
+      <!-- CARD 5 -->
+      <div class="system-card sys-geosphere">
+        <div class="graphic-wrapper">
+          <div class="nature-particles" style="filter: hue-rotate(40deg);">
+            <span style="left:15%; animation-delay:1.8s;"></span>
+            <span style="left:75%; animation-delay:0.4s;"></span>
+          </div>
+        </div>
+        <i class="fa-solid fa-mountain system-icon"></i>
+        <h2>Geosphere Structures</h2>
+        <p>Recycles lithospheric structural soils through steady tectonic movements, mineral erosion, and natural sediment accumulation over epochs.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-gem"></i> Supplies baseline elemental minerals</li>
+          <li><i class="fa-solid fa-volcano"></i> Renews underlying planetary crusts</li>
+        </ul>
+      </div>
+
+      <!-- CARD 6 -->
+      <div class="system-card sys-climate">
+        <div class="graphic-wrapper">
+          <div class="nature-particles" style="filter: hue-rotate(140deg);">
+            <span style="left:25%; animation-delay:2.2s;"></span>
+            <span style="left:65%; animation-delay:1.1s;"></span>
+          </div>
+        </div>
+        <i class="fa-solid fa-sun system-icon"></i>
+        <h2>Climate Regulation</h2>
+        <p>Maintains appropriate solar radiation absorption balances, managing seasonal frost cycles and tropical monsoon periods safely.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-snowflake"></i> Albedo ice sheets reflect high heat</li>
+          <li><i class="fa-solid fa-chart-line"></i> Tracks macro historical patterns</li>
+        </ul>
+      </div>
+    </div>
+
+    <footer><span>© 2026 HB Creations | Nature & Environment Portfolio | Preserving Our Home</span></footer>
+  </div>
+</div>
+
+<!-- ================================================================= -->
+<!--                         MOBILE VERSION                            -->
+<!-- ================================================================= -->
+<div id="mobileVersion">
+  <div class="main-title">
+    <div id="menu-button">☰</div>
+    <div class="letters">
+      <a href="index.html">H</a>
+      <a href="health-advice.html">A</a>
+      <a href="body-structure.html">S</a>
+      <a href="nature.html" class="active">N</a>
+    </div>
+    <label class="theme-switch" style="transform: scale(0.8); margin-left: auto;">
+      <input type="checkbox" class="dark-mode-input-toggle">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div id="sidebar">
+    <div class="sidebar-section">
+      <span class="mobile-menu-heading">Menu</span>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="health-advice.html">🩺 Health Advice</a></li>
+        <li><a href="body-structure.html">🧬 Body Structure</a></li>
+        <li><a href="nature.html" class="active">🌿 Nature</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <ul>
+        <li><a href="daily-exercise.html">🏃 Daily Exercise</a></li>
+        <li><a href="articles.html">📚 Articles</a></li>
+        <li><a href="community.html">👥 Community</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Additional</h2>
+      <ul>
+        <li><a href="quiz.html">❓ Quiz</a></li>
+        <li><a href="bmi-calculator.html">⚖️ BMI Calculator</a></li>
+        <li><a href="gallery.html">🖼️ Gallery</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Info</h2>
+      <ul>
+        <li><a href="connect.html">📞 Contact</a></li>
+        <li><a href="about.html">ℹ️ About Us</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="menuOverlay"></div>
+
+  <div class="main">
+    <div class="section-title"><span>Ecosystem Networks</span></div>
+
+    <!-- Interactive Tabs Component (Mobile View) -->
+    <div class="anatomy-explorer">
+      <div class="tabs-container">
+        <button class="tab-btn active" onclick="switchTab(this, 'mob-carbon')">Carbon</button>
+        <button class="tab-btn" onclick="switchTab(this, 'mob-water')">Hydrology</button>
+        <button class="tab-btn" onclick="switchTab(this, 'mob-symbiosis')">Symbiosis</button>
+      </div>
+      <div id="mob-carbon" class="tab-panel active">
+        <p>Photosynthesis processes solar radiation into energy, storing vital carbon deep within root structures while refreshing oxygen lines safely.</p>
+      </div>
+      <div id="mob-water" class="tab-panel">
+        <p>Solar heat drives water evaporation, pushing moisture across atmospheric paths to return securely back down as freshwater rain.</p>
+      </div>
+      <div id="mob-symbiosis" class="tab-panel">
+        <p>Mycelial networks connect wild root pathways together, distributing vital resources and safety signals across whole forest regions.</p>
+      </div>
+    </div>
+
+    <!-- Core Systems Display Grid (Mobile View) -->
+    <div class="system-grid">
+      <!-- CARD 1 -->
+      <div class="system-card sys-forest">
+        <i class="fa-solid fa-tree system-icon"></i>
+        <h2>Forest Biomes</h2>
+        <p>Planet lungs that soak up emissions and construct rich biological zones.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-leaf"></i> Produces 28% of clean air supplies</li>
+        </ul>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="system-card sys-marine">
+        <i class="fa-solid fa-water system-icon"></i>
+        <h2>Marine Ecosystems</h2>
+        <p>Manages global thermal paths and protects coral reef colonies.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-fish"></i> Shelters 50%+ of active species</li>
+        </ul>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="system-card sys-atmosphere">
+        <i class="fa-solid fa-cloud system-icon"></i>
+        <h2>Atmospheric Layer</h2>
+        <p>Deflects dangerous solar radiation waves from hitting ground soils.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-shield-halved"></i> Blocks cosmic ultraviolet light</li>
+        </ul>
+      </div>
+
+      <!-- CARD 4 -->
+      <div class="system-card sys-biodiversity">
+        <i class="fa-solid fa-bugs system-icon"></i>
+        <h2>Biodiversity</h2>
+        <p>Keeps food webs flexible to avoid cascade collapses from droughts.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-clover"></i> Insures stability across biomes</li>
+        </ul>
+      </div>
+
+      <!-- CARD 5 -->
+      <div class="system-card sys-geosphere">
+        <i class="fa-solid fa-mountain system-icon"></i>
+        <h2>Geosphere</h2>
+        <p>Recycles foundational stone architectures through mineral weathering patterns.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-gem"></i> Supplies critical structural nutrients</li>
+        </ul>
+      </div>
+
+      <!-- CARD 6 -->
+      <div class="system-card sys-climate">
+        <i class="fa-solid fa-sun system-icon"></i>
+        <h2>Climate Engine</h2>
+        <p>Maintains thermal parameters, pacing seasonal shifts cleanly.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-snowflake"></i> Polar ice caps deflect excessive heat</li>
+        </ul>
+      </div>
+    </div>
+
+    <footer><span>© 2026 HB Creations | Made with ❤</span></footer>
+  </div>
+</div>
+
+<script>
+/* --- Core UI Sidebar Engine --- */
+const menuButton = document.getElementById("menu-button");
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("menuOverlay");
+
+function openSidebar() {
+  sidebar.classList.add("open");
+  overlay.classList.add("active");
+  document.body.style.overflow = 'hidden';
+  window.scrollTo({ top: 0, behavior: 'smooth' }); 
+  history.pushState({ menu: true }, "");
+}
+
+function closeSidebar() {
+  sidebar.classList.remove("open");
+  overlay.classList.remove("active");
+  document.body.style.overflow = '';
+}
+
+function toggleSidebar() {
+  if (sidebar.classList.contains("open")) { closeSidebar(); } else { openSidebar(); }
+}
+
+if (menuButton) menuButton.addEventListener("click", toggleSidebar);
+if (overlay) overlay.addEventListener("click", closeSidebar);
+
+document.addEventListener("click", (e) => {
+  if (sidebar && sidebar.classList.contains("open") && !sidebar.contains(e.target) && e.target !== menuButton) {
+    closeSidebar();
+  }
+});
+
+let touchStartX = 0;
+let touchEndX = 0;
+document.addEventListener("touchstart", (e) => { touchStartX = e.changedTouches[0].screenX; });
+document.addEventListener("touchend", (e) => { touchEndX = e.changedTouches[0].screenX; handleSwipe(); });
+function handleSwipe() {
+  if (sidebar && sidebar.classList.contains("open") && (touchStartX - touchEndX > 60)) { closeSidebar(); }
+}
+
+window.addEventListener("popstate", () => { if (sidebar && sidebar.classList.contains("open")) { closeSidebar(); } });
+
+
+/* --- Dark Mode Persistent Layout Engine --- */
+const themeToggles = document.querySelectorAll('.dark-mode-input-toggle');
+
+function setTheme(isDark) {
+  if (isDark) {
+    document.body.classList.add('dark-mode');
+  } else {
+    document.body.classList.remove('dark-mode');
+  }
+  themeToggles.forEach(toggle => toggle.checked = isDark);
+  localStorage.setItem('hb-dark-mode', isDark ? 'enabled' : 'disabled');
+}
+
+themeToggles.forEach(toggle => {
+  toggle.addEventListener('change', (e) => {
+    setTheme(e.target.checked);
+  });
+});
+
+if (localStorage.getItem('hb-dark-mode') === 'enabled') {
+  setTheme(true);
+} else {
+  setTheme(false);
+}
+
+
+/* --- Interactive Content Tabs Engine --- */
+function switchTab(clickedTab, panelId) {
+  const container = clickedTab.closest('.anatomy-explorer');
+  
+  container.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  container.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+  
+  clickedTab.classList.add('active');
+  const targetPanel = document.getElementById(panelId);
+  if(targetPanel) targetPanel.classList.add('active');
+  
+  const alternateId = panelId.startsWith('pc-') 
+    ? panelId.replace('pc-', 'mob-') 
+    : panelId.replace('mob-', 'pc-');
+    
+  const alternatePanel = document.getElementById(alternateId);
+  if (alternatePanel) {
+    const altContainer = alternatePanel.closest('.anatomy-explorer');
+    altContainer.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    altContainer.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    
+    alternatePanel.classList.add('active');
+    const panelsArray = Array.from(altContainer.querySelectorAll('.tab-panel'));
+    const targetedIndex = panelsArray.indexOf(alternatePanel);
+    const targetButton = altContainer.querySelectorAll('.tab-btn')[targetedIndex];
+    if(targetButton) targetButton.classList.add('active');
+  }
+}
+</script>
+
+</body>
+</html>

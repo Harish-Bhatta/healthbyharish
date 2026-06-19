@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HB Creations – Gallery | Harish Bhatta Official Website</title>
+<meta name="description" content="Explore the interactive visual gallery on HB Creations by Harish Bhatta.">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* ================= GLOBAL VARIABLE DESIGN (THEME UNIFICATION) ================= */
+:root {
+  --bg-main: #fcf9f5;
+  --bg-sidebar: #ffffff;
+  --text-main: #2d2a26;
+  --text-inverted: #ffffff;
+  --sidebar-border: #f0eae1;
+  
+  --brand-gradient: linear-gradient(135deg, #ff5a79 0%, #ff6db3 30%, #ff8e43 70%, #facc15 100%); 
+  --panel-bg: linear-gradient(135deg, #fff3eb, #ffe4d3);        
+  --accent-color: #ff5a79;
+
+  --light-hover-bg: #e6f7f4;                                    
+  --light-hover-text: #0d9488;                                  
+  
+  --dash-card-bg: #ffffff;
+  --dash-card-border: #f3ede4;
+  --card-shadow: rgba(223, 190, 169, 0.2);
+  --card-hover-shadow: rgba(255, 90, 121, 0.25);
+
+  --modal-bg: radial-gradient(circle at center, rgba(252, 249, 245, 0.75) 0%, rgba(245, 238, 228, 0.9) 100%);
+  --btn-bg: rgba(45, 42, 38, 0.08);
+  --btn-icon: #2d2a26;
+  --glass-border: rgba(255, 255, 255, 0.5);
+}
+
+body.dark-mode {
+  --bg-main: #11100e;
+  --bg-sidebar: #181614;
+  --text-main: #f5f2eb;
+  --text-inverted: #11100e;
+  --sidebar-border: #262320;
+  
+  --brand-gradient: linear-gradient(135deg, #ef4444 0%, #f472b6 30%, #f97316 70%, #eab308 100%);
+  --panel-bg: linear-gradient(135deg, #1e1b18, #292420);
+  --accent-color: #ff5a79;
+
+  --light-hover-bg: #ff5a79;
+  --light-hover-text: #11100e;
+  
+  --dash-card-bg: #181614;
+  --dash-card-border: #262320;
+  --card-shadow: rgba(0, 0, 0, 0.5);
+  --card-hover-shadow: rgba(255, 90, 121, 0.15);
+
+  --modal-bg: radial-gradient(circle at center, rgba(24, 22, 20, 0.75) 0%, rgba(11, 10, 9, 0.92) 100%);
+  --btn-bg: rgba(255, 255, 255, 0.08);
+  --btn-icon: #f5f2eb;
+  --glass-border: rgba(255, 255, 255, 0.08);
+}
+
+* {
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+  color: var(--text-main);
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.2s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+body {
+  background-color: var(--bg-main);
+}
+
+#darkModeToggle { display: none; }
+#pcVersion, #mobileVersion { display: none; }
+
+@media (max-width:768px) { #mobileVersion { display: block; } }
+@media (min-width:769px) { #pcVersion { display: block; } }
+
+.theme-switch-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0 15px 0;
+  border-bottom: 1px solid var(--sidebar-border);
+  margin-bottom: 15px;
+}
+.theme-switch-wrapper span { font-size: 0.95rem; font-weight: 600; }
+.theme-switch { display: inline-block; height: 26px; position: relative; width: 50px; }
+.slider {
+  background-color: #ccc; bottom: 0; cursor: pointer; left: 0; position: absolute;
+  right: 0; top: 0; transition: .4s; border-radius: 34px;
+}
+.slider:before {
+  background-color: white; bottom: 3px; content: ""; height: 20px; left: 4px;
+  position: absolute; transition: .4s; width: 20px; border-radius: 50%;
+}
+body.dark-mode .slider { background-color: var(--accent-color); }
+body.dark-mode .slider:before { transform: translateX(22px); }
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.gallery-item-card {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  aspect-ratio: 1 / 1; 
+  box-shadow: 0 4px 12px var(--card-shadow);
+  border: 1px solid var(--dash-card-border);
+  background-color: var(--dash-card-bg);
+  cursor: pointer;
+}
+
+@media (min-width: 769px) {
+  .gallery-item-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 18px var(--card-hover-shadow);
+  }
+}
+.gallery-item-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ================= PREVIEW BOX LAYER OVERLAYS ================= */
+.confined-lightbox {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--modal-bg);
+  backdrop-filter: blur(25px) saturate(170%);
+  -webkit-backdrop-filter: blur(25px) saturate(170%);
+  z-index: 2000;
+  overflow: hidden !important;
+  contain: paint;
+  user-select: none;
+}
+
+@media (min-width: 769px) {
+  .confined-lightbox {
+    left: 360px;
+    width: calc(100vw - 360px);
+  }
+}
+
+.lightbox-viewport {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden !important;
+  padding: 40px;
+  position: relative;
+}
+
+.lightbox-viewport img.focal-target {
+  max-width: 75%;
+  max-height: 75%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 14px;
+  z-index: 10;
+  position: relative;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15), inset 0 0 0 1px var(--glass-border);
+  cursor: zoom-in;
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.2s ease, box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+body.dark-mode .lightbox-viewport img.focal-target {
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 0 0 1px var(--glass-border);
+}
+
+.lightbox-btn {
+  position: absolute;
+  background: var(--btn-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  z-index: 2100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+.lightbox-btn i { color: var(--btn-icon) !important; font-size: 1.25rem; }
+.lightbox-btn:hover { background: var(--accent-color); border-color: transparent; transform: scale(1.05); }
+.lightbox-btn:hover i { color: #ffffff !important; }
+
+#closeLightBox { top: 30px; right: 40px; }
+#dlLightBox { top: 30px; left: 40px; }
+#prevLightBox { left: 40px; top: 50%; transform: translateY(-50%); }
+#nextLightBox { right: 40px; top: 50%; transform: translateY(-50%); }
+
+@media (max-width: 768px) {
+  #prevLightBox, #nextLightBox { display: none !important; }
+  #closeLightBox { top: 20px; right: 20px; width: 44px; height: 44px; }
+  #dlLightBox { top: 20px; left: 20px; width: 44px; height: 44px; }
+}
+
+.animate-swipe-next { animation: swipeNext 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-swipe-prev { animation: swipePrev 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+@keyframes swipeNext {
+  0% { transform: translateX(40px) scale(0.97); opacity: 0; }
+  100% { transform: translateX(0) scale(1); opacity: 1; }
+}
+@keyframes swipePrev {
+  0% { transform: translateX(-40px) scale(0.97); opacity: 0; }
+  100% { transform: translateX(0) scale(1); opacity: 1; }
+}
+
+/* ================= PC STYLING INTERFACE ================= */
+#pcVersion .sidebar {
+  position: fixed; top: 0; left: 0; width: 360px; height: 100vh; background: var(--bg-sidebar);
+  border-right: 1px solid var(--sidebar-border); overflow-y: auto; padding: 20px; scrollbar-width: none;
+}
+#pcVersion .sidebar-section { margin-bottom: 25px; padding: 18px; border-radius: 14px; background: var(--panel-bg); border: 1px solid var(--dash-card-border); }
+#pcVersion .sidebar-section h2 { margin-bottom: 12px; font-size: 1.25rem; font-weight: 700; color: var(--text-main); }
+#pcVersion .sidebar-section ul { list-style: none; }
+#pcVersion .sidebar-section li { margin: 8px 0; font-weight: 500; }
+#pcVersion .sidebar-section li a {
+  text-decoration: none; display: block; padding: 6px 12px; border-radius: 10px; transition: all 0.25s ease;
+}
+#pcVersion .sidebar-section li a:hover, #pcVersion .sidebar-section li a.active {
+  background: var(--light-hover-bg); color: var(--light-hover-text); font-weight: 700;
+}
+#pcVersion .sidebar-section li a:hover *, #pcVersion .sidebar-section li a.active * {
+  color: var(--light-hover-text);
+}
+#pcVersion .main { margin-left: 360px; padding: 30px; height: 100vh; overflow-y: auto; background: var(--bg-main); scroll-behavior: smooth; }
+
+#pcVersion .main-title {
+  text-align: center; background: var(--brand-gradient); border: 1px solid transparent;
+  padding: 25px 15px; border-radius: 16px; font-size: 2.2rem; margin-bottom: 30px; font-weight: 800; box-shadow: 0 4px 15px var(--card-shadow);
+}
+#pcVersion .main-title span { color: var(--text-inverted); }
+
+#pcVersion footer {
+  text-align: center; padding: 20px; font-size: 1rem; font-weight: 600; background: var(--brand-gradient); border: 1px solid transparent;
+  border-radius: 12px; line-height: 1.6; margin-top: 20px; box-shadow: 0 4px 15px var(--card-shadow);
+}
+#pcVersion footer span { color: var(--text-inverted); }
+
+/* ================= MOBILE STYLING INTERFACE ================= */
+#mobileVersion .main-title {
+  display: flex; justify-content: space-between; align-items: center; background: var(--brand-gradient); border: 1px solid transparent;
+  margin: 15px 15px 0px 15px; padding: 12px 20px; border-radius: 14px; font-size: 1.6rem; position: relative; box-shadow: 0 4px 12px var(--card-shadow);
+}
+#mobileVersion .main-title * { color: var(--text-inverted) !important; }
+#mobileVersion .letters { display: flex; gap: 12px; margin-left: 45px; }
+#mobileVersion .letters a { text-decoration: none; padding: 6px 12px; border-radius: 25px; font-weight: 600; font-size: 1.1rem; color: var(--text-inverted); }
+#mobileVersion .letters a.active { font-weight: 700; background: rgba(255, 255, 255, 0.25); color: #ffffff !important; }
+#mobileVersion #menu-button { position: absolute; top: 20%; left: 12px; z-index: 1500; cursor: pointer; font-size: 1.5rem; background: transparent; }
+
+#mobileVersion #sidebar {
+  position: fixed; top: 0; left: -260px; width: 260px; height: 100%; background: var(--bg-sidebar); z-index: 1400;
+  padding: 15px; transition: left 0.4s ease; box-shadow: 4px 0 25px rgba(0,0,0,0.15); overflow-y: auto;
+}
+#mobileVersion #sidebar.open { left: 0; }
+#mobileVersion .sidebar-section { margin-bottom: 12px; padding: 15px; border-radius: 12px; background: var(--panel-bg); border: 1px solid var(--dash-card-border); }
+#mobileVersion .sidebar-section * { color: var(--text-main) !important; }
+#mobileVersion .sidebar-section h22 { font-size: 1.3rem; font-weight: 700; margin-left: 40px; display: block; margin-bottom: 10px; }
+#mobileVersion .sidebar-section h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; }
+#mobileVersion .sidebar-section ul { list-style: none; }
+#mobileVersion .sidebar-section li { margin: 8px 0; font-weight: 500; }
+#mobileVersion .sidebar-section li a { text-decoration: none; display: block; padding: 6px 12px; border-radius: 10px; }
+#mobileVersion .sidebar-section li a.active { background: var(--light-hover-bg); color: var(--light-hover-text) !important; font-weight: 700; }
+
+#mobileVersion #menuOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1300; display: none; }
+#mobileVersion #menuOverlay.active { display: block; }
+#mobileVersion .main { margin: 10px; padding: 10px; flex: 1; background: var(--bg-main); }
+
+#mobileVersion .section-title { text-align: center; background: #ffffff; border: 1px solid var(--dash-card-border); border-left: 5px solid var(--accent-color); padding: 12px; border-radius: 14px; color: var(--text-main); font-size: 1.5rem; margin-bottom: 20px; font-weight: 700; box-shadow: 0 4px 12px var(--card-shadow); }
+#mobileVersion .section-title span { color: var(--text-main); }
+body.dark-mode #mobileVersion .section-title { background: var(--dash-card-bg); }
+
+#mobileVersion .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+#mobileVersion footer { margin-top: 20px; padding: 20px; text-align: center; font-weight: 600; background: var(--brand-gradient); border: 1px solid transparent; border-radius: 12px; box-shadow: 0 4px 12px var(--card-shadow); }
+#mobileVersion footer span { color: var(--text-inverted) !important; }
+
+@media(min-width:1025px){
+  #mobileVersion #sidebar{left:0 !important; width:360px; box-shadow:none;}
+  #mobileVersion .main{margin-left:360px; padding:30px;}
+  #mobileVersion #menu-button, #mobileVersion #menuOverlay{display:none;}
+}
+</style>
+</head>
+
+<body>
+
+<input type="checkbox" id="darkModeToggle">
+
+<div id="pcVersion">
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="theme-switch-wrapper">
+        <span>🌙 Dark Mode</span>
+        <label class="theme-switch" for="darkModeToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <h2>Menu</h2>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="health-advice.html">🩺 Health Advice</a></li>
+        <li><a href="body-structure.html">🧬 Body Structure</a></li>
+        <li><a href="nature.html">🌿 Nature</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Information</h2>
+      <ul>
+        <li><a href="daily-exercise.html">🏃 Daily Exercise</a></li>
+        <li><a href="articles.html">📚 Articles</a></li>
+        <li><a href="community.html">👥 Community</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Additional</h2>
+      <ul>
+        <li><a href="quiz.html">❓ Quiz</a></li>
+        <li><a href="bmi-calculator.html">⚖️ BMI Calculator</a></li>
+        <li><a href="gallery.html" class="active">🖼️ Gallery</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Connect</h2>
+      <ul>
+        <li><a href="connect.html">📞 Contact</a></li>
+        <li><a href="about.html">ℹ️ About Us</a></li>
+        <li><a href="https://www.facebook.com/HB.harish.bhatta" target="_blank"><i class="fa-brands fa-facebook" style="color:#1877f2; margin-right:6px;"></i> Facebook</a></li>
+        <li><a href="https://www.youtube.com/channel/UC8-7dNFrLe4QynzU5cM68cg" target="_blank"><i class="fa-brands fa-youtube" style="color:#ff0000; margin-right:6px;"></i> YouTube</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="main" id="pcMainViewport">
+    <div class="main-title"><span>Visual Media Gallery</span></div>
+    
+    <div class="gallery-grid" id="pcGrid">
+      <div class="gallery-item-card" onclick="openLightbox(0)"><img src="4.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(1)"><img src="5.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(2)"><img src="6.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(3)"><img src="7.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(4)"><img src="8.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(5)"><img src="9.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(6)"><img src="10.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(7)"><img src="11.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(8)"><img src="12.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(9)"><img src="13.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(10)"><img src="14.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(11)"><img src="15.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(12)"><img src="16.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(13)"><img src="17.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(14)"><img src="18.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(15)"><img src="19.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(16)"><img src="20.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(17)"><img src="21.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(18)"><img src="22.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(19)"><img src="23.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(20)"><img src="24.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(21)"><img src="25.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(22)"><img src="26.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(23)"><img src="27.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(24)"><img src="28.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(25)"><img src="29.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(26)"><img src="30.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(27)"><img src="31.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(28)"><img src="32.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(29)"><img src="33.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(30)"><img src="34.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(31)"><img src="35.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(32)"><img src="36.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(33)"><img src="37.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(34)"><img src="38.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(35)"><img src="39.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(36)"><img src="40.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(37)"><img src="41.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(38)"><img src="42.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(39)"><img src="43.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(40)"><img src="44.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(41)"><img src="45.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(42)"><img src="46.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(43)"><img src="47.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(44)"><img src="48.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(45)"><img src="49.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(46)"><img src="50.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(47)"><img src="51.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(48)"><img src="52.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(49)"><img src="53.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(50)"><img src="54.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(51)"><img src="55.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(52)"><img src="56.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(53)"><img src="57.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(54)"><img src="58.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(55)"><img src="59.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(56)"><img src="60.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(57)"><img src="61.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(58)"><img src="62.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(59)"><img src="63.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(60)"><img src="64.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(61)"><img src="65.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(62)"><img src="66.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(63)"><img src="67.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(64)"><img src="68.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(65)"><img src="69.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(66)"><img src="70.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(67)"><img src="71.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(68)"><img src="72.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(69)"><img src="73.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(70)"><img src="74.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(71)"><img src="75.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(72)"><img src="76.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(73)"><img src="77.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(74)"><img src="78.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(75)"><img src="79.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(76)"><img src="80.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(77)"><img src="81.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(78)"><img src="82.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(79)"><img src="83.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(80)"><img src="84.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(81)"><img src="85.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(82)"><img src="86.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(83)"><img src="87.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(84)"><img src="88.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(85)"><img src="89.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(86)"><img src="90.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(87)"><img src="91.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(88)"><img src="92.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(89)"><img src="93.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(90)"><img src="94.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(91)"><img src="95.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(92)"><img src="96.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(93)"><img src="97.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(94)"><img src="98.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(95)"><img src="99.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(96)"><img src="100.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(97)"><img src="101.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(98)"><img src="102.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(99)"><img src="103.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(100)"><img src="104.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(101)"><img src="105.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(102)"><img src="106.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(103)"><img src="107.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(104)"><img src="108.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(105)"><img src="109.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(106)"><img src="110.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(107)"><img src="111.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(108)"><img src="112.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(109)"><img src="113.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(110)"><img src="114.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(111)"><img src="115.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(112)"><img src="116.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(113)"><img src="117.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(114)"><img src="118.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(115)"><img src="119.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(116)"><img src="120.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(117)"><img src="121.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(118)"><img src="122.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(119)"><img src="123.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(120)"><img src="124.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(121)"><img src="125.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(122)"><img src="126.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(123)"><img src="127.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(124)"><img src="128.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(125)"><img src="129.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(126)"><img src="130.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(127)"><img src="131.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(128)"><img src="132.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(27)"><img src="3.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(28)"><img src="2.jpg" alt="Gallery Media"></div>
+      <div class="gallery-item-card" onclick="openLightbox(29)"><img src="1.jpg" alt="Gallery Media"></div>
+    </div>
+
+    <footer><span>© 2026 HB Creations | Health & Everyday Life | Designed with Care</span></footer>
+  </div>
+</div>
+
+<div id="mobileVersion">
+  <div class="main-title">
+    <div id="menu-button">☰</div>
+    <div class="letters">
+      <a href="index.html">H</a>
+      <a href="quiz.html">Q</a>
+      <a href="bmi-calculator.html">B</a>
+      <a href="gallery.html" class="active">G</a>
+    </div>
+    <label class="theme-switch" for="darkModeToggle" style="transform: scale(0.8); margin-left: auto;">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div id="sidebar">
+    <div class="sidebar-section">
+      <h22>Menu</h22>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="health-advice.html">🩺 Health Advice</a></li>
+        <li><a href="body-structure.html">🧬 Body Structure</a></li>
+        <li><a href="nature.html">🌿 Nature</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <ul>
+        <li><a href="daily-exercise.html">🏃 Daily Exercise</a></li>
+        <li><a href="articles.html">📚 Articles</a></li>
+        <li><a href="community.html">👥 Community</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Additional</h2>
+      <ul>
+        <li><a href="quiz.html">❓ Quiz</a></li>
+        <li><a href="bmi-calculator.html">⚖️ BMI Calculator</a></li>
+        <li><a href="gallery.html" class="active">🖼️ Gallery</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Info</h2>
+      <ul>
+        <li><a href="connect.html">📞 Contact</a></li>
+        <li><a href="about.html">ℹ️ About Us</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="menuOverlay"></div>
+
+  <div class="main">
+    <div class="section-title"><span>Interactive Gallery</span></div>
+
+    <div class="gallery-grid" id="mobileGrid"></div>
+
+    <footer><span>© 2026 HB Creations | Made with ❤</span></footer>
+  </div>
+</div>
+
+<div id="globalLightbox" class="confined-lightbox">
+  <button id="closeLightBox" class="lightbox-btn" title="Close"><i class="fa-solid fa-xmark"></i></button>
+  <a id="dlLightBox" class="lightbox-btn" title="Download Image" href="#" download><i class="fa-solid fa-download"></i></a>
+  <button id="prevLightBox" class="lightbox-btn"><i class="fa-solid fa-chevron-left"></i></button>
+  <button id="nextLightBox" class="lightbox-btn"><i class="fa-solid fa-chevron-right"></i></button>
+  <div class="lightbox-viewport" id="viewportContainer">
+    <img id="lightboxTargetImg" class="focal-target" src="" alt="Focused View">
+  </div>
+</div>
+
+<script>
+/* ================= CORE UI SIDEBAR ENGINE ================= */
+const menuButton = document.getElementById("menu-button");
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("menuOverlay");
+
+function openSidebar() {
+  if(!sidebar || !overlay) return;
+  sidebar.classList.add("open");
+  overlay.classList.add("active");
+  document.body.style.overflow = 'hidden';
+  window.scrollTo({ top: 0, behavior: 'smooth' }); 
+  history.pushState({ menu: true }, "");
+}
+
+function closeSidebar() {
+  if(!sidebar || !overlay) return;
+  sidebar.classList.remove("open");
+  overlay.classList.remove("active");
+  document.body.style.overflow = '';
+}
+
+if (menuButton) menuButton.addEventListener("click", () => {
+  if (sidebar && sidebar.classList.contains("open")) { closeSidebar(); } else { openSidebar(); }
+});
+if (overlay) overlay.addEventListener("click", closeSidebar);
+
+/* --- Global Dark Mode State Synchronization --- */
+const toggleNode = document.getElementById('darkModeToggle');
+function setTheme(isDark) {
+  if (isDark) {
+    document.body.classList.add('dark-mode');
+    if (toggleNode) toggleNode.checked = true;
+    localStorage.setItem('hb-dark-mode', 'enabled');
+  } else {
+    document.body.classList.remove('dark-mode');
+    if (toggleNode) toggleNode.checked = false;
+    localStorage.setItem('hb-dark-mode', 'disabled');
+  }
+}
+if (toggleNode) toggleNode.addEventListener('change', (e) => setTheme(e.target.checked));
+if (localStorage.getItem('hb-dark-mode') === 'enabled') setTheme(true);
+
+/* ================= THE STABLE PICTURE ARRAY & STATE SYSTEM ================= */
+const pcImages = Array.from(document.querySelectorAll('#pcGrid img')).map(img => img.getAttribute('src'));
+const mobileGrid = document.getElementById('mobileGrid');
+
+pcImages.forEach((src, idx) => {
+  const card = document.createElement('div');
+  card.className = 'gallery-item-card';
+  card.setAttribute('onclick', `openLightbox(${idx})`);
+  const img = document.createElement('img');
+  img.src = src;
+  img.alt = "Gallery Media";
+  card.appendChild(img);
+  mobileGrid.appendChild(card);
+});
+
+const lightbox = document.getElementById('globalLightbox');
+const lightboxImg = document.getElementById('lightboxTargetImg');
+const viewportContainer = document.getElementById('viewportContainer');
+const downloadBtn = document.getElementById('dlLightBox');
+
+let currentIdx = 0;
+let currentScale = 1;
+let translateX = 0;
+let translateY = 0;
+let isDragging = false;
+let startX = 0, startY = 0;
+
+// Hard boundary framework calculation
+function enforceClampedBoundaries(tgtScale, proposedX, proposedY) {
+  if (tgtScale <= 1) return { x: 0, y: 0 };
+  
+  const vRect = viewportContainer.getBoundingClientRect();
+  
+  const maxLimitX = Math.max(0, ((vRect.width * tgtScale) - vRect.width) / 2);
+  const maxLimitY = Math.max(0, ((vRect.height * tgtScale) - vRect.height) / 2);
+  
+  return {
+    x: Math.min(Math.max(proposedX, -maxLimitX), maxLimitX),
+    y: Math.min(Math.max(proposedY, -maxLimitY), maxLimitY)
+  };
+}
+
+function resetZoom() {
+  currentScale = 1;
+  translateX = 0;
+  translateY = 0;
+  lightboxImg.style.transform = `translate(0px, 0px) scale(1)`;
+  lightboxImg.style.cursor = 'zoom-in';
+}
+
+function updateImageTransform() {
+  lightboxImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentScale})`;
+}
+
+function openLightbox(index) {
+  currentIdx = index;
+  lightboxImg.src = pcImages[currentIdx];
+  downloadBtn.href = pcImages[currentIdx]; // Smooth working local download link binding
+  lightbox.style.display = 'block';
+  resetZoom(); 
+  if (window.innerWidth <= 768) document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  lightbox.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function changeImage(direction) {
+  currentIdx = (currentIdx + direction + pcImages.length) % pcImages.length;
+  lightboxImg.style.transform = "none"; 
+  lightboxImg.src = pcImages[currentIdx];
+  downloadBtn.href = pcImages[currentIdx]; // Update download asset on target change
+  resetZoom(); 
+}
+
+/* ================= DIRECT ATTACHMENT CONTROLS ================= */
+downloadBtn.addEventListener('click', (e) => {
+  e.stopPropagation(); // Prevents parent nodes from locking up trigger event rules
+});
+
+document.getElementById('closeLightBox').addEventListener('click', closeLightbox);
+document.getElementById('prevLightBox').addEventListener('click', () => changeImage(-1));
+document.getElementById('nextLightBox').addEventListener('click', () => changeImage(1));
+
+document.addEventListener('keydown', (e) => {
+  if (lightbox.style.display === 'block') {
+    if (e.key === 'ArrowLeft') changeImage(-1);
+    if (e.key === 'ArrowRight') changeImage(1);
+    if (e.key === 'Escape') closeLightbox();
+  }
+});
+
+/* ================= POINTER-BOUNDS FIXED 0.1 ZOOM ENGINE ================= */
+lightboxImg.addEventListener('wheel', (e) => {
+  e.preventDefault(); 
+  e.stopPropagation(); 
+  
+  const zoomFactor = 0.1; // Configured directly to your preferred 0.1 profile
+  const oldScale = currentScale;
+  
+  if (e.deltaY < 0) {
+    currentScale = Math.min(currentScale + zoomFactor, 5);
+  } else {
+    currentScale = Math.max(currentScale - zoomFactor, 1);
+  }
+  
+  if (currentScale === 1) {
+    translateX = 0;
+    translateY = 0;
+  } else {
+    const rect = lightboxImg.getBoundingClientRect();
+    
+    const cursorX = e.clientX - rect.left;
+    const cursorY = e.clientY - rect.top;
+    
+    const scaleRatio = currentScale / oldScale;
+    const nextX = translateX - (cursorX - (rect.width / 2)) * (scaleRatio - 1);
+    const nextY = translateY - (cursorY - (rect.height / 2)) * (scaleRatio - 1);
+    
+    const clamped = enforceClampedBoundaries(currentScale, nextX, nextY);
+    translateX = clamped.x;
+    translateY = clamped.y;
+  }
+  
+  updateImageTransform();
+}, { passive: false });
+
+/* ================= PC PANNING DRAG LISTENERS ================= */
+lightboxImg.addEventListener('mousedown', (e) => {
+  e.preventDefault();
+  if (currentScale > 1) {
+    isDragging = true;
+    startX = e.clientX - translateX;
+    startY = e.clientY - translateY;
+    lightboxImg.style.cursor = 'grabbing';
+  }
+});
+
+window.addEventListener('mousemove', (e) => {
+  if (!isDragging) return;
+  const proposedX = e.clientX - startX;
+  const proposedY = e.clientY - startY;
+  
+  const clamped = enforceClampedBoundaries(currentScale, proposedX, proposedY);
+  translateX = clamped.x;
+  translateY = clamped.y;
+  
+  updateImageTransform();
+});
+
+window.addEventListener('mouseup', () => {
+  isDragging = false;
+  if(lightboxImg) lightboxImg.style.cursor = currentScale > 1 ? 'zoom-out' : 'zoom-in';
+});
+
+/* ================= MOBILE TOUCH ENGINE ================= */
+let touchMode = 'none'; 
+let mobileSwipeStartX = 0, mobileSwipeStartY = 0;
+let initialTouchDistance = 0;
+let touchPinchAnchorX = 0, touchPinchAnchorY = 0;
+
+viewportContainer.addEventListener('touchstart', (e) => {
+  if (e.touches.length === 1) {
+    mobileSwipeStartX = e.touches[0].clientX;
+    mobileSwipeStartY = e.touches[0].clientY;
+    if (currentScale > 1) {
+      touchMode = 'pan';
+      startX = e.touches[0].clientX - translateX;
+      startY = e.touches[0].clientY - translateY;
+    } else {
+      touchMode = 'swipe';
+    }
+  } else if (e.touches.length === 2) {
+    touchMode = 'zoom';
+    const t1 = e.touches[0];
+    const t2 = e.touches[1];
+    initialTouchDistance = Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
+    
+    const rect = viewportContainer.getBoundingClientRect();
+    touchPinchAnchorX = ((t1.clientX + t2.clientX) / 2) - rect.left;
+    touchPinchAnchorY = ((t1.clientY + t2.clientY) / 2) - rect.top;
+  }
+}, { passive: true });
+
+viewportContainer.addEventListener('touchmove', (e) => {
+  if (touchMode === 'pan' && e.touches.length === 1) {
+    const proposedX = e.touches[0].clientX - startX;
+    const proposedY = e.touches[0].clientY - startY;
+    
+    const clamped = enforceClampedBoundaries(currentScale, proposedX, proposedY);
+    translateX = clamped.x;
+    translateY = clamped.y;
+    updateImageTransform();
+  } else if (touchMode === 'zoom' && e.touches.length === 2) {
+    const t1 = e.touches[0];
+    const t2 = e.touches[1];
+    const activeDistance = Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
+    
+    if (initialTouchDistance > 0) {
+      const scaleRatio = activeDistance / initialTouchDistance;
+      const oldScale = currentScale;
+      
+      currentScale = Math.min(Math.max(currentScale * scaleRatio, 1), 5);
+      initialTouchDistance = activeDistance;
+      
+      if (currentScale === 1) {
+        translateX = 0;
+        translateY = 0;
+      } else {
+        const nextX = touchPinchAnchorX - (touchPinchAnchorX - translateX) * (currentScale / oldScale);
+        const nextY = touchPinchAnchorY - (touchPinchAnchorY - translateY) * (currentScale / oldScale);
+        
+        const clamped = enforceClampedBoundaries(currentScale, nextX, nextY);
+        translateX = clamped.x;
+        translateY = clamped.y;
+      }
+      updateImageTransform();
+    }
+  }
+}, { passive: true });
+
+viewportContainer.addEventListener('touchend', (e) => {
+  if (touchMode === 'swipe' && e.changedTouches.length === 1) {
+    const deltaX = e.changedTouches[0].clientX - mobileSwipeStartX;
+    const deltaY = e.changedTouches[0].clientY - mobileSwipeStartY;
+    
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 40) {
+      if (deltaX > 0) changeImage(-1); else changeImage(1);
+    } else if (Math.abs(deltaY) > 70 && deltaY > 0) {
+      closeLightbox();
+    }
+  }
+  touchMode = 'none';
+}, { passive: true });
+</script>
+
+</body>
+</html>

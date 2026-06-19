@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HB Creations – Quiz Set 2 | Harish Bhatta Official Website</title>
+<meta name="description" content="Test your deep health knowledge in Quiz Set 1 on the HB Creations interactive hub.">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* ================= GLOBAL VARIABLE DESIGN (THEME UNIFICATION) ================= */
+:root {
+  --bg-main: #fcf9f5;                /* Warm, soft canvas */
+  --bg-sidebar: #ffffff;             /* Crisp clean sidebar */
+  --text-main: #2d2a26;              /* Soft charcoal for readability */
+  --text-inverted: #ffffff;          /* White text for main gradient blocks */
+  --sidebar-border: #f0eae1;
+  
+  /* BRIGHTER & LIGHTER RED-PINK-ORANGE-YELLOW SUNSET GRADIENT */
+  --brand-gradient: linear-gradient(135deg, #ff5a79 0%, #ff6db3 30%, #ff8e43 70%, #facc15 100%); 
+  --panel-bg: linear-gradient(135deg, #fff3eb, #ffe4d3);        
+  --accent-color: #ff5a79;
+
+  /* Sidebar Link Hover states */
+  --light-hover-bg: #e6f7f4;                                    
+  --light-hover-text: #0d9488;                                  
+  
+  /* Dashboard / Question Card Layouts */
+  --dash-card-bg: #ffffff;
+  --dash-card-border: #f3ede4;
+  --card-shadow: rgba(223, 190, 169, 0.2);
+  --card-hover-shadow: rgba(255, 90, 121, 0.25);
+
+  /* Interactive Elements */
+  --q-box-gradient: linear-gradient(135deg, #e0f2fe, #bae6fd);
+  --q-text-color: #0369a1;
+  --opt-bg: #ffffff;
+  --opt-border: #e2e8f0;
+  --opt-hover: #f8fafc;
+}
+
+/* Master Dark Mode Override Palette via Body Class */
+body.dark-mode {
+  --bg-main: #11100e;
+  --bg-sidebar: #181614;
+  --text-main: #f5f2eb;
+  --text-inverted: #11100e;
+  --sidebar-border: #262320;
+  
+  --brand-gradient: linear-gradient(135deg, #ef4444 0%, #f472b6 30%, #f97316 70%, #eab308 100%);
+  --panel-bg: linear-gradient(135deg, #1e1b18, #292420);
+  --accent-color: #ff5a79;
+
+  --light-hover-bg: #ff5a79;
+  --light-hover-text: #11100e;
+  
+  --dash-card-bg: #181614;
+  --dash-card-border: #262320;
+  --card-shadow: rgba(0, 0, 0, 0.5);
+  --card-hover-shadow: rgba(255, 90, 121, 0.15);
+
+  /* Interactive Elements Dark Mode */
+  --q-box-gradient: linear-gradient(135deg, #0c4a6e, #075985);
+  --q-text-color: #f0f9ff;
+  --opt-bg: #1e1b18;
+  --opt-border: #262320;
+  --opt-hover: #2d2520;
+}
+
+/* RESET & BASE RULES */
+* {
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+  color: var(--text-main);
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.2s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+body {
+  background-color: var(--bg-main);
+}
+
+#darkModeToggle { display: none; }
+#pcVersion, #mobileVersion { display: none; }
+
+@media (max-width:768px) { #mobileVersion { display: block; } }
+@media (min-width:769px) { #pcVersion { display: block; } }
+
+/* ================= COMPONENT: MATCHING TOGGLE SWITCH ================= */
+.theme-switch-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0 15px 0;
+  border-bottom: 1px solid var(--sidebar-border);
+  margin-bottom: 15px;
+}
+.theme-switch-wrapper span { font-size: 0.95rem; font-weight: 600; }
+.theme-switch { display: inline-block; height: 26px; position: relative; width: 50px; }
+.slider {
+  background-color: #ccc; bottom: 0; cursor: pointer; left: 0; position: absolute;
+  right: 0; top: 0; transition: .4s; border-radius: 34px;
+}
+.slider:before {
+  background-color: white; bottom: 3px; content: ""; height: 20px; left: 4px;
+  position: absolute; transition: .4s; width: 20px; border-radius: 50%;
+}
+body.dark-mode .slider { background-color: var(--accent-color); }
+body.dark-mode .slider:before { transform: translateX(22px); }
+
+/* ================= COMPONENT: INTERACTIVE QUIZ METRICS ================= */
+.progress-bar-container {
+  width: 100%;
+  height: 12px;
+  background: var(--dash-card-border);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 25px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.progress-fill-node {
+  height: 100%;
+  width: 0%;
+  background: var(--brand-gradient);
+  border-radius: 20px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.quiz-meta-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+
+.q-counter-badge {
+  font-size: 1.2rem;
+  font-weight: 700;
+  background: var(--panel-bg);
+  padding: 6px 16px;
+  border-radius: 30px;
+  border: 1px solid var(--dash-card-border);
+}
+
+/* TIMER SYSTEM */
+.timer-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 190px;
+  background: var(--dash-card-bg);
+  padding: 6px 14px;
+  border-radius: 30px;
+  border: 1px solid var(--dash-card-border);
+  box-shadow: 0 2px 8px var(--card-shadow);
+}
+.timer-icon { color: var(--accent-color); font-size: 1.1rem; }
+.timer-digital { font-size: 1.1rem; font-weight: 700; min-width: 38px; }
+.timer-progress-track { flex: 1; height: 8px; background: var(--sidebar-border); border-radius: 10px; overflow: hidden; }
+.timer-progress-bar { height: 100%; width: 100%; background: var(--brand-gradient); transition: width 1s linear; }
+
+/* QUESTION CONTAINER */
+.question-display-box {
+  background: var(--q-box-gradient);
+  padding: 25px;
+  border-radius: 18px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 15px var(--card-shadow);
+  border: 1px solid transparent;
+}
+.question-display-box p {
+  color: var(--q-text-color) !important;
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+/* OPTIONS SYSTEM */
+.options-vertical-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.interactive-option-node {
+  background-color: var(--opt-bg);
+  border: 2px solid var(--opt-border);
+  padding: 16px 22px;
+  border-radius: 14px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 6px var(--card-shadow);
+}
+
+/* UPDATED: Neutral Golden-Yellow State Indicators to prevent false "wrong answer" feel */
+.interactive-option-node:hover {
+  background: linear-gradient(180deg, #fef0ff) !important; /* Rich Golden Yellow Gradient */
+  border-color: #ff00ff !important;                               /* Warm Amber Border */
+  transform: scale(1.005);                                     /* Distinct tactile nudge */
+  box-shadow: 0 4px 12px rgba(244, 63, 94, 0.3);                /* Gold glowing feedback */
+}
+
+/* Text visibility adjustments for both view versions on hover */
+.interactive-option-node:hover * {
+  color: #854d0e !important;                                      /* Dark High-Contrast Brown */
+}
+.interactive-option-node:hover {
+  color: #854d0e !important;                                      /* Inline direct fallback */
+}
+
+/* Dark mode specific high-contrast balancing for the gold hover profile */
+body.dark-mode .interactive-option-node:hover {
+  background: linear-gradient(135deg, #fef0ff) !important;
+  border-color: #ca8a04 !important;
+  color: #1e1b18 !important;
+}
+body.dark-mode .interactive-option-node:hover * {
+  color: #1e1b18 !important;
+}
+
+/* Option Verification Mechanics (Post-selection confirmation styling remain) */
+.interactive-option-node.validated-correct {
+  border-color: #10b981 !important;
+  background-color: #ecfdf5 !important;
+  color: #065f46 !important;
+}
+.interactive-option-node.validated-correct * { color: #065f46 !important; }
+
+body.dark-mode .interactive-option-node.validated-correct {
+  background-color: #064e3b !important;
+  color: #ecfdf5 !important;
+}
+body.dark-mode .interactive-option-node.validated-correct * { color: #ecfdf5 !important; }
+
+.interactive-option-node.validated-correct::after {
+  content: "\f00c"; font-family: "Font Awesome 5 Free"; font-weight: 900; color: #10b981;
+}
+
+.interactive-option-node.validated-wrong {
+  border-color: #ef4444 !important;
+  background-color: #fef2f2 !important;
+  color: #991b1b !important;
+}
+.interactive-option-node.validated-wrong * { color: #991b1b !important; }
+
+body.dark-mode .interactive-option-node.validated-wrong {
+  background-color: #7f1d1d !important;
+  color: #fef2f2 !important;
+}
+body.dark-mode .interactive-option-node.validated-wrong * { color: #fef2f2 !important; }
+
+.interactive-option-node.validated-wrong::after {
+  content: "\f00d"; font-family: "Font Awesome 5 Free"; font-weight: 900; color: #ef4444;
+}
+
+/* ================= GLOSSY & ENHANCED RESULT VIEW ================= */
+.result-display-panel {
+  text-align: center;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.85), rgba(254, 243, 235, 0.95));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  padding: 50px 35px;
+  border-radius: 24px;
+  box-shadow: 0 15px 35px var(--card-shadow), inset 0 1px 2px rgba(255,255,255,0.6);
+  animation: modalPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+body.dark-mode .result-display-panel {
+  background: linear-gradient(135deg, rgba(24, 22, 20, 0.9), rgba(30, 27, 24, 0.95));
+  border: 2px solid rgba(255, 255, 255, 0.07);
+}
+
+@keyframes modalPop { 0% { transform: scale(0.85); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+.result-display-panel h2 { 
+  font-size: 2.4rem; 
+  font-weight: 800; 
+  margin-bottom: 5px; 
+  background: var(--brand-gradient); 
+  -webkit-background-clip: text; 
+  -webkit-text-fill-color: transparent; 
+}
+
+/* Glossy Score Badge */
+.result-badge-score { 
+  display: inline-block; 
+  background: linear-gradient(135deg, #ffffff, var(--panel-bg));
+  border: 2px solid var(--dash-card-border); 
+  padding: 14px 36px; 
+  border-radius: 50px; 
+  font-size: 2rem; 
+  font-weight: 800; 
+  margin: 22px 0; 
+  box-shadow: 0 6px 15px var(--card-shadow), inset 0 2px 4px rgba(255,255,255,0.8);
+}
+body.dark-mode .result-badge-score {
+  background: linear-gradient(135deg, #1e1b18, #11100e);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+}
+
+/* Floating Confetti Element Animations */
+.confetti-streamer {
+  display: inline-block;
+  font-size: 2.8rem;
+  animation: bounceFloat 2s ease-in-out infinite alternate;
+  margin: 5px 0;
+}
+@keyframes bounceFloat {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-8px) rotate(5deg); }
+}
+
+.action-btn-group { display: flex; justify-content: center; gap: 15px; margin-top: 25px; flex-wrap: wrap; }
+.control-action-btn {
+  text-decoration: none; padding: 14px 28px; border-radius: 12px; font-weight: 700; font-size: 1.1rem; cursor: pointer; border: none;
+  background: var(--brand-gradient); color: white !important; box-shadow: 0 4px 12px var(--card-hover-shadow);
+}
+.control-action-btn.secondary-variant {
+  background: var(--panel-bg); color: var(--text-main) !important; border: 1px solid var(--dash-card-border); box-shadow: none;
+}
+.control-action-btn:hover { transform: translateY(-3px) scale(1.02); opacity: 0.95; box-shadow: 0 6px 18px var(--card-hover-shadow); }
+
+/* ================= PC STYLING INTERFACE ================= */
+#pcVersion .sidebar {
+  position: fixed; top: 0; left: 0; width: 360px; height: 100vh; background: var(--bg-sidebar);
+  border-right: 1px solid var(--sidebar-border); overflow-y: auto; padding: 20px; scrollbar-width: none;
+}
+#pcVersion .sidebar-section { margin-bottom: 25px; padding: 18px; border-radius: 14px; background: var(--panel-bg); border: 1px solid var(--dash-card-border); }
+#pcVersion .sidebar-section h2 { margin-bottom: 12px; font-size: 1.25rem; font-weight: 700; }
+#pcVersion .sidebar-section ul { list-style: none; }
+#pcVersion .sidebar-section li { margin: 8px 0; font-weight: 500; }
+#pcVersion .sidebar-section li a { text-decoration: none; display: block; padding: 6px 12px; border-radius: 10px; }
+#pcVersion .sidebar-section li a:hover, #pcVersion .sidebar-section li a.active {
+  background: var(--light-hover-bg); color: var(--light-hover-text); font-weight: 700;
+}
+#pcVersion .main { margin-left: 360px; padding: 30px; height: 100vh; overflow-y: auto; background: var(--bg-main); }
+#pcVersion .main-title {
+  text-align: center; background: var(--brand-gradient); padding: 22px 15px; border-radius: 16px; font-size: 2.2rem; margin-bottom: 30px; font-weight: 800; box-shadow: 0 4px 15px var(--card-shadow);
+}
+#pcVersion .main-title span { color: var(--text-inverted); }
+#pcVersion footer { text-align: center; padding: 20px; font-size: 1rem; font-weight: 600; background: var(--brand-gradient); border-radius: 12px; margin-top: 10px; box-shadow: 0 4px 15px var(--card-shadow); }
+#pcVersion footer span { color: var(--text-inverted); }
+
+/* ================= MOBILE STYLING INTERFACE ================= */
+#mobileVersion .main-title {
+  display: flex; justify-content: space-between; align-items: center; background: var(--brand-gradient);
+  margin: 15px 15px 0px 15px; padding: 12px 20px; border-radius: 14px; font-size: 1.6rem; position: relative; box-shadow: 0 4px 12px var(--card-shadow);
+}
+#mobileVersion .main-title * { color: var(--text-inverted) !important; }
+#mobileVersion .letters { display: flex; gap: 12px; margin-left: 45px; }
+#mobileVersion .letters a { text-decoration: none; padding: 6px 12px; border-radius: 25px; font-weight: 600; font-size: 1.1rem; color: var(--text-inverted); }
+#mobileVersion .letters a.active { font-weight: 700; background: rgba(255, 255, 255, 0.25); color: #ffffff !important; }
+#mobileVersion #menu-button { position: absolute; top: 20%; left: 12px; z-index: 1500; cursor: pointer; font-size: 1.5rem; background: transparent; }
+
+#mobileVersion #sidebar {
+  position: fixed; top: 0; left: -260px; width: 260px; height: 100%; background: var(--bg-sidebar); z-index: 1400;
+  padding: 15px; transition: left 0.4s ease; box-shadow: 4px 0 25px rgba(0,0,0,0.15); overflow-y: auto;
+}
+#mobileVersion #sidebar.open { left: 0; }
+#mobileVersion .sidebar-section { margin-bottom: 12px; padding: 15px; border-radius: 12px; background: var(--panel-bg); border: 1px solid var(--dash-card-border); }
+#mobileVersion .sidebar-section * { color: var(--text-main) !important; }
+#mobileVersion .sidebar-section h22 { font-size: 1.3rem; font-weight: 700; margin-left: 40px; display: block; margin-bottom: 10px; }
+#mobileVersion .sidebar-section h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; }
+#mobileVersion .sidebar-section ul { list-style: none; }
+#mobileVersion .sidebar-section li { margin: 8px 0; font-weight: 500; }
+#mobileVersion .sidebar-section li a { text-decoration: none; display: block; padding: 6px 12px; border-radius: 10px; }
+#mobileVersion .sidebar-section li a.active { background: var(--light-hover-bg); color: var(--light-hover-text) !important; font-weight: 700; }
+
+#mobileVersion #menuOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1300; display: none; }
+#mobileVersion #menuOverlay.active { display: block; }
+#mobileVersion .main { margin: 10px; padding: 10px; flex: 1; background: var(--bg-main); }
+
+#mobileVersion .section-title { text-align: center; background: var(--dash-card-bg); border: 1px solid var(--dash-card-border); border-left: 5px solid var(--accent-color); padding: 12px; border-radius: 14px; font-size: 1.4rem; margin-bottom: 20px; font-weight: 700; box-shadow: 0 4px 12px var(--card-shadow); }
+#mobileVersion footer { margin-top: 20px; padding: 20px; text-align: center; font-weight: 600; background: var(--brand-gradient); border-radius: 12px; box-shadow: 0 4px 12px var(--card-shadow); }
+#mobileVersion footer span { color: var(--text-inverted) !important; }
+
+@media(min-width:1025px){
+  #mobileVersion #sidebar{left:0 !important; width:360px; box-shadow:none;}
+  #mobileVersion .main{margin-left:360px; padding:30px;}
+  #mobileVersion #menu-button, #mobileVersion #menuOverlay{display:none;}
+}
+</style>
+</head>
+
+<body>
+
+<input type="checkbox" id="darkModeToggle">
+
+<div id="pcVersion">
+  <div class="sidebar">
+    <div class="sidebar-section">
+<div class="theme-switch-wrapper">
+        <span>🌙 Dark Mode</span>
+        <label class="theme-switch" for="darkModeToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <h2>Menu</h2>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="health-advice.html">🩺 Health Advice</a></li>
+        <li><a href="body-structure.html">🧬 Body Structure</a></li>
+        <li><a href="nature.html">🌿 Nature</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Information</h2>
+      <ul>
+        <li><a href="daily-exercise.html">🏃 Daily Exercise</a></li>
+        <li><a href="articles.html">📚 Articles</a></li>
+        <li><a href="community.html">👥 Community</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Additional</h2>
+      <ul>
+        <li><a href="quiz.html" class="active">❓ Quiz</a></li>
+        <li><a href="bmi-calculator.html">⚖️ BMI Calculator</a></li>
+        <li><a href="gallery.html">🖼️ Gallery</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+    
+      <h2>Connect</h2>
+      <ul>
+        <li><a href="connect.html">📞 Contact</a></li>
+        <li><a href="about.html">ℹ️ About Us</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="main-title"><span>Quiz Set 2: Macronutrient Mechanics</span></div>
+    
+    <div class="progress-bar-container">
+      <div class="progress-fill-node" id="pc-progress-fill"></div>
+    </div>
+
+    <div id="pc-quiz-engine-region">
+      <div class="quiz-meta-header">
+        <div class="q-counter-badge" id="pc-qnum">Question: 1 / 10</div>
+        <div class="timer-container">
+          <i class="fa-solid fa-clock timer-icon"></i>
+          <div class="timer-digital" id="pc-timer">60s</div>
+          <div class="timer-progress-track">
+            <div class="timer-progress-bar" id="pc-timer-fill"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="question-display-box">
+        <p id="pc-question-text">Loading question data...</p>
+      </div>
+
+      <div class="options-vertical-stack" id="pc-options-box"></div>
+    </div>
+
+    <footer><span>© 2026 HB Creations | Health & Everyday Life</span></footer>
+  </div>
+</div>
+
+<div id="mobileVersion">
+  <div class="main-title">
+    <div id="menu-button">☰</div>
+    <div class="letters">
+      <a href="index.html">H</a>
+      <a href="quiz.html" class="active">Q</a>
+      <a href="bmi-calculator.html">B</a>
+      <a href="gallery.html">G</a>
+    </div>
+    <label class="theme-switch" for="darkModeToggle" style="transform: scale(0.8); margin-left: auto;">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div id="sidebar">
+    <div class="sidebar-section">
+      <h22>Menu</h22>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="health-advice.html">🩺 Health Advice</a></li>
+        <li><a href="body-structure.html">🧬 Body Structure</a></li>
+        <li><a href="nature.html">🌿 Nature</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-section">
+      <ul>
+        <li><a href="daily-exercise.html">🏃 Daily Exercise</a></li>
+        <li><a href="articles.html">📚 Articles</a></li>
+        <li><a href="community.html">👥 Community</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-section">
+      <h2>Additional</h2>
+      <ul>
+        <li><a href="quiz.html" class="active">❓ Quiz</a></li>
+        <li><a href="bmi-calculator.html">⚖️ BMI Calculator</a></li>
+        <li><a href="gallery.html">🖼️ Gallery</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="menuOverlay"></div>
+
+  <div class="main">
+    <div class="section-title"><span>Quiz Set 2</span></div>
+
+    <div class="progress-bar-container">
+      <div class="progress-fill-node" id="mobile-progress-fill"></div>
+    </div>
+
+    <div id="mobile-quiz-engine-region">
+      <div class="quiz-meta-header">
+        <div class="q-counter-badge" id="mobile-qnum">Q: 1 / 10</div>
+        <div class="timer-container" style="min-width: 120px;">
+          <i class="fa-solid fa-clock timer-icon"></i>
+          <div class="timer-digital" id="mobile-timer">60s</div>
+          <div class="timer-progress-track">
+            <div class="timer-progress-bar" id="mobile-timer-fill"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="question-display-box" style="padding:18px;">
+        <p id="mobile-question-text" style="font-size:1.15rem;">Loading question data...</p>
+      </div>
+
+      <div class="options-vertical-stack" id="mobile-options-box"></div>
+    </div>
+
+    <footer><span>© 2026 HB Creations | Made with ❤</span></footer>
+  </div>
+</div>
+
+<script>
+/* --- Sidebar Menu Operations --- */
+const menuButton = document.getElementById("menu-button");
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("menuOverlay");
+
+function openSidebar() {
+  if(!sidebar || !overlay) return;
+  sidebar.classList.add("open");
+  overlay.classList.add("active");
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSidebar() {
+  if(!sidebar || !overlay) return;
+  sidebar.classList.remove("open");
+  overlay.classList.remove("active");
+  document.body.style.overflow = '';
+}
+
+if (menuButton) menuButton.addEventListener("click", () => sidebar.classList.contains("open") ? closeSidebar() : openSidebar());
+if (overlay) overlay.addEventListener("click", closeSidebar);
+
+// Quiz Data
+const quizDataset = [
+  {
+    q: "How many calories are provided by one single gram of dietary carbohydrate?",
+    o: ["4 calories", "9 calories", "7 calories", "2 calories"], a: 0
+  },
+  {
+    q: "Which macronutrient is primarily used by the body to build and repair muscle tissues?",
+    o: ["Protein", "Carbohydrate", "Dietary Fat", "Water"], a: 0
+  },
+  {
+    q: "What are the basic structural building blocks that combine to form proteins?",
+    o: ["Amino acids", "Fatty acids", "Simple sugars", "Nucleotides"], a: 0
+  },
+  {
+    q: "Which type of fat is generally considered healthy and liquid at room temperature?",
+    o: ["Unsaturated fat", "Saturated fat", "Trans fat", "Hydrogenated fat"], a: 0
+  },
+  {
+    q: "What is the body's primary storage form of carbohydrates, found in the liver and muscles?",
+    o: ["Glycogen", "Glucose", "Triglyceride", "Cellulose"], a: 0
+  },
+  {
+    q: "Which macronutrient provides the highest energy density, packing 9 calories per gram?",
+    o: ["Fats", "Proteins", "Carbohydrates", "Fiber"], a: 0
+  },
+  {
+    q: "What type of carbohydrate contains long chains of sugars and digests slowly?",
+    o: ["Complex carbohydrate", "Simple carbohydrate", "Monosaccharide", "Disaccharide"], a: 0
+  },
+  {
+    q: "Which complex carbohydrate cannot be fully digested by humans but keeps our gut healthy?",
+    o: ["Fiber", "Starch", "Sucrose", "Lactose"], a: 0
+  },
+  {
+    q: "What happens to excess macronutrients when you consume more calories than your body burns?",
+    o: ["They are stored as body fat", "They are converted into vitamins", "They are destroyed by the stomach", "They turn directly into bone mass"], a: 0
+  },
+  {
+    q: "Which enzyme in human saliva starts the chemical breakdown of starches while you chew?",
+    o: ["Amylase", "Pepsin", "Lipase", "Insulin"], a: 0
+  }
+];
+
+/* --- Global States --- */
+let globalIndex = 0;
+let globalScore = 0;
+let timeRemaining = 30;
+let countdownTimerReference;
+let stateLocked = false;
+
+/* Get Active Window Elements DOM Reference Map */
+function fetchDomInterface() {
+  const isDesktop = window.innerWidth > 768;
+  return {
+    isDesktop,
+    displayArea: document.getElementById(isDesktop ? "pc-quiz-engine-region" : "mobile-quiz-engine-region"),
+    questionField: document.getElementById(isDesktop ? "pc-question-text" : "mobile-question-text"),
+    optionsContainer: document.getElementById(isDesktop ? "pc-options-box" : "mobile-options-box"),
+    counterField: document.getElementById(isDesktop ? "pc-qnum" : "mobile-qnum"),
+    progressFill: document.getElementById(isDesktop ? "pc-progress-fill" : "mobile-progress-fill"),
+    timerString: document.getElementById(isDesktop ? "pc-timer" : "mobile-timer"),
+    timerBarFill: document.getElementById(isDesktop ? "pc-timer-fill" : "mobile-timer-fill")
+  };
+}
+
+/* Load Quiz Question Routine */
+function assembleQuestionView() {
+  const dom = fetchDomInterface();
+  if (globalIndex >= quizDataset.length) {
+    renderFinalEvaluationView();
+    return;
+  }
+
+  stateLocked = false;
+  const currentUnit = quizDataset[globalIndex];
+
+  // Update Text Nodes & Progress Metas
+  dom.counterField.innerText = dom.isDesktop ? `Question: ${globalIndex + 1} / ${quizDataset.length}` : `Q: ${globalIndex + 1} / ${quizDataset.length}`;
+  dom.questionField.innerText = currentUnit.q;
+  dom.progressFill.style.width = `${((globalIndex + 1) / quizDataset.length) * 100}%`;
+
+  // Clear options container
+  dom.optionsContainer.innerHTML = "";
+
+  // Map and Randomize Options array structure safely
+  let optionMap = currentUnit.o.map((text, idx) => ({ text, originIndex: idx }));
+  optionMap.sort(() => Math.random() - 0.5);
+
+  optionMap.forEach((item) => {
+    const node = document.createElement("div");
+    node.className = "interactive-option-node";
+    node.innerText = item.text;
+    node.addEventListener("click", () => verifySelectedChoice(node, item.originIndex, currentUnit.a));
+    dom.optionsContainer.appendChild(node);
+  });
+
+  initializeCountdownClock();
+}
+
+/* Clock Runner Engine */
+function initializeCountdownClock() {
+  clearInterval(countdownTimerReference);
+  const dom = fetchDomInterface();
+  timeRemaining = 30;
+  dom.timerString.innerText = "30s";
+  dom.timerBarFill.style.width = "100%";
+  dom.timerString.style.color = "var(--text-main)";
+
+  countdownTimerReference = setInterval(() => {
+    timeRemaining--;
+    dom.timerString.innerText = `${timeRemaining}s`;
+    dom.timerBarFill.style.width = `${(timeRemaining / 30) * 100}%`;
+
+    if (timeRemaining <= 10) {
+      dom.timerString.style.color = "#ef4444";
+    }
+
+    if (timeRemaining <= 0) {
+      clearInterval(countdownTimerReference);
+      triggerNextStepTimeout();
+    }
+  }, 1000);
+}
+
+/* Verification Engine */
+function verifySelectedChoice(selectedDOMNode, selectedIdx, correctIdx) {
+  if (stateLocked) return;
+  stateLocked = true;
+  clearInterval(countdownTimerReference);
+
+  const dom = fetchDomInterface();
+  const optionNodes = dom.optionsContainer.querySelectorAll(".interactive-option-node");
+
+  optionNodes.forEach((node, idx) => {
+    // We locate the index matching our dataset arrays internally mapped
+    if (quizDataset[globalIndex].o[correctIdx] === node.innerText) {
+      node.classList.add("validated-correct");
+    } else if (selectedDOMNode.innerText === node.innerText && selectedIdx !== correctIdx) {
+      node.classList.add("validated-wrong");
+    }
+    node.style.pointerEvents = "none";
+  });
+
+  if (selectedIdx === correctIdx) globalScore++;
+  setTimeout(triggerNextStepTimeout, 1200);
+}
+
+function triggerNextStepTimeout() {
+  globalIndex++;
+  assembleQuestionView();
+}
+
+/* Render Evaluation Score Panel */
+function renderFinalEvaluationView() {
+  const dom = fetchDomInterface();
+  const scorePercentage = (globalScore / quizDataset.length);
+  
+  let headingText = "Keep Practicing!";
+  let analysisLabel = "You can do better with a bit more review.";
+  let statusColor = "#eab308"; // Golden Yellow
+  let celebrationEmojis = "📝 👍 ✨";
+  
+  if (scorePercentage >= 0.9) {
+    headingText = "Outstanding Performance!";
+    analysisLabel = "Masterful accuracy! You possess exceptional health knowledge.";
+    statusColor = "#10b981"; // Vibrant Mint Emerald
+    celebrationEmojis = "🎉 🎊 ✨";
+  } else if (scorePercentage >= 0.75) {
+    headingText = "Excellent Job!";
+    analysisLabel = "Fantastic work! Your fundamentals are rock solid.";
+    statusColor = "#0d9488"; // High-end Teal
+    celebrationEmojis = "🌟 ⭐ ✨";
+  } else if (scorePercentage >= 0.6) {
+    headingText = "Very Good!";
+    analysisLabel = "Great pass rate! Just a few minor steps away from total mastery.";
+    statusColor = "#0284c7"; // Sky Blue
+    celebrationEmojis = "👏 ✔️ ✨";
+  } else if (scorePercentage >= 0.4) {
+    headingText = "Good Effort!";
+    analysisLabel = "Decent run. Review your missed units and attempt it once more!";
+    statusColor = "#f97316"; // Soft Sunset Orange
+    celebrationEmojis = "💪 📚 ✨";
+  }
+
+  dom.displayArea.innerHTML = `
+    <div class="result-display-panel">
+      <h2>${headingText}</h2>
+      <div class="confetti-streamer">${celebrationEmojis}</div>
+      <div>
+        <div class="result-badge-score">Score: ${globalScore} / ${quizDataset.length}</div>
+      </div>
+      <p style="font-size: 1.2rem; font-weight: 700; color: ${statusColor}; margin-bottom: 12px;">
+        ${analysisLabel}
+      </p>
+      <p style="font-weight: 600; opacity: 0.75; margin-bottom: 25px; font-size: 0.95rem; color: #f52784">
+        You completed Quiz Set 2 successfully.
+      </p>
+      <div class="action-btn-group">
+        <button class="control-action-btn" onclick="location.href='quiz.html'">Hub Terminal</button>
+        <button class="control-action-btn" onclick="location.href='quiz-set3.html'">Continue Next Set →</button>
+      </div>
+    </div>
+  `;
+}
+
+/* --- Global Dark Mode Tracking Ecosystem Integration --- */
+const toggleNode = document.getElementById('darkModeToggle');
+
+function applySystemTheme(isDark) {
+  if (isDark) {
+    document.body.classList.add('dark-mode');
+    if (toggleNode) toggleNode.checked = true;
+    localStorage.setItem('hb-dark-mode', 'enabled');
+  } else {
+    document.body.classList.remove('dark-mode');
+    if (toggleNode) toggleNode.checked = false;
+    localStorage.setItem('hb-dark-mode', 'disabled');
+  }
+}
+
+if (toggleNode) {
+  toggleNode.addEventListener('change', (e) => applySystemTheme(e.target.checked));
+}
+
+// Global Instant Theme Bootstrap
+if (localStorage.getItem('hb-dark-mode') === 'enabled') {
+  applySystemTheme(true);
+} else {
+  applySystemTheme(false);
+}
+
+// Initial Boot Vector execution
+window.addEventListener("DOMContentLoaded", () => assembleQuestionView());
+window.addEventListener("resize", () => assembleQuestionView());
+</script>
+
+</body>
+</html>

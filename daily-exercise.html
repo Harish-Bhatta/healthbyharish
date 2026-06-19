@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Exercise & Kinesiology | HB Creations</title>
+<meta name="description" content="Optimize your physical movement tracks, posture matrices, and muscular output parameters with functional, daily bio-mechanics.">
+<meta name="keywords" content="HB Creations, Daily Exercise, Kinesiology, Functional Movement, Muscle Activation, Harish Bhatta, Physical Health">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* ================= GLOBAL VARIABLE DESIGN (THEME UNIFICATION) ================= */
+:root {
+  --bg-main: #f5f6fa;                 /* Clean, energetic athletic canvas */
+  --bg-sidebar: #ffffff;              /* Crisp clean sidebar */
+  --text-main: #1e2530;               /* Solid modern charcoal */
+  --text-inverted: #ffffff;           /* White text for main gradient blocks */
+  --sidebar-border: #e6ebf4;
+  
+  /* HIGH-VELOCITY ATHLETIC AMBER, VIBRANT ORANGE & ELECTRIC BLUE HYBRID GRADIENT */
+  --brand-gradient: linear-gradient(135deg, #2563eb 0%, #3b82f6 30%, #f97316 70%, #f59e0b 100%); 
+  --panel-bg: linear-gradient(135deg, #eff6ff, #fff7ed);        
+  --accent-color: #2563eb;
+
+  /* Sidebar Link Hover states */
+  --light-hover-bg: #e0f2fe;                                    
+  --light-hover-text: #2563eb;                                  
+  
+  /* Dashboard Card Layouts */
+  --dash-card-bg: #ffffff;
+  --dash-card-border: #e6edf8;
+  --progress-track: rgba(37, 99, 235, 0.1);
+  --quote-box-bg: rgba(255, 255, 255, 0.65);
+  --card-shadow: rgba(186, 203, 230, 0.25);
+  --card-hover-shadow: rgba(37, 99, 235, 0.2);
+  
+  /* Decorative Graphics Grid Base */
+  --grid-dots: radial-gradient(rgba(37, 99, 235, 0.05) 1.5px, transparent 1.5px);
+}
+
+/* Master Dark Mode Override Palette via Body Class */
+body.dark-mode {
+  --bg-main: #0a0d14;
+  --bg-sidebar: #0f131a;
+  --text-main: #f1f5f9;
+  --text-inverted: #0a0d14;
+  --sidebar-border: #1a2230;
+  
+  --brand-gradient: linear-gradient(135deg, #1d4ed8 0%, #2563eb 30%, #ea580c 70%, #d97706 100%);
+  --panel-bg: linear-gradient(135deg, #101f38, #241a12);
+  --accent-color: #3b82f6;
+
+  --light-hover-bg: #2563eb;
+  --light-hover-text: #0a0d14;
+  
+  --dash-card-bg: #0f131a;
+  --dash-card-border: #1a2230;
+  --progress-track: #172030;
+  --quote-box-bg: #141b26;
+  --card-shadow: rgba(0, 0, 0, 0.5);
+  --card-hover-shadow: rgba(59, 130, 246, 0.15);
+  
+  --grid-dots: radial-gradient(rgba(241, 245, 249, 0.03) 1.5px, transparent 1.5px);
+}
+
+/* RESET & BASE RULES */
+* {
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+  color: var(--text-main);
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.2s ease, box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+body {
+  background-color: var(--bg-main);
+  background-image: var(--grid-dots);
+  background-size: 24px 24px;
+}
+
+#pcVersion, #mobileVersion { display: none; }
+
+@media (max-width:768px) { #mobileVersion { display: block; } }
+@media (min-width:769px) { #pcVersion { display: block; } }
+
+/* ================= COMPONENT: MATCHING TOGGLE SWITCH ================= */
+.theme-switch-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0 15px 0;
+  border-bottom: 1px solid var(--sidebar-border);
+  margin-bottom: 15px;
+}
+.theme-switch-wrapper span { font-size: 0.95rem; font-weight: 600; }
+.theme-switch { display: inline-block; height: 26px; position: relative; width: 50px; }
+.theme-switch input { display: none; }
+.slider {
+  background-color: #ccc; bottom: 0; cursor: pointer; left: 0; position: absolute;
+  right: 0; top: 0; transition: .4s; border-radius: 34px;
+}
+.slider:before {
+  background-color: white; bottom: 3px; content: ""; height: 20px; left: 4px;
+  position: absolute; transition: .4s; width: 20px; border-radius: 50%;
+}
+body.dark-mode .slider { background-color: var(--accent-color); }
+body.dark-mode .slider:before { transform: translateX(22px); }
+
+/* ================= NEW EXCLUSIVE COMPONENT: KINETIC ENGAGEMENT TRACKER ================= */
+.graphic-wrapper {
+  position: relative;
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  background: var(--quote-box-bg);
+  border-radius: 12px;
+  border: 1px solid var(--dash-card-border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.metric-line { width: 100%; }
+.metric-label-group { display: flex; justify-content: space-between; margin-bottom: 3px; }
+.metric-label-group span { font-size: 0.75rem; font-weight: 700; opacity: 0.8; }
+.track-bar { width: 100%; height: 6px; background: var(--progress-track); border-radius: 10px; overflow: hidden; position: relative; }
+.fill-bar { height: 100%; width: 30%; background: var(--brand-gradient); border-radius: 10px; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+
+/* Interactive Pulse Button Trigger */
+.engage-trigger {
+  background: transparent;
+  border: 1px solid var(--dash-card-border);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.engage-trigger:hover { background: var(--panel-bg); border-color: var(--accent-color); }
+
+/* ================= COMPONENT: SYSTEM CONTENT CARDS (DIVISIBLE BY 3) ================= */
+.system-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+@media (max-width: 1200px) {
+  .system-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .system-grid { grid-template-columns: 1fr; }
+}
+
+.system-card {
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px var(--card-shadow);
+  border: 1px solid var(--dash-card-border);
+  background-color: var(--dash-card-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.system-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px var(--card-hover-shadow);
+}
+
+.system-card i.system-icon { font-size: 2.1rem; margin-bottom: 12px; display: block; }
+.system-card h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; }
+.system-card p { font-size: 0.95rem; line-height: 1.5; opacity: 0.85; margin-bottom: 15px; flex-grow: 1; }
+
+.anatomy-details {
+  list-style: none;
+  border-top: 1px dashed var(--dash-card-border);
+  padding-top: 15px;
+  margin-top: auto;
+}
+.anatomy-details li {
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.anatomy-details li i { font-size: 0.85rem; width: 16px; text-align: center; }
+
+/* Dynamic Kinetic Mode Accent Color Schemes */
+.sys-strength { border-left: 5px solid #2563eb; }
+.sys-strength i.system-icon, .sys-strength h2, .sys-strength .anatomy-details li i { color: #2563eb; }
+
+.sys-hiit { border-left: 5px solid #dc2626; }
+.sys-hiit i.system-icon, .sys-hiit h2, .sys-hiit .anatomy-details li i { color: #dc2626; }
+
+.sys-mobility { border-left: 5px solid #0d9488; }
+.sys-mobility i.system-icon, .sys-mobility h2, .sys-mobility .anatomy-details li i { color: #0d9488; }
+
+.sys-endurance { border-left: 5px solid #f59e0b; }
+.sys-endurance i.system-icon, .sys-endurance h2, .sys-endurance .anatomy-details li i { color: #d97706; }
+
+.sys-posture { border-left: 5px solid #7c3aed; }
+.sys-posture i.system-icon, .sys-posture h2, .sys-posture .anatomy-details li i { color: #7c3aed; }
+
+.sys-recovery { border-left: 5px solid #06b6d4; }
+.sys-recovery i.system-icon, .sys-recovery h2, .sys-recovery .anatomy-details li i { color: #0891b2; }
+
+body.dark-mode .system-card i.system-icon, body.dark-mode .system-card h2 { color: var(--text-main); }
+
+/* ================= INTERACTIVE TABS MODULE ================= */
+.anatomy-explorer {
+  background-color: var(--dash-card-bg);
+  border: 1px solid var(--dash-card-border);
+  border-radius: 16px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px var(--card-shadow);
+}
+.explorer-header { font-size: 1.4rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+.tabs-container { display: flex; gap: 10px; border-bottom: 1px solid var(--dash-card-border); padding-bottom: 12px; margin-bottom: 15px; overflow-x: auto; scrollbar-width: none; }
+.tab-btn { background: none; border: none; padding: 8px 16px; font-weight: 600; font-size: 0.95rem; cursor: pointer; border-radius: 8px; white-space: nowrap; }
+.tab-btn.active { background: var(--brand-gradient); color: #ffffff; }
+.tab-panel { display: none; line-height: 1.6; font-size: 0.95rem; }
+.tab-panel.active { display: block; }
+.tab-panel h3 { margin-bottom: 10px; font-size: 1.15rem; }
+
+/* ================= PC STYLING INTERFACE ================= */
+#pcVersion .sidebar {
+  position: fixed; top: 0; left: 0; width: 360px; height: 100vh; background: var(--bg-sidebar);
+  border-right: 1px solid var(--sidebar-border); overflow-y: auto; padding: 20px; scrollbar-width: none;
+}
+#pcVersion .sidebar-section { margin-bottom: 25px; padding: 18px; border-radius: 14px; background: var(--panel-bg); border: 1px solid var(--dash-card-border); }
+#pcVersion .sidebar-section h2 { margin-bottom: 12px; font-size: 1.25rem; font-weight: 700; color: var(--text-main); }
+#pcVersion .sidebar-section ul { list-style: none; }
+#pcVersion .sidebar-section li { margin: 8px 0; font-weight: 500; }
+#pcVersion .sidebar-section li a {
+  text-decoration: none; display: block; padding: 6px 12px; border-radius: 10px; transition: all 0.25s ease;
+}
+#pcVersion .sidebar-section li a:hover, #pcVersion .sidebar-section li a.active {
+  background: var(--light-hover-bg); color: var(--light-hover-text); font-weight: 700;
+}
+#pcVersion .sidebar-section li a:hover *, #pcVersion .sidebar-section li a.active * {
+  color: var(--light-hover-text);
+}
+#pcVersion .main { margin-left: 360px; padding: 30px; height: 100vh; overflow-y: auto; background: var(--bg-main); }
+
+#pcVersion .main-title {
+  text-align: center; background: var(--brand-gradient); border: 1px solid transparent;
+  padding: 25px 15px; border-radius: 16px; font-size: 2.2rem; margin-bottom: 30px; font-weight: 800; box-shadow: 0 4px 15px var(--card-shadow);
+}
+#pcVersion .main-title span { color: var(--text-inverted); }
+
+#pcVersion footer {
+  text-align: center; padding: 20px; font-size: 1rem; font-weight: 600; background: var(--brand-gradient); border: 1px solid transparent;
+  border-radius: 12px; line-height: 1.6; margin-top: 20px; box-shadow: 0 4px 15px var(--card-shadow);
+}
+#pcVersion footer span { color: var(--text-inverted); }
+
+/* ================= MOBILE STYLING INTERFACE ================= */
+#mobileVersion .main-title {
+  display: flex; justify-content: space-between; align-items: center; background: var(--brand-gradient); border: 1px solid transparent;
+  margin: 15px 15px 0px 15px; padding: 12px 20px; border-radius: 14px; font-size: 1.6rem; position: relative; box-shadow: 0 4px 12px var(--card-shadow);
+}
+#mobileVersion .main-title * { color: var(--text-inverted) !important; }
+#mobileVersion .letters { display: flex; gap: 12px; margin-left: 45px; }
+#mobileVersion .letters a { text-decoration: none; padding: 6px 12px; border-radius: 25px; font-weight: 600; font-size: 1.1rem; color: var(--text-inverted); }
+#mobileVersion .letters a.active { font-weight: 700; background: rgba(255, 255, 255, 0.25); color: #ffffff !important; }
+#mobileVersion #menu-button { position: absolute; top: 20%; left: 12px; z-index: 1500; cursor: pointer; font-size: 1.5rem; background: transparent; }
+#mobileVersion #sidebar {
+  position: fixed; top: 0; left: -260px; width: 260px; height: 100%; background: var(--bg-sidebar); z-index: 1400;
+  padding: 15px; transition: left 0.4s ease; box-shadow: 4px 0 25px rgba(0,0,0,0.15); overflow-y: auto;
+}
+#mobileVersion #sidebar.open { left: 0; }
+#mobileVersion .sidebar-section { margin-bottom: 12px; padding: 15px; border-radius: 12px; background: var(--panel-bg); border: 1px solid var(--dash-card-border); }
+#mobileVersion .sidebar-section * { color: var(--text-main) !important; }
+#mobileVersion .sidebar-section .mobile-menu-heading { font-size: 1.3rem; font-weight: 700; margin-left: 40px; display: block; margin-bottom: 10px; }
+#mobileVersion .sidebar-section h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; }
+#mobileVersion .sidebar-section ul { list-style: none; }
+#mobileVersion .sidebar-section li { margin: 8px 0; font-weight: 500; }
+#mobileVersion .sidebar-section li a { text-decoration: none; display: block; padding: 6px 12px; border-radius: 10px; }
+#mobileVersion .sidebar-section li a.active { background: var(--light-hover-bg); color: var(--light-hover-text) !important; font-weight: 700; }
+#mobileVersion #menuOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1300; display: none; }
+#mobileVersion #menuOverlay.active { display: block; }
+#mobileVersion .main { margin: 10px; padding: 10px; flex: 1; background: var(--bg-main); }
+#mobileVersion .section-title { text-align: center; background: #ffffff; border: 1px solid var(--dash-card-border); border-left: 5px solid var(--accent-color); padding: 12px; border-radius: 14px; color: var(--text-main); font-size: 1.5rem; margin-bottom: 20px; font-weight: 700; box-shadow: 0 4px 12px var(--card-shadow); }
+#mobileVersion .section-title span { color: var(--text-main); }
+body.dark-mode #mobileVersion .section-title { background: var(--dash-card-bg); }
+
+#mobileVersion footer { margin-top: 20px; padding: 20px; text-align: center; font-weight: 600; background: var(--brand-gradient); border: 1px solid transparent; border-radius: 12px; box-shadow: 0 4px 12px var(--card-shadow); }
+#mobileVersion footer span { color: var(--text-inverted) !important; }
+</style>
+</head>
+
+<body>
+
+<div id="pcVersion">
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="theme-switch-wrapper">
+        <span>🌙 Dark Mode</span>
+        <label class="theme-switch">
+          <input type="checkbox" class="dark-mode-input-toggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <h2>Menu</h2>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="health-advice.html">🩺 Health Advice</a></li>
+        <li><a href="body-structure.html">🧬 Body Structure</a></li>
+        <li><a href="nature.html">🌿 Nature</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Information</h2>
+      <ul>
+        <li><a href="daily-exercise.html" class="active">🏃 Daily Exercise</a></li>
+        <li><a href="articles.html">📚 Articles</a></li>
+        <li><a href="community.html">👥 Community</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Additional</h2>
+      <ul>
+        <li><a href="quiz.html">❓ Quiz</a></li>
+        <li><a href="bmi-calculator.html">⚖️ BMI Calculator</a></li>
+        <li><a href="gallery.html">🖼️ Gallery</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Connect</h2>
+      <ul>
+        <li><a href="connect.html">📞 Contact</a></li>
+        <li><a href="about.html">ℹ️ About Us</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="main-title"><span>Daily Exercise & Kinesiology</span></div>
+
+    <div class="anatomy-explorer">
+      <div class="explorer-header"><i class="fa-solid fa-bolt" style="color: var(--accent-color);"></i> Functional Performance Matrix</div>
+      <div class="tabs-container">
+        <button class="tab-btn active" onclick="switchTab(this, 'pc-hypertrophy')">Hypertrophy Engine</button>
+        <button class="tab-btn" onclick="switchTab(this, 'pc-vo2')">VO2 Max Capacity</button>
+        <button class="tab-btn" onclick="switchTab(this, 'pc-neuromuscular')">Neuromuscular Flow</button>
+      </div>
+      <div id="pc-hypertrophy" class="tab-panel active">
+        <h3>Mechanical Tension Variables</h3>
+        <p>Triggering structural muscular refinement requires deliberate mechanical tension cascades. Forcing muscle fibers into progressive eccentric loading profiles breaks open cellular walls safely, causing systematic localized amino rebuilding streams during resting overnight phases.</p>
+      </div>
+      <div id="pc-vo2" class="tab-panel">
+        <h3>Cardiorespiratory Peak Tracking</h3>
+        <p>Elevating baseline VO2 limits forces physical mitochondrial expansion. Sustained targeted elevation zones condition the pulmonary walls to process oxygen molecules instantly, lowering resting cardiac rhythms while augmenting daytime stamina reserves uniformly.</p>
+      </div>
+      <div id="pc-neuromuscular" class="tab-panel">
+        <h3>Kinesthetic Motor Unit Pathways</h3>
+        <p>Dynamic structural movement tracks reinforce foundational motor unit coordination. Repetitive micro-calibrated athletic adjustments deepen spinal motor signal links, ensuring clean joint tracking control profiles and minimizing daily posture degradation factors.</p>
+      </div>
+    </div>
+
+    <div class="system-grid">
+      <div class="system-card sys-strength">
+        <div class="graphic-wrapper">
+          <div class="metric-line">
+            <div class="metric-label-group"><span>Myofibrillar Load</span><span class="pct-val">85%</span></div>
+            <div class="track-bar"><div class="fill-bar" style="width: 85%;"></div></div>
+          </div>
+          <div class="metric-line">
+            <div class="metric-label-group"><span>CNS Fatigue Cost</span><span class="pct-val">70%</span></div>
+            <div class="track-bar"><div class="fill-bar" style="width: 70%;"></div></div>
+          </div>
+        </div>
+        <i class="fa-solid fa-dumbbell system-icon"></i>
+        <h2>Resistance Loading</h2>
+        <p>Targets multi-joint compounds to thicken baseline bone architectures, balance key hormones, and protect spinal posture paths.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-gauge-high"></i> Recruits type-II fast motor chains</li>
+          <li><i class="fa-solid fa-fire"></i> Multiplies deep resting calorie burn</li>
+        </ul>
+        <button class="engage-trigger" onclick="pulseMetric(this, 95, 80)"><i class="fa-solid fa-heart-pulse"></i> Simulate Set</button>
+      </div>
+
+      <div class="system-card sys-hiit">
+        <div class="graphic-wrapper">
+          <div class="metric-line">
+            <div class="metric-label-group"><span>Anaerobic Flux</span><span class="pct-val">90%</span></div>
+            <div class="track-bar"><div class="fill-bar" style="width: 90%;"></div></div>
+          </div>
+          <div class="metric-line">
+            <div class="metric-label-group"><span>Lactate Threshold</span><span class="pct-val">75%</span></div>
+            <div class="track-bar"><div class="fill-bar" style="width: 75%;"></div></div>
+          </div>
+        </div>
+        <i class="fa-solid fa-person-running system-icon"></i>
+        <h2>High-Velocity Intervals</h2>
+        <p>Forces maximal enzymatic adaptations within respiratory pathways, spiking post-exercise oxygen consumption limits efficiently.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-stopwatch"></i> Enhances cardiac stroke volume</li>
+          <li><i class="fa-solid fa-bolt"></i> Quickens cellular energy cycles</li>
+        </ul>
+        <button class="engage-trigger" onclick="pulseMetric(this, 100, 95)"><i class="fa-solid fa-heart-pulse"></i> Simulate Sprint</button>
+      </div>
+
+      <div class="system-card sys-mobility">
+        <div class="graphic-wrapper">
+          <div class="metric-line">
+            <div class="metric-label-group"><span>Synovial Hydration</span><span class="pct-val">65%</span></div>
+            <div class="track-bar"><div class="fill-bar" style="width: 65%;"></div></div>
+          </div>
+          <div class="metric-line">
+            <div class="metric-label-group"><span>Fascial Elasticity</span><span class="pct-val">60%</span></div>
+            <div class="track-bar"><div class="fill-bar" style="width: 60%;"></div></div>
+          </div>
+        </div>
+        <i class="fa-solid fa-yin-yang system-icon"></i>
+        <h2>Articular Mobility</h2>
+        <p>Hydrates targeted joint capsules with nourishing synovial fluids to clear away mechanical restrictions safely.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-arrows-up-down-left-right"></i> Broadens full ranges of motion</li>
+          <li><i class="fa-solid fa-compress"></i> Decreases capsular friction loads</li>
+        </ul>
+        <button class="engage-trigger" onclick="pulseMetric(this, 90, 85)"><i class="fa-solid fa-heart-pulse"></i> Decompress Joints</button>
+      </div>
+
+      <div class="system-card sys-endurance">
+        <div class="graphic-wrapper">
+          <div class="metric-line">
+            <div class="metric-label-group"><span>Mitochondrial Density</span><span class="pct-val">75%</span></div>
+            <div class="track-bar"><div class="fill-bar" style="width: 75%;"></div></div>
+          </div>
+          <div class="metric-line">
+            <div class="metric-label-group"><span>Lipid Oxidation</span><span class="pct-val">80%</span></div>
+            <div class="track-bar"><div class="fill-bar" style="width: 80%;"></div></div>
+          </div>
+        </div>
+        <i class="fa-solid fa-person-biking system-icon"></i>
+        <h2>Aerobic Pacing</h2>
+        <p>Sustains stable fat-oxidation frequencies to build high capillary distributions throughout active internal tissue bases.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-heart"></i> Minimizes long-term arterial strain</li>
+          <li><i class="fa-solid fa-battery-half"></i> Elevates baseline stamina thresholds</li>
+        </ul>
+        <button class="engage-trigger" onclick="pulseMetric(this, 80, 95)"><i class="fa-solid fa-heart-pulse"></i> Extend Pace</button>
+      </div>
+
+      <div class="system-card sys-posture">
+        <div class="graphic-wrapper">
+          <div class="metric-line">
+            <div class="metric-label-group"><span>Proprioception Accuracy</span><span class="pct-val">70%</span></div>
+            <div class="track-bar"><div class="fill-bar" style="width: 70%;"></div></div>
+          </div>
+          <div class="metric-line">
+            <div class="metric-label-group"><span>Spinal Alignment Balance</span><span class="pct-val">65%</span></div>
+            <div class="track-bar"><div class="fill-bar" style="width: 65%;"></div></div>
+          </div>
+        </div>
+        <i class="fa-solid fa-child-alignment system-icon" class="fa-solid fa-street-view"></i>
+        <h2>Postural Integration</h2>
+        <p>Activates dormant deep-core stabilizer units to counteract modern office-chair seating compression patterns.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-shield"></i> Shields lumbar discs from tracking flaws</li>
+          <li><i class="fa-solid fa-arrows-to-eye"></i> sharpens natural balance centers</li>
+        </ul>
+        <button class="engage-trigger" onclick="pulseMetric(this, 85, 90)"><i class="fa-solid fa-heart-pulse"></i> Align Spine</button>
+      </div>
+
+      <div class="system-card sys-recovery">
+        <div class="graphic-wrapper">
+          <div class="metric-line">
+            <div class="metric-label-group"><span>Parasympathetic Dominance</span><span class="pct-val">50%</span></div>
+            <div class="track-bar"><div class="fill-bar" style="width: 50%;"></div></div>
+          </div>
+          <div class="metric-line">
+            <div class="metric-label-group"><span>Metabolic Clearance Rate</span><span class="pct-val">55%</span></div>
+            <div class="track-bar"><div class="fill-bar" style="width: 55%;"></div></div>
+          </div>
+        </div>
+        <i class="fa-solid fa-bed system-icon"></i>
+        <h2>Restorative Reset</h2>
+        <p>Shifts operational biological controls over to parasympathetic modes, purging structural toxic waste indicators down.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-arrow-down-heart"></i> Drops systemic heart rate metrics</li>
+          <li><i class="fa-solid fa-dna"></i> Encourages structural cellular rebuilds</li>
+        </ul>
+        <button class="engage-trigger" onclick="pulseMetric(this, 95, 85)"><i class="fa-solid fa-heart-pulse"></i> Trigger Reset</button>
+      </div>
+    </div>
+
+    <footer><span>© 2026 HB Creations | Kinesiology Portfolio | Cultivating Human Vitality</span></footer>
+  </div>
+</div>
+
+<div id="mobileVersion">
+  <div class="main-title">
+    <div id="menu-button">☰</div>
+    <div class="letters">
+      <a href="index.html">H</a>
+      <a href="daily-exercise.html" class="active">E</a>
+      <a href="articles.html">J</a>
+       <a href="community.html">R</a>
+    </div>
+    <label class="theme-switch" style="transform: scale(0.8); margin-left: auto;">
+      <input type="checkbox" class="dark-mode-input-toggle">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div id="sidebar">
+    <div class="sidebar-section">
+      <span class="mobile-menu-heading">Menu</span>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="health-advice.html">🩺 Health Advice</a></li>
+        <li><a href="body-structure.html">🧬 Body Structure</a></li>
+        <li><a href="nature.html">🌿 Nature</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <ul>
+        <li><a href="daily-exercise.html" class="active">🏃 Daily Exercise</a></li>
+        <li><a href="articles.html">📚 Articles</a></li>
+        <li><a href="community.html">👥 Community</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Additional</h2>
+      <ul>
+        <li><a href="quiz.html">❓ Quiz</a></li>
+        <li><a href="bmi-calculator.html">⚖️ BMI Calculator</a></li>
+        <li><a href="gallery.html">🖼️ Gallery</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Info</h2>
+      <ul>
+        <li><a href="connect.html">📞 Contact</a></li>
+        <li><a href="about.html">ℹ️ About Us</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="menuOverlay"></div>
+
+  <div class="main">
+    <div class="section-title"><span>Kinetic Blueprints</span></div>
+
+    <div class="anatomy-explorer">
+      <div class="tabs-container">
+        <button class="tab-btn active" onclick="switchTab(this, 'mob-hypertrophy')">Hypertrophy</button>
+        <button class="tab-btn" onclick="switchTab(this, 'mob-vo2')">VO2 Max</button>
+        <button class="tab-btn" onclick="switchTab(this, 'mob-neuromuscular')">Neuro Flow</button>
+      </div>
+      <div id="mob-hypertrophy" class="tab-panel active">
+        <p>Muscular progress requires deliberate mechanical tension fields. Eccentric loading pathways break down old cells to start recovery patterns.</p>
+      </div>
+      <div id="mob-vo2" class="tab-panel">
+        <p>Elevating physical output boundaries causes rapid mitochondrial division, lowering core cardiac stress markers permanently.</p>
+      </div>
+      <div id="mob-neuromuscular" class="tab-panel">
+        <p>Dynamic exercise tracks strengthen motor neurons, fixing alignment issues caused by long periods of sedentary office work.</p>
+      </div>
+    </div>
+
+    <div class="system-grid">
+      <div class="system-card sys-strength">
+        <i class="fa-solid fa-dumbbell system-icon"></i>
+        <h2>Resistance Loading</h2>
+        <p>Thickens deep bone densities and balances structural base hormones.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-gauge-high"></i> Triggers fast type-II motor units</li>
+        </ul>
+      </div>
+
+      <div class="system-card sys-hiit">
+        <i class="fa-solid fa-person-running system-icon"></i>
+        <h2>High Intervals</h2>
+        <p>Forces rapid metabolic changes in respiratory tissue zones.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-stopwatch"></i> Enhances physical lung stroke capacity</li>
+        </ul>
+      </div>
+
+      <div class="system-card sys-mobility">
+        <i class="fa-solid fa-yin-yang system-icon"></i>
+        <h2>Joint Mobility</h2>
+        <p>Bathes joint capsules with hydrating protective synovial fluids.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-arrows-up-down-left-right"></i> Relieves tight soft tissue groups</li>
+        </ul>
+      </div>
+
+      <div class="system-card sys-endurance">
+        <i class="fa-solid fa-person-biking system-icon"></i>
+        <h2>Aerobic Pacing</h2>
+        <p>Fosters long-term cardiovascular resilience through steady-state tracking.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-battery-half"></i> Builds mitochondrial density levels</li>
+        </ul>
+      </div>
+
+      <div class="system-card sys-posture">
+        <i class="fa-solid fa-street-view system-icon"></i>
+        <h2>Postural Care</h2>
+        <p>Awakens small core stabilizers to fix sedentary slouch habits.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-shield"></i> Keeps spinal columns safe</li>
+        </ul>
+      </div>
+
+      <div class="system-card sys-recovery">
+        <i class="fa-solid fa-bed system-icon"></i>
+        <h2>Restorative Reset</h2>
+        <p>Forces biological systems over to parasympathetic healing states.</p>
+        <ul class="anatomy-details">
+          <li><i class="fa-solid fa-arrow-down-heart"></i> Flushes toxic cellular waste pools</li>
+        </ul>
+      </div>
+    </div>
+
+    <footer><span>© 2026 HB Creations | Made with ❤</span></footer>
+  </div>
+</div>
+
+<script>
+/* --- New Kinesiology Simulation Tracker Engine --- */
+function pulseMetric(btn, val1, val2) {
+  const card = btn.closest('.system-card');
+  const fills = card.querySelectorAll('.fill-bar');
+  const pcts = card.querySelectorAll('.pct-val');
+  
+  if(fills[0]) fills[0].style.width = val1 + '%';
+  if(fills[1]) fills[1].style.width = val2 + '%';
+  if(pcts[0]) pcts[0].innerText = val1 + '%';
+  if(pcts[1]) pcts[1].innerText = val2 + '%';
+  
+  btn.style.transform = 'scale(0.95)';
+  btn.style.borderColor = '#2563eb';
+  setTimeout(() => { btn.style.transform = ''; }, 150);
+}
+
+/* --- Core UI Sidebar Engine --- */
+const menuButton = document.getElementById("menu-button");
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("menuOverlay");
+
+function openSidebar() {
+  sidebar.classList.add("open");
+  overlay.classList.add("active");
+  document.body.style.overflow = 'hidden';
+  window.scrollTo({ top: 0, behavior: 'smooth' }); 
+  history.pushState({ menu: true }, "");
+}
+
+function closeSidebar() {
+  sidebar.classList.remove("open");
+  overlay.classList.remove("active");
+  document.body.style.overflow = '';
+}
+
+function toggleSidebar() {
+  if (sidebar.classList.contains("open")) { closeSidebar(); } else { openSidebar(); }
+}
+
+if (menuButton) menuButton.addEventListener("click", toggleSidebar);
+if (overlay) overlay.addEventListener("click", closeSidebar);
+
+document.addEventListener("click", (e) => {
+  if (sidebar && sidebar.classList.contains("open") && !sidebar.contains(e.target) && e.target !== menuButton) {
+    closeSidebar();
+  }
+});
+
+let touchStartX = 0;
+let touchEndX = 0;
+document.addEventListener("touchstart", (e) => { touchStartX = e.changedTouches[0].screenX; });
+document.addEventListener("touchend", (e) => { touchEndX = e.changedTouches[0].screenX; handleSwipe(); });
+function handleSwipe() {
+  if (sidebar && sidebar.classList.contains("open") && (touchStartX - touchEndX > 60)) { closeSidebar(); }
+}
+
+window.addEventListener("popstate", () => { if (sidebar && sidebar.classList.contains("open")) { closeSidebar(); } });
+
+
+/* --- Dark Mode Persistent Layout Engine --- */
+const themeToggles = document.querySelectorAll('.dark-mode-input-toggle');
+
+function setTheme(isDark) {
+  if (isDark) {
+    document.body.classList.add('dark-mode');
+  } else {
+    document.body.classList.remove('dark-mode');
+  }
+  themeToggles.forEach(toggle => toggle.checked = isDark);
+  localStorage.setItem('hb-dark-mode', isDark ? 'enabled' : 'disabled');
+}
+
+themeToggles.forEach(toggle => {
+  toggle.addEventListener('change', (e) => {
+    setTheme(e.target.checked);
+  });
+});
+
+if (localStorage.getItem('hb-dark-mode') === 'enabled') {
+  setTheme(true);
+} else {
+  setTheme(false);
+}
+
+
+/* --- Interactive Content Tabs Engine --- */
+function switchTab(clickedTab, panelId) {
+  const container = clickedTab.closest('.anatomy-explorer');
+  
+  container.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  container.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+  
+  clickedTab.classList.add('active');
+  const targetPanel = document.getElementById(panelId);
+  if(targetPanel) targetPanel.classList.add('active');
+  
+  const alternateId = panelId.startsWith('pc-') 
+    ? panelId.replace('pc-', 'mob-') 
+    : panelId.replace('mob-', 'pc-');
+    
+  const alternatePanel = document.getElementById(alternateId);
+  if (alternatePanel) {
+    const altContainer = alternatePanel.closest('.anatomy-explorer');
+    altContainer.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    altContainer.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    
+    alternatePanel.classList.add('active');
+    const panelsArray = Array.from(altContainer.querySelectorAll('.tab-panel'));
+    const targetedIndex = panelsArray.indexOf(alternatePanel);
+    const targetButton = altContainer.querySelectorAll('.tab-btn')[targetedIndex];
+    if(targetButton) targetButton.classList.add('active');
+  }
+}
+</script>
+
+</body>
+</html>

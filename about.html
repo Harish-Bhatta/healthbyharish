@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HB Creations – About Us | Harish Bhatta Official Website</title>
+<meta name="description" content="Discover the mission, vision, and core values of HB Creations by Harish Bhatta.">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* ================= GLOBAL VARIABLE DESIGN (THEME UNIFICATION) ================= */
+:root {
+  --bg-main: #fcf9f5;
+  --bg-sidebar: #ffffff;
+  --text-main: #2d2a26;
+  --text-inverted: #ffffff;
+  --sidebar-border: #f0eae1;
+  
+  --brand-gradient: linear-gradient(135deg, #ff5a79 0%, #ff6db3 30%, #ff8e43 70%, #facc15 100%); 
+  --panel-bg: linear-gradient(135deg, #fff3eb, #ffe4d3);        
+  --accent-color: #ff5a79;
+
+  --light-hover-bg: #e6f7f4;                                    
+  --light-hover-text: #0d9488;                                  
+  
+  --dash-card-bg: #ffffff;
+  --dash-card-border: #f3ede4;
+  --card-shadow: rgba(223, 190, 169, 0.2);
+  --card-hover-shadow: rgba(255, 90, 121, 0.25);
+
+  --glass-border: rgba(255, 255, 255, 0.5);
+  
+  /* About Page Extended Specifications */
+  --content-card-bg: #ffffff;
+  --card-accent-odd: linear-gradient(135deg, rgba(255, 236, 210, 0.4), rgba(250, 208, 144, 0.4));
+  --card-accent-even: linear-gradient(135deg, rgba(255, 154, 158, 0.15), rgba(250, 208, 196, 0.25));
+  --filter-btn-bg: rgba(45, 42, 38, 0.04);
+}
+
+body.dark-mode {
+  --bg-main: #11100e;
+  --bg-sidebar: #181614;
+  --text-main: #f5f2eb;
+  --text-inverted: #11100e;
+  --sidebar-border: #262320;
+  
+  --brand-gradient: linear-gradient(135deg, #ef4444 0%, #f472b6 30%, #f97316 70%, #eab308 100%);
+  --panel-bg: linear-gradient(135deg, #1e1b18, #292420);
+  --accent-color: #ff5a79;
+
+  --light-hover-bg: #ff5a79;
+  --light-hover-text: #11100e;
+  
+  --dash-card-bg: #181614;
+  --dash-card-border: #262320;
+  --card-shadow: rgba(0, 0, 0, 0.5);
+  --card-hover-shadow: rgba(255, 90, 121, 0.15);
+
+  --glass-border: rgba(255, 255, 255, 0.08);
+  
+  /* About Page Extended Specifications */
+  --content-card-bg: #181614;
+  --card-accent-odd: linear-gradient(135deg, rgba(30, 27, 24, 0.7), rgba(41, 36, 32, 0.7));
+  --card-accent-even: linear-gradient(135deg, rgba(35, 25, 28, 0.7), rgba(48, 32, 38, 0.7));
+  --filter-btn-bg: rgba(255, 255, 255, 0.05);
+}
+
+* {
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+  font-family: 'Plus Jakarta Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+  color: var(--text-main);
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.2s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+body {
+  background-color: var(--bg-main);
+}
+
+#darkModeToggle { display: none; }
+#pcVersion, #mobileVersion { display: none; }
+
+@media (max-width:768px) { #mobileVersion { display: block; } }
+@media (min-width:769px) { #pcVersion { display: block; } }
+
+/* ================= THEME SWITCHER ================= */
+.theme-switch-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0 15px 0;
+  border-bottom: 1px solid var(--sidebar-border);
+  margin-bottom: 15px;
+}
+.theme-switch-wrapper span { font-size: 0.95rem; font-weight: 600; }
+.theme-switch { display: inline-block; height: 26px; position: relative; width: 50px; }
+.slider {
+  background-color: #ccc; bottom: 0; cursor: pointer; left: 0; position: absolute;
+  right: 0; top: 0; transition: .4s; border-radius: 34px;
+}
+.slider:before {
+  background-color: white; bottom: 3px; content: ""; height: 20px; left: 4px;
+  position: absolute; transition: .4s; width: 20px; border-radius: 50%;
+}
+body.dark-mode .slider { background-color: var(--accent-color); }
+body.dark-mode .slider:before { transform: translateX(22px); }
+
+/* ================= SCROLL AND INTERACTIVE CONTROLS ================= */
+.scroll-progress-container {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: transparent;
+  z-index: 1000;
+}
+.scroll-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--brand-gradient);
+}
+
+/* Tab Filters */
+.interactive-filter-tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 25px;
+  padding: 5px;
+}
+.filter-btn {
+  background: var(--filter-btn-bg);
+  border: 1px solid var(--dash-card-border);
+  padding: 10px 18px;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.filter-btn:hover, .filter-btn.active {
+  background: var(--brand-gradient);
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--card-hover-shadow);
+}
+.filter-btn:hover *, .filter-btn.active * {
+  color: var(--text-inverted) !important;
+}
+
+/* ================= MAIN CONTENT CARDS ================= */
+.about-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 30px;
+}
+
+.card {
+  border-radius: 20px;
+  padding: 35px;
+  box-shadow: 0 8px 24px var(--card-shadow);
+  border: 1px solid var(--dash-card-border);
+  background: var(--content-card-bg);
+  line-height: 1.85;
+  font-size: 1.02rem;
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Alternating Design Accent Background Overlays */
+.card:nth-child(odd)::before {
+  content: ''; position: absolute; inset: 0; background: var(--card-accent-odd); opacity: 0.7; z-index: 0; pointer-events: none;
+}
+.card:nth-child(even)::before {
+  content: ''; position: absolute; inset: 0; background: var(--card-accent-even); opacity: 0.7; z-index: 0; pointer-events: none;
+}
+
+.card-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.card h2 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.card h2 i {
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.card p {
+  margin-bottom: 15px;
+}
+.card p:last-child {
+  margin-bottom: 0;
+}
+
+/* Interactive list styling */
+.custom-bullet-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 15px;
+}
+.custom-bullet-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 10px 16px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+}
+body.dark-mode .custom-bullet-list li {
+  background: rgba(0,0,0,0.15);
+}
+.custom-bullet-list li .icon-wrap {
+  font-size: 1.2rem;
+  min-width: 24px;
+  text-align: center;
+}
+
+@media (min-width: 769px) {
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px var(--card-hover-shadow);
+  }
+}
+
+/* Filter Animation Target Classes */
+.card.hidden-item {
+  display: none !important;
+}
+.card.fade-in-item {
+  animation: cardReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes cardReveal {
+  0% { opacity: 0; transform: scale(0.96) translateY(15px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ================= MODERN IMAGE FRAMES ================= */
+.image-frame-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 35px;
+  margin: 20px 0;
+}
+.image-frame {
+  width: 200px;
+  height: 200px;
+  padding: 5px;
+  border-radius: 50%;
+  background: var(--brand-gradient);
+  background-size: 300% 300%;
+  animation: borderMove 6s linear infinite;
+  box-shadow: 0 8px 20px var(--card-shadow);
+}
+.image-frame img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 4px solid var(--content-card-bg);
+  object-fit: cover;
+}
+@keyframes borderMove {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
+
+/* TYPOGRAPHY GRADIENT SIGNATURE */
+.thank-you {
+  font-family: 'Dancing Script', cursive, sans-serif;
+  font-size: 3.2rem;
+  font-weight: bold;
+  background: var(--brand-gradient);
+  background-size: 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textMove 10s linear infinite;
+  text-align: center;
+  margin-top: 25px;
+  transform: rotate(-1deg);
+}
+@keyframes textMove {
+  from {background-position: 400%;}
+  to {background-position: 0%;}
+}
+
+/* ================= PC STYLING INTERFACE ================= */
+#pcVersion .sidebar {
+  position: fixed; top: 0; left: 0; width: 360px; height: 100vh; background: var(--bg-sidebar);
+  border-right: 1px solid var(--sidebar-border); overflow-y: auto; padding: 20px; scrollbar-width: none;
+}
+#pcVersion .sidebar-section { margin-bottom: 25px; padding: 18px; border-radius: 14px; background: var(--panel-bg); border: 1px solid var(--dash-card-border); }
+#pcVersion .sidebar-section h2 { margin-bottom: 12px; font-size: 1.25rem; font-weight: 700; color: var(--text-main); }
+#pcVersion .sidebar-section ul { list-style: none; }
+#pcVersion .sidebar-section li { margin: 8px 0; font-weight: 500; }
+#pcVersion .sidebar-section li a {
+  text-decoration: none; display: block; padding: 6px 12px; border-radius: 10px; transition: all 0.25s ease;
+}
+#pcVersion .sidebar-section li a:hover, #pcVersion .sidebar-section li a.active {
+  background: var(--light-hover-bg); color: var(--light-hover-text); font-weight: 700;
+}
+#pcVersion .sidebar-section li a:hover *, #pcVersion .sidebar-section li a.active * {
+  color: var(--light-hover-text);
+}
+#pcVersion .main { margin-left: 360px; padding: 30px; height: 100vh; overflow-y: auto; background: var(--bg-main); scroll-behavior: smooth; }
+
+#pcVersion .main-title {
+  text-align: center; background: var(--brand-gradient); border: 1px solid transparent;
+  padding: 25px 15px; border-radius: 16px; font-size: 2.2rem; margin-bottom: 30px; font-weight: 800; box-shadow: 0 4px 15px var(--card-shadow);
+}
+#pcVersion .main-title span { color: var(--text-inverted); }
+
+#pcVersion footer {
+  text-align: center; padding: 20px; font-size: 1rem; font-weight: 600; background: var(--brand-gradient); border: 1px solid transparent;
+  border-radius: 12px; line-height: 1.6; margin-top: 20px; box-shadow: 0 4px 15px var(--card-shadow);
+}
+#pcVersion footer span { color: var(--text-inverted); }
+
+/* ================= MOBILE STYLING INTERFACE ================= */
+#mobileVersion .main-title {
+  display: flex; justify-content: space-between; align-items: center; background: var(--brand-gradient); border: 1px solid transparent;
+  margin: 15px 15px 0px 15px; padding: 12px 20px; border-radius: 14px; font-size: 1.6rem; position: relative; box-shadow: 0 4px 12px var(--card-shadow);
+}
+#mobileVersion .main-title * { color: var(--text-inverted) !important; }
+#mobileVersion .letters { display: flex; gap: 12px; margin-left: 45px; }
+#mobileVersion .letters a { text-decoration: none; padding: 6px 12px; border-radius: 25px; font-weight: 600; font-size: 1.1rem; color: var(--text-inverted); }
+#mobileVersion .letters a.active { font-weight: 700; background: rgba(255, 255, 255, 0.25); color: #ffffff !important; }
+#mobileVersion #menu-button { position: absolute; top: 20%; left: 12px; z-index: 1500; cursor: pointer; font-size: 1.5rem; background: transparent; }
+
+#mobileVersion #sidebar {
+  position: fixed; top: 0; left: -260px; width: 260px; height: 100%; background: var(--bg-sidebar); z-index: 1400;
+  padding: 15px; transition: left 0.4s ease; box-shadow: 4px 0 25px rgba(0,0,0,0.15); overflow-y: auto;
+}
+#mobileVersion #sidebar.open { left: 0; }
+#mobileVersion .sidebar-section { margin-bottom: 12px; padding: 15px; border-radius: 12px; background: var(--panel-bg); border: 1px solid var(--dash-card-border); }
+#mobileVersion .sidebar-section * { color: var(--text-main) !important; }
+#mobileVersion .sidebar-section h22 { font-size: 1.3rem; font-weight: 700; margin-left: 40px; display: block; margin-bottom: 10px; }
+#mobileVersion .sidebar-section h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; }
+#mobileVersion .sidebar-section ul { list-style: none; }
+#mobileVersion .sidebar-section li { margin: 8px 0; font-weight: 500; }
+#mobileVersion .sidebar-section li a { text-decoration: none; display: block; padding: 6px 12px; border-radius: 10px; }
+#mobileVersion .sidebar-section li a.active { background: var(--light-hover-bg); color: var(--light-hover-text) !important; font-weight: 700; }
+
+#mobileVersion #menuOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1300; display: none; }
+#mobileVersion #menuOverlay.active { display: block; }
+#mobileVersion .main { margin: 10px; padding: 10px; flex: 1; background: var(--bg-main); }
+
+#mobileVersion .section-title { text-align: center; background: #ffffff; border: 1px solid var(--dash-card-border); border-left: 5px solid var(--accent-color); padding: 12px; border-radius: 14px; color: var(--text-main); font-size: 1.5rem; margin-bottom: 20px; font-weight: 700; box-shadow: 0 4px 12px var(--card-shadow); }
+#mobileVersion .section-title span { color: var(--text-main); }
+body.dark-mode #mobileVersion .section-title { background: var(--dash-card-bg); }
+
+#mobileVersion footer { margin-top: 20px; padding: 20px; text-align: center; font-weight: 600; background: var(--brand-gradient); border: 1px solid transparent; border-radius: 12px; box-shadow: 0 4px 12px var(--card-shadow); }
+#mobileVersion footer span { color: var(--text-inverted) !important; }
+
+/* Mobile Card Styling Specific Override to optimize space */
+#mobileVersion .card { padding: 20px; line-height: 1.6; font-size: 0.95rem; }
+#mobileVersion .card h2 { font-size: 1.3rem; margin-bottom: 10px; }
+#mobileVersion .custom-bullet-list { gap: 8px; margin-top: 10px; }
+#mobileVersion .custom-bullet-list li { padding: 8px 12px; gap: 10px; border-radius: 8px; }
+
+@media(min-width:1025px){
+  #mobileVersion #sidebar{left:0 !important; width:360px; box-shadow:none;}
+  #mobileVersion .main{margin-left:360px; padding:30px;}
+  #mobileVersion #menu-button, #mobileVersion #menuOverlay{display:none;}
+}
+</style>
+</head>
+
+<body>
+
+<input type="checkbox" id="darkModeToggle">
+
+<!-- ================= PC VERSION ================= -->
+<div id="pcVersion">
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="theme-switch-wrapper">
+        <span>🌙 Dark Mode</span>
+        <label class="theme-switch" for="darkModeToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <h2>Menu</h2>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="health-advice.html">🩺 Health Advice</a></li>
+        <li><a href="body-structure.html">🧬 Body Structure</a></li>
+        <li><a href="nature.html">🌿 Nature</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Information</h2>
+      <ul>
+        <li><a href="daily-exercise.html">🏃 Daily Exercise</a></li>
+        <li><a href="articles.html">📚 Articles</a></li>
+        <li><a href="community.html">👥 Community</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Additional</h2>
+      <ul>
+        <li><a href="quiz.html">❓ Quiz</a></li>
+        <li><a href="bmi-calculator.html">⚖️ BMI Calculator</a></li>
+        <li><a href="gallery.html">🖼️ Gallery</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Connect</h2>
+      <ul>
+        <li><a href="connect.html">📞 Contact</a></li>
+        <li><a href="about.html" class="active">ℹ️ About Us</a></li>
+        <li><a href="https://www.facebook.com/HB.harish.bhatta" target="_blank"><i class="fa-brands fa-facebook" style="color:#1877f2; margin-right:6px;"></i> Facebook</a></li>
+        <li><a href="https://www.youtube.com/channel/UC8-7dNFrLe4QynzU5cM68cg" target="_blank"><i class="fa-brands fa-youtube" style="color:#ff0000; margin-right:6px;"></i> YouTube</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="main" id="pcMainContainer">
+    <div class="scroll-progress-container"><div class="scroll-progress-bar" id="pcProgressBar"></div></div>
+    <div class="main-title"><span>About Us</span></div>
+    
+    <!-- Dynamic Interactive Control Tabs -->
+    <div class="interactive-filter-tabs">
+      <button class="filter-btn active" data-filter="all"><i class="fa-solid fa-layer-group"></i> All Sections</button>
+      <button class="filter-btn" data-filter="overview"><i class="fa-solid fa-eye"></i> Overview</button>
+      <button class="filter-btn" data-filter="identity"><i class="fa-solid fa-bullseye"></i> Identity & Mission</button>
+      <button class="filter-btn" data-filter="features"><i class="fa-solid fa-heart-pulse"></i> What We Offer</button>
+      <button class="filter-btn" data-filter="creator"><i class="fa-solid fa-user-tie"></i> The Creator</button>
+    </div>
+
+    <div class="about-content-wrapper">
+      <div class="card" data-category="overview">
+        <div class="card-inner">
+          <h2><i class="fa-solid fa-circle-info"></i> Who We Are</h2>
+          <p>HB Creations is an educational and wellness platform created to share useful knowledge about health, lifestyle, and personal growth. The platform was founded by Harish Bhatta with the aim of spreading awareness about healthy living, discipline, and positive habits.</p>
+          <p>Through simple explanations, practical tips, and motivational content, HB Creations helps readers understand how small daily choices can improve both physical and mental well-being.</p>
+        </div>
+      </div>
+
+      <div class="card" data-category="identity">
+        <div class="card-inner">
+          <h2><i class="fa-solid fa-rocket"></i> Our Mission</h2>
+          <p>Our mission is to provide clear, reliable, and practical information that helps people live healthier and more balanced lives. We focus on spreading awareness about body care, hygiene, nutrition, exercise, and mental wellness.</p>
+          <p>By encouraging positive habits and disciplined routines, we aim to inspire individuals to take responsibility for their health and build a strong foundation for a better future.</p>
+        </div>
+      </div>
+
+      <div class="card" data-category="identity">
+        <div class="card-inner">
+          <h2><i class="fa-solid fa-compass"></i> Our Vision</h2>
+          <p>HB Creations envisions a society where people are well-informed about their health and lifestyle choices. We believe that knowledge about the human body, nature, and healthy living should be easily accessible to everyone.</p>
+          <p>Our long-term vision is to build a learning platform that helps students, families, and communities grow stronger through awareness, education, and positive lifestyle practices.</p>
+        </div>
+      </div>
+
+      <div class="card" data-category="features">
+        <div class="card-inner">
+          <h2><i class="fa-solid fa-hand-holding-heart"></i> What We Provide</h2>
+          <ul class="custom-bullet-list">
+            <li><span class="icon-wrap">🩺</span><span>Easy health advice and wellness awareness.</span></li>
+            <li><span class="icon-wrap">🧬</span><span>Educational information about the human body and organs.</span></li>
+            <li><span class="icon-wrap">🌿</span><span>Knowledge about nature and healthy natural habits.</span></li>
+            <li><span class="icon-wrap">🏃</span><span>Simple daily exercises for maintaining physical fitness.</span></li>
+            <li><span class="icon-wrap">📚</span><span>Articles focused on health, discipline, and life improvement.</span></li>
+            <li><span class="icon-wrap">🧠</span><span>Tips for mental wellness, focus, and positive thinking.</span></li>
+            <li><span class="icon-wrap">🌱</span><span>Healthy lifestyle guidance for students and families.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" data-category="features">
+        <div class="card-inner">
+          <h2><i class="fa-solid fa-gem"></i> Our Core Values</h2>
+          <ul class="custom-bullet-list">
+            <li><span class="icon-wrap">💖</span><span><b>Integrity</b> – Sharing honest and trustworthy information.</span></li>
+            <li><span class="icon-wrap">🌿</span><span><b>Wellness</b> – Encouraging a balanced and healthy lifestyle.</span></li>
+            <li><span class="icon-wrap">🧠</span><span><b>Knowledge</b> – Promoting learning and awareness.</span></li>
+            <li><span class="icon-wrap">🌟</span><span><b>Positivity</b> – Inspiring discipline, motivation, and optimism.</span></li>
+            <li><span class="icon-wrap">🤝</span><span><b>Community</b> – Building supportive and informed readers.</span></li>
+            <li><span class="icon-wrap">📈</span><span><b>Growth</b> – Helping people improve themselves every day.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" data-category="creator">
+        <div class="card-inner">
+          <h2><i class="fa-solid fa-user"></i> About the Creator</h2>
+          <p>HB Creations was founded by <b>Harish Bhatta</b>, a student passionate about learning, health awareness, and personal development.</p>
+          <p>The idea behind this platform is simple: share knowledge that helps people live healthier, think positively, and improve their everyday lives. Through continuous learning and creativity, HB Creations aims to become a meaningful source of information for readers.</p>
+        </div>
+      </div>
+
+      <div class="card" data-category="creator">
+        <div class="card-inner">
+          <div class="image-frame-container">
+            <div class="image-frame"><img src="1.jpg" alt="Harish Bhatta"></div>
+            <div class="image-frame"><img src="2.jpg" alt="HB Creations Team"></div>
+          </div>
+          <div class="thank-you">𝓡𝓪𝓭𝓱𝓮𝓚𝓻𝓲𝓼𝓱𝓷𝓪❣️</div>
+        </div>
+      </div>
+    </div>
+
+    <footer><span>© 2026 HB Creations | Health & Everyday Life | Designed with Care</span></footer>
+  </div>
+</div>
+
+<!-- ================= MOBILE VERSION ================= -->
+<div id="mobileVersion">
+  <div class="main-title">
+<div id="menu-button">☰</div>
+    <div class="letters">
+      <a href="index.html">H</a>
+      <a href="connect.html">C</a>
+      <a href="about.html" class="active">A</a>
+      <a href="gallery.html">G</a>
+    </div>
+    <label class="theme-switch" for="darkModeToggle" style="transform: scale(0.8); margin-left: auto;">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div id="sidebar">
+    <div class="sidebar-section">
+      <h22>Menu</h22>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="health-advice.html">🩺 Health Advice</a></li>
+        <li><a href="body-structure.html">🧬 Body Structure</a></li>
+        <li><a href="nature.html">🌿 Nature</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <ul>
+        <li><a href="daily-exercise.html">🏃 Daily Exercise</a></li>
+        <li><a href="articles.html">📚 Articles</a></li>
+        <li><a href="community.html">👥 Community</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Additional</h2>
+      <ul>
+        <li><a href="quiz.html">❓ Quiz</a></li>
+        <li><a href="bmi-calculator.html">⚖️ BMI Calculator</a></li>
+        <li><a href="gallery.html">🖼️ Gallery</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Info</h2>
+      <ul>
+        <li><a href="connect.html">📞 Contact</a></li>
+        <li><a href="about.html" class="active">ℹ️ About Us</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="menuOverlay"></div>
+
+  <div class="main" id="mobileMainContainer">
+    <div class="scroll-progress-container"><div class="scroll-progress-bar" id="mobileProgressBar"></div></div>
+    <div class="section-title"><span>About Us</span></div>
+
+    <!-- Mobile Interactive Control Tabs -->
+    <div class="interactive-filter-tabs">
+      <button class="filter-btn active" data-filter="all"><i class="fa-solid fa-layer-group"></i> All</button>
+      <button class="filter-btn" data-filter="overview">Overview</button>
+      <button class="filter-btn" data-filter="identity">Mission</button>
+      <button class="filter-btn" data-filter="features">Offerings</button>
+      <button class="filter-btn" data-filter="creator">Creator</button>
+    </div>
+
+    <div class="about-content-wrapper">
+      <div class="card" data-category="overview">
+        <div class="card-inner">
+          <h2><i class="fa-solid fa-circle-info"></i> Who We Are</h2>
+          <p>HB Creations is an educational platform by Harish Bhatta sharing practical knowledge on health, balanced lifestyles, and habits. We break down wellness ideas into simple guides to improve your daily physical and mental health.</p>
+        </div>
+      </div>
+
+      <div class="card" data-category="identity">
+        <div class="card-inner">
+          <h2><i class="fa-solid fa-rocket"></i> Our Mission & Vision</h2>
+          <p><b>Our Mission:</b> To provide clear and actionable guidance on fitness, nutrition, hygiene, and wellness routines that empower everyday life.</p>
+          <p><b>Our Vision:</b> To build an accessible educational hub that fosters long-term positive discipline and health awareness for communities everywhere.</p>
+        </div>
+      </div>
+
+      <div class="card" data-category="features">
+        <div class="card-inner">
+          <h2><i class="fa-solid fa-hand-holding-heart"></i> What We Provide</h2>
+          <ul class="custom-bullet-list">
+            <li><span class="icon-wrap">🩺</span><span>Practical lifestyle & wellness advice.</span></li>
+            <li><span class="icon-wrap">🧬</span><span>Educational views on human body networks.</span></li>
+            <li><span class="icon-wrap">🌿</span><span>Insights on natural living practices.</span></li>
+            <li><span class="icon-wrap">🏃</span><span>Simple daily training routines.</span></li>
+            <li><span class="icon-wrap">📚</span><span>Improvement articles on self-discipline.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" data-category="features">
+        <div class="card-inner">
+          <h2><i class="fa-solid fa-gem"></i> Core Values</h2>
+          <ul class="custom-bullet-list">
+            <li><span class="icon-wrap">💖</span><span><b>Integrity:</b> Trustworthy & clear insights.</span></li>
+            <li><span class="icon-wrap">🌿</span><span><b>Wellness:</b> Balanced health & growth.</span></li>
+            <li><span class="icon-wrap">🌟</span><span><b>Positivity:</b> Fostering strong routines.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" data-category="creator">
+        <div class="card-inner">
+          <h2><i class="fa-solid fa-user"></i> The Creator</h2>
+          <p>Founded by <b>Harish Bhatta</b>, a student committed to self-improvement and public health awareness. This site translates research into everyday guidance to inspire constructive thinking and physical wellness globally.</p>
+        </div>
+      </div>
+
+      <div class="card" data-category="creator">
+        <div class="card-inner">
+          <div class="image-frame-container">
+            <div class="image-frame" style="width:120px; height:120px;"><img src="1.jpg" alt="Harish Bhatta"></div>
+            <div class="image-frame" style="width:120px; height:120px;"><img src="2.jpg" alt="HB Creations Team"></div>
+          </div>
+          <div class="thank-you" style="font-size: 2.5rem; margin-top: 15px;">𝓡𝓪𝓭𝓱𝓮𝓚𝓻𝓲𝓼𝓱𝓷𝓪❣️</div>
+        </div>
+      </div>
+    </div>
+
+    <footer><span>© 2026 HB Creations | Made with ❤</span></footer>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  /* ================= SIDEBAR MENU ACTION LOGIC ================= */
+  const menuButton = document.getElementById("menu-button");
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("menuOverlay");
+
+  function openSidebar() {
+    if(!sidebar || !overlay) return;
+    sidebar.classList.add("open");
+    overlay.classList.add("active");
+    document.body.style.overflow = 'hidden';
+    window.scrollTo({ top: 0, behavior: 'smooth' }); 
+    history.pushState({ menu: true }, "");
+  }
+
+  function closeSidebar() {
+    if(!sidebar || !overlay) return;
+    sidebar.classList.remove("open");
+    overlay.classList.remove("active");
+    document.body.style.overflow = '';
+  }
+
+  if (menuButton) menuButton.addEventListener("click", () => {
+    if (sidebar && sidebar.classList.contains("open")) { closeSidebar(); } else { openSidebar(); }
+  });
+  if (overlay) overlay.addEventListener("click", closeSidebar);
+
+  /* ================= CORE SYSTEM LIGHT/DARK MODE IMPLEMENTATION ================= */
+  const toggleNode = document.getElementById('darkModeToggle');
+  function setTheme(isDark) {
+    if (isDark) {
+      document.body.classList.add('dark-mode');
+      if (toggleNode) toggleNode.checked = true;
+      localStorage.setItem('hb-dark-mode', 'enabled');
+    } else {
+      document.body.classList.remove('dark-mode');
+      if (toggleNode) toggleNode.checked = false;
+      localStorage.setItem('hb-dark-mode', 'disabled');
+    }
+  }
+  if (toggleNode) toggleNode.addEventListener('change', (e) => setTheme(e.target.checked));
+  if (localStorage.getItem('hb-dark-mode') === 'enabled') setTheme(true);
+
+  /* ================= NEW INTERACTIVE FILTER ENGINE ================= */
+  const filterButtons = document.querySelectorAll(".filter-btn");
+  const contentCards = document.querySelectorAll(".about-content-wrapper .card");
+
+  filterButtons.forEach(btn => {
+    btn.addEventListener("click", function() {
+      // Remove active configuration states from siblings
+      const targetFilter = this.getAttribute("data-filter");
+      
+      filterButtons.forEach(b => {
+        if(b.getAttribute("data-filter") === targetFilter) {
+          b.classList.add("active");
+        } else {
+          b.classList.remove("active");
+        }
+      });
+
+      // Filter display evaluation
+      contentCards.forEach(card => {
+        const cardCategory = card.getAttribute("data-category");
+        card.classList.remove("fade-in-item");
+        
+        if (targetFilter === "all" || cardCategory === targetFilter) {
+          card.classList.remove("hidden-item");
+          // Re-trigger animation layout pipeline
+          void card.offsetWidth; 
+          card.classList.add("fade-in-item");
+        } else {
+          card.classList.add("hidden-item");
+        }
+      });
+    });
+  });
+
+  /* ================= READING PROGRESS TRACKER ENGINE ================= */
+  const pcMain = document.getElementById("pcMainContainer") ? document.getElementById("pcMainContainer").parentElement : null;
+  const mobileWindow = window;
+  const pcBar = document.getElementById("pcProgressBar");
+  const mobileBar = document.getElementById("mobileProgressBar");
+
+  if(pcMain && pcBar) {
+    pcMain.addEventListener("scroll", () => {
+      const winScroll = pcMain.scrollTop;
+      const height = pcMain.scrollHeight - pcMain.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      pcBar.style.width = scrolled + "%";
+    });
+  }
+
+  if(mobileBar) {
+    mobileWindow.addEventListener("scroll", () => {
+      const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      mobileBar.style.width = scrolled + "%";
+    });
+  }
+});
+</script>
+</body>
+</html>

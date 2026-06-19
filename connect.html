@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HB Creations – Contact | Harish Bhatta Official Website</title>
+<meta name="description" content="Reach out to HB Creations by Harish Bhatta. Get in touch via email, phone, or our online form.">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* ================= GLOBAL VARIABLE DESIGN (THEME UNIFICATION) ================= */
+:root {
+  --bg-main: #fcf9f5;
+  --bg-sidebar: #ffffff;
+  --text-main: #2d2a26;
+  --text-inverted: #ffffff;
+  --sidebar-border: #f0eae1;
+  
+  --brand-gradient: linear-gradient(135deg, #ff5a79 0%, #ff6db3 30%, #ff8e43 70%, #facc15 100%); 
+  --panel-bg: linear-gradient(135deg, #fff3eb, #ffe4d3);        
+  --accent-color: #ff5a79;
+
+  --light-hover-bg: #e6f7f4;                                    
+  --light-hover-text: #0d9488;                                  
+  
+  --dash-card-bg: #ffffff;
+  --dash-card-border: #f3ede4;
+  --card-shadow: rgba(223, 190, 169, 0.2);
+  --card-hover-shadow: rgba(255, 90, 121, 0.25);
+
+  --glass-border: rgba(255, 255, 255, 0.5);
+  
+  /* Extended Visual Color Specs - Light Mode Content Area */
+  --content-card-bg: #ffffff;
+  --input-fill: #fdfcfb;
+  --input-border: #eaddd3;
+  --input-focus: #ff5a79;
+  --card-inner-accent: rgba(255, 90, 121, 0.05);
+  --badge-bg: rgba(45, 42, 38, 0.05);
+}
+
+body.dark-mode {
+  --bg-main: #11100e;
+  --bg-sidebar: #181614;
+  --text-main: #f5f2eb;
+  --text-inverted: #11100e;
+  --sidebar-border: #262320;
+  
+  --brand-gradient: linear-gradient(135deg, #ef4444 0%, #f472b6 30%, #f97316 70%, #eab308 100%);
+  --panel-bg: linear-gradient(135deg, #1e1b18, #292420);
+  --accent-color: #ff5a79;
+
+  --light-hover-bg: #ff5a79;
+  --light-hover-text: #11100e;
+  
+  --dash-card-bg: #181614;
+  --dash-card-border: #262320;
+  --card-shadow: rgba(0, 0, 0, 0.5);
+  --card-hover-shadow: rgba(255, 90, 121, 0.15);
+
+  --glass-border: rgba(255, 255, 255, 0.08);
+  
+  /* Extended Visual Color Specs - Dark Mode Content Area */
+  --content-card-bg: #181614;
+  --input-fill: #1e1b18;
+  --input-border: #2c2824;
+  --input-focus: #ff5a79;
+  --card-inner-accent: rgba(255, 90, 121, 0.08);
+  --badge-bg: rgba(255, 255, 255, 0.06);
+}
+
+* {
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+  font-family: 'Plus Jakarta Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+  color: var(--text-main);
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.2s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+body {
+  background-color: var(--bg-main);
+}
+
+#darkModeToggle { display: none; }
+#pcVersion, #mobileVersion { display: none; }
+
+@media (max-width:768px) { #mobileVersion { display: block; } }
+@media (min-width:769px) { #pcVersion { display: block; } }
+
+/* ================= THEME SWITCHER ================= */
+.theme-switch-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0 15px 0;
+  border-bottom: 1px solid var(--sidebar-border);
+  margin-bottom: 15px;
+}
+.theme-switch-wrapper span { font-size: 0.95rem; font-weight: 600; }
+.theme-switch { display: inline-block; height: 26px; position: relative; width: 50px; }
+.slider {
+  background-color: #ccc; bottom: 0; cursor: pointer; left: 0; position: absolute;
+  right: 0; top: 0; transition: .4s; border-radius: 34px;
+}
+.slider:before {
+  background-color: white; bottom: 3px; content: ""; height: 20px; left: 4px;
+  position: absolute; transition: .4s; width: 20px; border-radius: 50%;
+}
+body.dark-mode .slider { background-color: var(--accent-color); }
+body.dark-mode .slider:before { transform: translateX(22px); }
+
+/* ================= EXTENDED VISUAL CONTENT LAYOUT ================= */
+.contact-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 24px;
+  margin-bottom: 30px;
+}
+
+.contact-card {
+  position: relative;
+  border-radius: 20px;
+  padding: 35px;
+  box-shadow: 0 8px 24px var(--card-shadow);
+  border: 1px solid var(--dash-card-border);
+  background-color: var(--content-card-bg);
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Abstract Background Shapes behind content for depth */
+.contact-card::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 150px;
+  height: 150px;
+  background: var(--brand-gradient);
+  opacity: 0.04;
+  border-radius: 50%;
+  z-index: -1;
+  transition: transform 0.5s ease;
+}
+
+@media (min-width: 769px) {
+  .contact-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px var(--card-hover-shadow);
+  }
+  .contact-card:hover::before {
+    transform: scale(1.2);
+  }
+}
+
+/* Rich Header Presentation */
+.contact-card h2 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.contact-card h2 i {
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Intro Banner Visual Expansion */
+.intro-card {
+  position: relative;
+  border-radius: 16px;
+  padding: 24px 30px;
+  margin-bottom: 30px;
+  background: var(--panel-bg);
+  border: 1px solid var(--dash-card-border);
+  overflow: hidden;
+}
+.intro-card::after {
+  content: '"';
+  position: absolute;
+  right: 20px;
+  bottom: -20px;
+  font-size: 8rem;
+  font-family: serif;
+  opacity: 0.08;
+  font-weight: 900;
+}
+.intro-card h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.7;
+}
+
+/* ================= MODERN VISUAL INPUT FLOW ================= */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.input-group {
+  position: relative;
+  width: 100%;
+}
+.input-group i {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-main);
+  opacity: 0.4;
+  font-size: 1rem;
+  pointer-events: none;
+}
+.input-group.textarea-group i {
+  top: 22px;
+  transform: none;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 14px 16px 14px 45px;
+  border-radius: 12px;
+  border: 1px solid var(--input-border);
+  background-color: var(--input-fill);
+  font-size: 0.98rem;
+  font-weight: 500;
+  outline: none;
+}
+textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+input:focus, textarea:focus {
+  border-color: var(--input-focus);
+  box-shadow: 0 0 0 4px rgba(255, 90, 121, 0.15);
+  background-color: var(--content-card-bg);
+}
+input:focus + i, textarea:focus + i {
+  opacity: 1;
+  color: var(--accent-color);
+}
+
+/* Beautiful Animated Submit Button */
+button[type="submit"] {
+  position: relative;
+  background: var(--brand-gradient);
+  border: none;
+  border-radius: 12px;
+  padding: 16px 32px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  align-self: flex-start;
+  overflow: hidden;
+  box-shadow: 0 6px 16px var(--card-shadow);
+}
+button[type="submit"] span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-inverted) !important;
+  z-index: 2;
+  position: relative;
+}
+button[type="submit"]::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.25), rgba(255,255,255,0));
+  transform: translateX(-100%);
+  z-index: 1;
+}
+button[type="submit"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px var(--card-hover-shadow);
+}
+button[type="submit"]:hover::before {
+  transform: translateX(100%);
+  transition: transform 0.6s ease;
+}
+
+@media (max-width: 768px) {
+  button[type="submit"] {
+    width: 100%;
+    align-self: stretch;
+  }
+}
+
+/* ================= ENHANCED ACTION ITEM LISTS ================= */
+.contact-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.contact-list li {
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: var(--card-inner-accent);
+  border: 1px solid var(--dash-card-border);
+  font-size: 1.05rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.contact-item-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.contact-item-left i {
+  font-size: 1.2rem;
+  width: 24px;
+  text-align: center;
+}
+.contact-list li a {
+  text-decoration: none;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 8px;
+  background: var(--badge-bg);
+  font-size: 0.9rem;
+}
+.contact-list li a:hover {
+  background: var(--brand-gradient);
+  color: var(--text-inverted) !important;
+}
+
+/* Mobile Quick Connection Actions Overlay */
+.mobile-action-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 20px;
+}
+.contact-link {
+  text-align: center;
+  padding: 14px;
+  background: var(--brand-gradient);
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px var(--card-shadow);
+}
+.contact-link span {
+  color: var(--text-inverted) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.contact-link:hover {
+  transform: translateY(-2px);
+}
+
+/* ================= STATUS NOTIFICATIONS ================= */
+#successMessage {
+  display: none;
+  text-align: center;
+  color: #16a34a !important;
+  font-weight: 700;
+  margin-bottom: 20px;
+  padding: 14px;
+  background: rgba(22, 163, 74, 0.1);
+  border: 2px dashed rgba(22, 163, 74, 0.3);
+  border-radius: 12px;
+  animation: swipeNext 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+body.dark-mode #successMessage {
+  color: #4ade80 !important;
+  background: rgba(74, 222, 128, 0.06);
+  border-color: rgba(74, 222, 128, 0.2);
+}
+
+/* ================= TYPOGRAPHY DECORATIONS ================= */
+.thank-you {
+  font-family: 'Dancing Script', cursive, sans-serif;
+  font-size: 3.2rem;
+  font-weight: bold;
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  margin-top: 25px;
+  transform: rotate(-2deg);
+}
+
+/* ================= PC STYLING INTERFACE ================= */
+#pcVersion .sidebar {
+  position: fixed; top: 0; left: 0; width: 360px; height: 100vh; background: var(--bg-sidebar);
+  border-right: 1px solid var(--sidebar-border); overflow-y: auto; padding: 20px; scrollbar-width: none;
+}
+#pcVersion .sidebar-section { margin-bottom: 25px; padding: 18px; border-radius: 14px; background: var(--panel-bg); border: 1px solid var(--dash-card-border); }
+#pcVersion .sidebar-section h2 { margin-bottom: 12px; font-size: 1.25rem; font-weight: 700; color: var(--text-main); }
+#pcVersion .sidebar-section ul { list-style: none; }
+#pcVersion .sidebar-section li { margin: 8px 0; font-weight: 500; }
+#pcVersion .sidebar-section li a {
+  text-decoration: none; display: block; padding: 6px 12px; border-radius: 10px; transition: all 0.25s ease;
+}
+#pcVersion .sidebar-section li a:hover, #pcVersion .sidebar-section li a.active {
+  background: var(--light-hover-bg); color: var(--light-hover-text); font-weight: 700;
+}
+#pcVersion .sidebar-section li a:hover *, #pcVersion .sidebar-section li a.active * {
+  color: var(--light-hover-text);
+}
+#pcVersion .main { margin-left: 360px; padding: 30px; height: 100vh; overflow-y: auto; background: var(--bg-main); scroll-behavior: smooth; }
+
+#pcVersion .main-title {
+  text-align: center; background: var(--brand-gradient); border: 1px solid transparent;
+  padding: 25px 15px; border-radius: 16px; font-size: 2.2rem; margin-bottom: 30px; font-weight: 800; box-shadow: 0 4px 15px var(--card-shadow);
+}
+#pcVersion .main-title span { color: var(--text-inverted); }
+
+#pcVersion footer {
+  text-align: center; padding: 20px; font-size: 1rem; font-weight: 600; background: var(--brand-gradient); border: 1px solid transparent;
+  border-radius: 12px; line-height: 1.6; margin-top: 20px; box-shadow: 0 4px 15px var(--card-shadow);
+}
+#pcVersion footer span { color: var(--text-inverted); }
+
+/* ================= MOBILE STYLING INTERFACE ================= */
+#mobileVersion .main-title {
+  display: flex; justify-content: space-between; align-items: center; background: var(--brand-gradient); border: 1px solid transparent;
+  margin: 15px 15px 0px 15px; padding: 12px 20px; border-radius: 14px; font-size: 1.6rem; position: relative; box-shadow: 0 4px 12px var(--card-shadow);
+}
+#mobileVersion .main-title * { color: var(--text-inverted) !important; }
+#mobileVersion .letters { display: flex; gap: 12px; margin-left: 45px; }
+#mobileVersion .letters a { text-decoration: none; padding: 6px 12px; border-radius: 25px; font-weight: 600; font-size: 1.1rem; color: var(--text-inverted); }
+#mobileVersion .letters a.active { font-weight: 700; background: rgba(255, 255, 255, 0.25); color: #ffffff !important; }
+#mobileVersion #menu-button { position: absolute; top: 20%; left: 12px; z-index: 1500; cursor: pointer; font-size: 1.5rem; background: transparent; }
+
+#mobileVersion #sidebar {
+  position: fixed; top: 0; left: -260px; width: 260px; height: 100%; background: var(--bg-sidebar); z-index: 1400;
+  padding: 15px; transition: left 0.4s ease; box-shadow: 4px 0 25px rgba(0,0,0,0.15); overflow-y: auto;
+}
+#mobileVersion #sidebar.open { left: 0; }
+#mobileVersion .sidebar-section { margin-bottom: 12px; padding: 15px; border-radius: 12px; background: var(--panel-bg); border: 1px solid var(--dash-card-border); }
+#mobileVersion .sidebar-section * { color: var(--text-main) !important; }
+#mobileVersion .sidebar-section h22 { font-size: 1.3rem; font-weight: 700; margin-left: 40px; display: block; margin-bottom: 10px; }
+#mobileVersion .sidebar-section h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; }
+#mobileVersion .sidebar-section ul { list-style: none; }
+#mobileVersion .sidebar-section li { margin: 8px 0; font-weight: 500; }
+#mobileVersion .sidebar-section li a { text-decoration: none; display: block; padding: 6px 12px; border-radius: 10px; }
+#mobileVersion .sidebar-section li a.active { background: var(--light-hover-bg); color: var(--light-hover-text) !important; font-weight: 700; }
+
+#mobileVersion #menuOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1300; display: none; }
+#mobileVersion #menuOverlay.active { display: block; }
+#mobileVersion .main { margin: 10px; padding: 10px; flex: 1; background: var(--bg-main); }
+
+#mobileVersion .section-title { text-align: center; background: #ffffff; border: 1px solid var(--dash-card-border); border-left: 5px solid var(--accent-color); padding: 12px; border-radius: 14px; color: var(--text-main); font-size: 1.5rem; margin-bottom: 20px; font-weight: 700; box-shadow: 0 4px 12px var(--card-shadow); }
+#mobileVersion .section-title span { color: var(--text-main); }
+body.dark-mode #mobileVersion .section-title { background: var(--dash-card-bg); }
+
+#mobileVersion footer { margin-top: 20px; padding: 20px; text-align: center; font-weight: 600; background: var(--brand-gradient); border: 1px solid transparent; border-radius: 12px; box-shadow: 0 4px 12px var(--card-shadow); }
+#mobileVersion footer span { color: var(--text-inverted) !important; }
+
+/* Mobile Card Styling Specific Override to optimize space */
+#mobileVersion .card { padding: 20px; line-height: 1.6; font-size: 0.95rem; }
+#mobileVersion .card h2 { font-size: 1.3rem; margin-bottom: 10px; }
+#mobileVersion .custom-bullet-list { gap: 8px; margin-top: 10px; }
+#mobileVersion .custom-bullet-list li { padding: 8px 12px; gap: 10px; border-radius: 8px; }
+
+@media(min-width:1025px){
+  #mobileVersion #sidebar{left:0 !important; width:360px; box-shadow:none;}
+  #mobileVersion .main{margin-left:360px; padding:30px;}
+  #mobileVersion #menu-button, #mobileVersion #menuOverlay{display:none;}
+}
+
+@media(min-width:1025px){
+  #mobileVersion #sidebar{left:0 !important; width:360px; box-shadow:none;}
+  #mobileVersion .main{margin-left:360px; padding:30px;}
+  #mobileVersion #menu-button, #mobileVersion #menuOverlay{display:none;}
+}
+</style>
+</head>
+
+<body>
+
+<input type="checkbox" id="darkModeToggle">
+
+<!-- ================= PC VERSION ================= -->
+<div id="pcVersion">
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="theme-switch-wrapper">
+        <span>🌙 Dark Mode</span>
+        <label class="theme-switch" for="darkModeToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <h2>Menu</h2>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="health-advice.html">🩺 Health Advice</a></li>
+        <li><a href="body-structure.html">🧬 Body Structure</a></li>
+        <li><a href="nature.html">🌿 Nature</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Information</h2>
+      <ul>
+        <li><a href="daily-exercise.html">🏃 Daily Exercise</a></li>
+        <li><a href="articles.html">📚 Articles</a></li>
+        <li><a href="community.html">👥 Community</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Additional</h2>
+      <ul>
+        <li><a href="quiz.html">❓ Quiz</a></li>
+        <li><a href="bmi-calculator.html">⚖️ BMI Calculator</a></li>
+        <li><a href="gallery.html">🖼️ Gallery</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Connect</h2>
+      <ul>
+        <li><a href="connect.html" class="active">📞 Contact</a></li>
+        <li><a href="about.html">ℹ️ About Us</a></li>
+        <li><a href="https://www.facebook.com/HB.harish.bhatta" target="_blank"><i class="fa-brands fa-facebook" style="color:#1877f2; margin-right:6px;"></i> Facebook</a></li>
+        <li><a href="https://www.youtube.com/channel/UC8-7dNFrLe4QynzU5cM68cg" target="_blank"><i class="fa-brands fa-youtube" style="color:#ff0000; margin-right:6px;"></i> YouTube</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="main-title"><span>Contact Us</span></div>
+    
+    <div class="intro-card">
+      <h3>We’d love to hear from you! Whether you have questions, suggestions, or feedback, use the form below or reach out via our social channels. Your thoughts help us improve and provide better health and lifestyle guidance🥰💞.</h3>
+    </div>
+
+    <div class="contact-container">
+      <div class="contact-card">
+        <h2><i class="fa-solid fa-address-book"></i> Other Channels</h2>
+        <ul class="contact-list">
+          <li>
+            <div class="contact-item-left"><i class="fa-solid fa-envelope" style="color:#ea4335;"></i> <span>harishbhatta105@gmail.com</span></div>
+            <a href="mailto:harishbhatta105@gmail.com">Write</a>
+          </li>
+          <li>
+            <div class="contact-item-left"><i class="fa-brands fa-facebook" style="color:#1877f2;"></i> <span>Facebook Profile</span></div>
+            <a href="https://www.facebook.com/HB.harish.bhatta" target="_blank">Visit</a>
+          </li>
+          <li>
+            <div class="contact-item-left"><i class="fa-brands fa-youtube" style="color:#ff0000;"></i> <span>YouTube Channel</span></div>
+            <a href="https://www.youtube.com/channel/UC8-7dNFrLe4QynzU5cM68cg" target="_blank">Watch</a>
+          </li>
+          <li>
+            <div class="contact-item-left"><i class="fa-brands fa-tiktok"></i> <span>TikTok Account</span></div>
+            <a href="#" target="_blank">Follow</a>
+          </li>
+          <li>
+            <div class="contact-item-left"><i class="fa-brands fa-instagram" style="color:#e1306c;"></i> <span>Instagram Feed</span></div>
+            <a href="#" target="_blank">Follow</a>
+          </li>
+        </ul>
+        <div class="thank-you">Thank You❣️</div>
+      </div>
+
+      <div class="contact-card">
+        <h2><i class="fa-solid fa-paper-plane"></i> Direct Message</h2>
+        <div id="successMessage" class="pc-success">Message transmitted successfully! Thank you for connecting.</div>
+        <form id="contactFormPC" action="https://formspree.io/f/xpqyqreb" method="POST">
+          <div class="input-group">
+            <input type="text" name="name" placeholder="Your full name" required>
+            <i class="fa-solid fa-user"></i>
+          </div>
+          <div class="input-group">
+            <input type="email" name="_replyto" placeholder="example@gmail.com" required>
+            <i class="fa-solid fa-envelope"></i>
+          </div>
+          <div class="input-group textarea-group">
+            <textarea name="message" placeholder="Write your context here..." required></textarea>
+            <i class="fa-solid fa-comment-dots"></i>
+          </div>
+          <button type="submit"><span>Send Message <i class="fa-solid fa-paper-plane"></i></span></button>
+        </form>
+      </div>
+    </div>
+
+    <footer><span>© 2026 HB Creations | Health & Everyday Life | Designed with Care</span></footer>
+  </div>
+</div>
+
+<!-- ================= MOBILE VERSION ================= -->
+<div id="mobileVersion">
+  <div class="main-title">
+    <div id="menu-button">☰</div>
+    <div class="letters">
+      <a href="index.html">H</a>
+      <a href="connect.html" class="active">C</a>
+      <a href="about.html">A</a>
+      <a href="gallery.html">G</a>
+    </div>
+    <label class="theme-switch" for="darkModeToggle" style="transform: scale(0.8); margin-left: auto;">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div id="sidebar">
+    <div class="sidebar-section">
+      <h22>Menu</h22>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="health-advice.html">🩺 Health Advice</a></li>
+        <li><a href="body-structure.html">🧬 Body Structure</a></li>
+        <li><a href="nature.html">🌿 Nature</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <ul>
+        <li><a href="daily-exercise.html">🏃 Daily Exercise</a></li>
+        <li><a href="articles.html">📚 Articles</a></li>
+        <li><a href="community.html">👥 Community</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Additional</h2>
+      <ul>
+        <li><a href="quiz.html">❓ Quiz</a></li>
+        <li><a href="bmi-calculator.html">⚖️ BMI Calculator</a></li>
+        <li><a href="gallery.html">🖼️ Gallery</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Info</h2>
+      <ul>
+        <li><a href="connect.html" class="active">📞 Contact</a></li>
+        <li><a href="about.html">ℹ️ About Us</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="menuOverlay"></div>
+
+  <div class="main">
+    <div class="section-title"><span>Contact Us</span></div>
+
+    <div class="contact-card" style="padding: 20px; margin-bottom: 20px;">
+      <p style="line-height: 1.7; font-weight:500;">We’d love to hear from you! Whether you have questions, suggestions, or feedback, use the form below or reach out via our social channels🥰💞.</p>
+    </div>
+
+    <div class="contact-card" style="margin-bottom: 20px;">
+      <h2><i class="fa-solid fa-paper-plane"></i> Send a Message</h2>
+      <div id="successMessage" class="mobile-success">Message transmitted successfully! Thank you for connecting.</div>
+      <form id="contactFormMobile" action="https://formspree.io/f/xpqyqreb" method="POST">
+        <div class="input-group">
+          <input type="text" name="name" placeholder="Your full name" required>
+          <i class="fa-solid fa-user"></i>
+        </div>
+        <div class="input-group">
+          <input type="email" name="_replyto" placeholder="example@gmail.com" required>
+          <i class="fa-solid fa-envelope"></i>
+        </div>
+        <div class="input-group textarea-group">
+          <textarea name="message" placeholder="Write your context here..." required></textarea>
+          <i class="fa-solid fa-comment-dots"></i>
+        </div>
+        <button type="submit"><span>Send Message <i class="fa-solid fa-paper-plane"></i></span></button>
+      </form>
+    </div>
+
+    <div class="contact-card">
+      <h2><i class="fa-solid fa-address-book"></i> Connection Links</h2>
+      <ul class="contact-list">
+        <li>
+          <div class="contact-item-left"><i class="fa-solid fa-envelope" style="color:#ea4335;"></i> <span>Email Desk</span></div>
+          <a href="mailto:harishbhatta105@gmail.com">Write</a>
+        </li>
+        <li>
+          <div class="contact-item-left"><i class="fa-solid fa-phone" style="color:#34a853;"></i> <span>Hotline</span></div>
+          <a href="tel:+9779848653932">Call</a>
+        </li>
+        <li>
+          <div class="contact-item-left"><i class="fa-brands fa-facebook" style="color:#1877f2;"></i> <span>Facebook</span></div>
+          <a href="https://www.facebook.com/HB.harish.bhatta" target="_blank">Connect</a>
+        </li>
+        <li>
+          <div class="contact-item-left"><i class="fa-brands fa-youtube" style="color:#ff0000;"></i> <span>YouTube</span></div>
+          <a href="https://www.youtube.com/channel/UC8-7dNFrLe4QynzU5cM68cg" target="_blank">Stream</a>
+        </li>
+      </ul>
+      
+      <div class="mobile-action-buttons">
+        <a href="tel:+9779848653932" class="contact-link"><span><i class="fa-solid fa-phone"></i> Call Me</span></a>
+        <a href="mailto:harishbhatta105@gmail.com" class="contact-link"><span><i class="fa-solid fa-envelope"></i> Email Me</span></a>
+      </div>
+      
+      <div class="thank-you">Thank You❣️</div>
+    </div>
+
+    <footer><span>© 2026 HB Creations | Made with ❤</span></footer>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  /* ================= CORE UI SIDEBAR ENGINE ================= */
+  const menuButton = document.getElementById("menu-button");
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("menuOverlay");
+
+  function openSidebar() {
+    if(!sidebar || !overlay) return;
+    sidebar.classList.add("open");
+    overlay.classList.add("active");
+    document.body.style.overflow = 'hidden';
+    window.scrollTo({ top: 0, behavior: 'smooth' }); 
+    history.pushState({ menu: true }, "");
+  }
+
+  function closeSidebar() {
+    if(!sidebar || !overlay) return;
+    sidebar.classList.remove("open");
+    overlay.classList.remove("active");
+    document.body.style.overflow = '';
+  }
+
+  if (menuButton) menuButton.addEventListener("click", () => {
+    if (sidebar && sidebar.classList.contains("open")) { closeSidebar(); } else { openSidebar(); }
+  });
+  if (overlay) overlay.addEventListener("click", closeSidebar);
+
+  /* --- Global Dark Mode State Synchronization --- */
+  const toggleNode = document.getElementById('darkModeToggle');
+  function setTheme(isDark) {
+    if (isDark) {
+      document.body.classList.add('dark-mode');
+      if (toggleNode) toggleNode.checked = true;
+      localStorage.setItem('hb-dark-mode', 'enabled');
+    } else {
+      document.body.classList.remove('dark-mode');
+      if (toggleNode) toggleNode.checked = false;
+      localStorage.setItem('hb-dark-mode', 'disabled');
+    }
+  }
+  if (toggleNode) toggleNode.addEventListener('change', (e) => setTheme(e.target.checked));
+  if (localStorage.getItem('hb-dark-mode') === 'enabled') setTheme(true);
+
+  /* ================= FORM SUCCESS ENGINE ================= */
+  const forms = [document.getElementById("contactFormPC"), document.getElementById("contactFormMobile")];
+
+  forms.forEach(form => {
+    if(!form) return;
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+      const parentCard = form.parentElement;
+      const successMsg = parentCard.querySelector("#successMessage");
+      const data = new FormData(form);
+
+      fetch(form.action, {
+        method: "POST",
+        body: data,
+        headers: { "Accept": "application/json" }
+      }).then(response => {
+        if(response.ok) {
+          form.reset();
+          if(successMsg) {
+            successMsg.style.display = "block";
+            setTimeout(() => { successMsg.style.display = "none"; }, 5000);
+          }
+        }
+      });
+    });
+  });
+});
+</script>
+</body>
+</html>

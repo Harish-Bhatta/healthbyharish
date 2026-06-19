@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Global Community Forum | HB Creations</title>
+<meta name="description" content="Engage with a global network of bio-mechanics students, environmental researchers, and active lifestyle practitioners.">
+<meta name="keywords" content="HB Creations, Community, Forum, Discussion Group, Fitness Network, Peer Support, Harish Bhatta">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* ================= GLOBAL VARIABLE DESIGN (THEME UNIFICATION) ================= */
+:root {
+  --bg-main: #f3f4f6;                 /* Warm social interaction gray canvas */
+  --bg-sidebar: #ffffff;              /* Crisp clean sidebar */
+  --text-main: #111827;               /* Deep charcoal text */
+  --text-inverted: #ffffff;           /* White text for main gradient blocks */
+  --sidebar-border: #e5e7eb;
+  
+  /* HIGH-VELOCITY VIBRANT EMERALD GREEN, TURQUOISE & JADE HYBRID GRADIENT */
+  --brand-gradient: linear-gradient(135deg, #059669 0%, #10b981 30%, #06b6d4 70%, #0891b2 100%); 
+  --panel-bg: linear-gradient(135deg, #ecfdf5, #ecfeff);        
+  --accent-color: #10b981;
+
+  /* Sidebar Link Hover states */
+  --light-hover-bg: #d1fae5;                                    
+  --light-hover-text: #059669;                                  
+  
+  /* Dashboard Card Layouts */
+  --dash-card-bg: #ffffff;
+  --dash-card-border: #e5e7eb;
+  --progress-track: rgba(16, 185, 129, 0.1);
+  --quote-box-bg: rgba(255, 255, 255, 0.75);
+  --card-shadow: rgba(107, 114, 128, 0.12);
+  --card-hover-shadow: rgba(16, 185, 129, 0.2);
+  
+  /* Decorative Graphics Grid Base */
+  --grid-dots: radial-gradient(rgba(16, 185, 129, 0.05) 1.5px, transparent 1.5px);
+}
+
+/* Master Dark Mode Override Palette via Body Class */
+body.dark-mode {
+  --bg-main: #030712;
+  --bg-sidebar: #0b0f19;
+  --text-main: #f9fafb;
+  --text-inverted: #030712;
+  --sidebar-border: #1f2937;
+  
+  --brand-gradient: linear-gradient(135deg, #064e3b 0%, #059669 30%, #083344 70%, #0891b2 100%);
+  --panel-bg: linear-gradient(135deg, #062f22, #0c1e26);
+  --accent-color: #34d399;
+
+  --light-hover-bg: #059669;
+  --light-hover-text: #030712;
+  
+  --dash-card-bg: #0b0f19;
+  --dash-card-border: #1f2937;
+  --progress-track: #062f22;
+  --quote-box-bg: #111827;
+  --card-shadow: rgba(0, 0, 0, 0.5);
+  --card-hover-shadow: rgba(52, 211, 153, 0.15);
+  
+  --grid-dots: radial-gradient(rgba(249, 250, 251, 0.02) 1.5px, transparent 1.5px);
+}
+
+/* RESET & BASE RULES */
+* {
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+  color: var(--text-main);
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.2s ease, box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+body {
+  background-color: var(--bg-main);
+  background-image: var(--grid-dots);
+  background-size: 24px 24px;
+}
+
+#pcVersion, #mobileVersion { display: none; }
+
+@media (max-width:768px) { #mobileVersion { display: block; } }
+@media (min-width:769px) { #pcVersion { display: block; } }
+
+/* ================= COMPONENT: MATCHING TOGGLE SWITCH ================= */
+.theme-switch-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0 15px 0;
+  border-bottom: 1px solid var(--sidebar-border);
+  margin-bottom: 15px;
+}
+.theme-switch-wrapper span { font-size: 0.95rem; font-weight: 600; }
+.theme-switch { display: inline-block; height: 26px; position: relative; width: 50px; }
+.theme-switch input { display: none; }
+.slider {
+  background-color: #ccc; bottom: 0; cursor: pointer; left: 0; position: absolute;
+  right: 0; top: 0; transition: .4s; border-radius: 34px;
+}
+.slider:before {
+  background-color: white; bottom: 3px; content: ""; height: 20px; left: 4px;
+  position: absolute; transition: .4s; width: 20px; border-radius: 50%;
+}
+body.dark-mode .slider { background-color: var(--accent-color); }
+body.dark-mode .slider:before { transform: translateX(22px); }
+
+/* ================= EXCLUSIVE NEW ENGINE: LIVE APP ENGAGEMENT POLL ================= */
+.graphic-wrapper {
+  position: relative;
+  width: 100%;
+  padding: 16px;
+  margin-bottom: 15px;
+  background: var(--quote-box-bg);
+  border-radius: 12px;
+  border: 1px solid var(--dash-card-border);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.poll-question { font-size: 0.95rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.poll-option {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: var(--dash-card-bg);
+  border: 1px solid var(--dash-card-border);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.poll-option:hover { border-color: var(--accent-color); }
+.poll-bg-fill {
+  position: absolute; top: 0; left: 0; bottom: 0; width: 0%;
+  background: rgba(16, 185, 129, 0.15);
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+}
+.poll-label { font-size: 0.85rem; font-weight: 600; z-index: 2; position: relative; }
+.poll-pct { font-size: 0.85rem; font-weight: 700; color: var(--accent-color); z-index: 2; position: relative; visibility: hidden; }
+
+/* ================= EXCLUSIVE NEW ENGINE: CLIENT TOAST NOTIFIER ================= */
+#toast-container {
+  position: fixed; bottom: 25px; right: 25px; z-index: 2000;
+  display: flex; flex-direction: column; gap: 10px; pointer-events: none;
+}
+.toast-alert {
+  background: var(--dash-card-bg); border-left: 4px solid var(--accent-color);
+  padding: 12px 20px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  display: flex; align-items: center; gap: 10px; pointer-events: auto;
+  transform: translateY(50px); opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.toast-alert.show { transform: translateY(0); opacity: 1; }
+.toast-alert p { font-size: 0.9rem; font-weight: 600; }
+
+/* ================= COMPONENT: SYSTEM CONTENT CARDS (DIVISIBLE BY 3) ================= */
+.system-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+@media (max-width: 1200px) {
+  .system-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .system-grid { grid-template-columns: 1fr; }
+}
+
+.system-card {
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px var(--card-shadow);
+  border: 1px solid var(--dash-card-border);
+  background-color: var(--dash-card-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.system-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px var(--card-hover-shadow);
+}
+
+.forum-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.forum-activity { font-size: 0.75rem; font-weight: 700; color: #10b981; display: flex; align-items: center; gap: 5px; }
+.forum-counter { font-size: 0.8rem; font-weight: 600; opacity: 0.6; }
+
+.system-card h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: 10px; }
+.system-card p { font-size: 0.95rem; line-height: 1.5; opacity: 0.85; margin-bottom: 20px; flex-grow: 1; }
+
+/* Interactivity Join buttons */
+.join-room-btn {
+  background: var(--panel-bg);
+  border: 1px solid var(--dash-card-border);
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  margin-top: auto;
+}
+.join-room-btn:hover { background: var(--brand-gradient); color: #ffffff !important; border-color: transparent; }
+body.dark-mode .join-room-btn:hover { color: var(--text-inverted) !important; }
+
+.anatomy-details {
+  list-style: none;
+  border-top: 1px dashed var(--dash-card-border);
+  padding-top: 12px;
+  margin-top: 15px;
+}
+.anatomy-details li {
+  font-size: 0.85rem;
+  opacity: 0.75;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ================= INTERACTIVE TABS MODULE ================= */
+.anatomy-explorer {
+  background-color: var(--dash-card-bg);
+  border: 1px solid var(--dash-card-border);
+  border-radius: 16px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px var(--card-shadow);
+}
+.explorer-header { font-size: 1.4rem; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+.tabs-container { display: flex; gap: 10px; border-bottom: 1px solid var(--dash-card-border); padding-bottom: 12px; margin-bottom: 15px; overflow-x: auto; scrollbar-width: none; }
+.tab-btn { background: none; border: none; padding: 8px 16px; font-weight: 600; font-size: 0.95rem; cursor: pointer; border-radius: 8px; white-space: nowrap; }
+.tab-btn.active { background: var(--brand-gradient); color: #ffffff; }
+.tab-panel { display: none; line-height: 1.6; font-size: 0.95rem; }
+.tab-panel.active { display: block; }
+.tab-panel h3 { margin-bottom: 10px; font-size: 1.15rem; }
+
+/* ================= PC STYLING INTERFACE ================= */
+#pcVersion .sidebar {
+  position: fixed; top: 0; left: 0; width: 360px; height: 100vh; background: var(--bg-sidebar);
+  border-right: 1px solid var(--sidebar-border); overflow-y: auto; padding: 20px; scrollbar-width: none;
+}
+#pcVersion .sidebar-section { margin-bottom: 25px; padding: 18px; border-radius: 14px; background: var(--panel-bg); border: 1px solid var(--dash-card-border); }
+#pcVersion .sidebar-section h2 { margin-bottom: 12px; font-size: 1.25rem; font-weight: 700; color: var(--text-main); }
+#pcVersion .sidebar-section ul { list-style: none; }
+#pcVersion .sidebar-section li { margin: 8px 0; font-weight: 500; }
+#pcVersion .sidebar-section li a {
+  text-decoration: none; display: block; padding: 6px 12px; border-radius: 10px; transition: all 0.25s ease;
+}
+#pcVersion .sidebar-section li a:hover, #pcVersion .sidebar-section li a.active {
+  background: var(--light-hover-bg); color: var(--light-hover-text); font-weight: 700;
+}
+#pcVersion .sidebar-section li a:hover *, #pcVersion .sidebar-section li a.active * {
+  color: var(--light-hover-text);
+}
+#pcVersion .main { margin-left: 360px; padding: 30px; height: 100vh; overflow-y: auto; background: var(--bg-main); }
+
+#pcVersion .main-title {
+  text-align: center; background: var(--brand-gradient); border: 1px solid transparent;
+  padding: 25px 15px; border-radius: 16px; font-size: 2.2rem; margin-bottom: 30px; font-weight: 800; box-shadow: 0 4px 15px var(--card-shadow);
+}
+#pcVersion .main-title span { color: var(--text-inverted); }
+
+#pcVersion footer {
+  text-align: center; padding: 20px; font-size: 1rem; font-weight: 600; background: var(--brand-gradient); border: 1px solid transparent;
+  border-radius: 12px; line-height: 1.6; margin-top: 20px; box-shadow: 0 4px 15px var(--card-shadow);
+}
+#pcVersion footer span { color: var(--text-inverted); }
+
+/* ================= MOBILE STYLING INTERFACE ================= */
+#mobileVersion .main-title {
+  display: flex; justify-content: space-between; align-items: center; background: var(--brand-gradient); border: 1px solid transparent;
+  margin: 15px 15px 0px 15px; padding: 12px 20px; border-radius: 14px; font-size: 1.6rem; position: relative; box-shadow: 0 4px 12px var(--card-shadow);
+}
+#mobileVersion .main-title * { color: var(--text-inverted) !important; }
+#mobileVersion .letters { display: flex; gap: 12px; margin-left: 45px; }
+#mobileVersion .letters a { text-decoration: none; padding: 6px 12px; border-radius: 25px; font-weight: 600; font-size: 1.1rem; color: var(--text-inverted); }
+#mobileVersion .letters a.active { font-weight: 700; background: rgba(255, 255, 255, 0.25); color: #ffffff !important; }
+#mobileVersion #menu-button { position: absolute; top: 20%; left: 12px; z-index: 1500; cursor: pointer; font-size: 1.5rem; background: transparent; }
+#mobileVersion #sidebar {
+  position: fixed; top: 0; left: -260px; width: 260px; height: 100%; background: var(--bg-sidebar); z-index: 1400;
+  padding: 15px; transition: left 0.4s ease; box-shadow: 4px 0 25px rgba(0,0,0,0.15); overflow-y: auto;
+}
+#mobileVersion #sidebar.open { left: 0; }
+#mobileVersion .sidebar-section { margin-bottom: 12px; padding: 15px; border-radius: 12px; background: var(--panel-bg); border: 1px solid var(--dash-card-border); }
+#mobileVersion .sidebar-section * { color: var(--text-main) !important; }
+#mobileVersion .sidebar-section .mobile-menu-heading { font-size: 1.3rem; font-weight: 700; margin-left: 40px; display: block; margin-bottom: 10px; }
+#mobileVersion .sidebar-section h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; }
+#mobileVersion .sidebar-section ul { list-style: none; }
+#mobileVersion .sidebar-section li { margin: 8px 0; font-weight: 500; }
+#mobileVersion .sidebar-section li a { text-decoration: none; display: block; padding: 6px 12px; border-radius: 10px; }
+#mobileVersion .sidebar-section li a.active { background: var(--light-hover-bg); color: var(--light-hover-text) !important; font-weight: 700; }
+#mobileVersion #menuOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1300; display: none; }
+#mobileVersion #menuOverlay.active { display: block; }
+#mobileVersion .main { margin: 10px; padding: 10px; flex: 1; background: var(--bg-main); }
+#mobileVersion .section-title { text-align: center; background: #ffffff; border: 1px solid var(--dash-card-border); border-left: 5px solid var(--accent-color); padding: 12px; border-radius: 14px; color: var(--text-main); font-size: 1.5rem; margin-bottom: 20px; font-weight: 700; box-shadow: 0 4px 12px var(--card-shadow); }
+#mobileVersion .section-title span { color: var(--text-main); }
+body.dark-mode #mobileVersion .section-title { background: var(--dash-card-bg); }
+
+#mobileVersion footer { margin-top: 20px; padding: 20px; text-align: center; font-weight: 600; background: var(--brand-gradient); border: 1px solid transparent; border-radius: 12px; box-shadow: 0 4px 12px var(--card-shadow); }
+#mobileVersion footer span { color: var(--text-inverted) !important; }
+</style>
+</head>
+
+<body>
+
+<!-- Globally Interconnected Toast Output Module -->
+<div id="toast-container"></div>
+
+<!-- ================================================================= -->
+<!--                           PC VERSION                              -->
+<!-- ================================================================= -->
+<div id="pcVersion">
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="theme-switch-wrapper">
+        <span>🌙 Dark Mode</span>
+        <label class="theme-switch">
+          <input type="checkbox" class="dark-mode-input-toggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <h2>Menu</h2>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="health-advice.html">🩺 Health Advice</a></li>
+        <li><a href="body-structure.html">🧬 Body Structure</a></li>
+        <li><a href="nature.html">🌿 Nature</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Information</h2>
+      <ul>
+        <li><a href="daily-exercise.html">🏃 Daily Exercise</a></li>
+        <li><a href="articles.html">📚 Articles</a></li>
+        <li><a href="community.html" class="active">👥 Community</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Additional</h2>
+      <ul>
+        <li><a href="quiz.html">❓ Quiz</a></li>
+        <li><a href="bmi-calculator.html">⚖️ BMI Calculator</a></li>
+        <li><a href="gallery.html">🖼️ Gallery</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Connect</h2>
+      <ul>
+        <li><a href="connect.html">📞 Contact</a></li>
+        <li><a href="about.html">ℹ️ About Us</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="main-title"><span>Global Community Hub</span></div>
+
+    <!-- Exclusive Interaction Engine: Weekly Tracker Poll -->
+    <div class="graphic-wrapper">
+      <div class="poll-question"><i class="fa-solid fa-square-poll-vertical" style="color:var(--accent-color);"></i> Community Pulse: What is your current baseline health target this week?</div>
+      
+      <div class="poll-option" onclick="castVote(this, [42, 33, 25])">
+        <div class="poll-bg-fill"></div>
+        <span class="poll-label">Optimizing Spinal Posture Vectors</span>
+        <span class="poll-pct">42%</span>
+      </div>
+      
+      <div class="poll-option" onclick="castVote(this, [22, 53, 25])">
+        <div class="poll-bg-fill"></div>
+        <span class="poll-label">Expanding Aerobic Mitochondrial Pacing</span>
+        <span class="poll-pct">53%</span>
+      </div>
+
+      <div class="poll-option" onclick="castVote(this, [15, 30, 55])">
+        <div class="poll-bg-fill"></div>
+        <span class="poll-label">Fascial Decompression & Joint Mobility</span>
+        <span class="poll-pct">55%</span>
+      </div>
+    </div>
+
+    <!-- Interactive Tabs Component (PC View) -->
+    <div class="anatomy-explorer">
+      <div class="explorer-header"><i class="fa-solid fa-circle-nodes" style="color: var(--accent-color);"></i> Network Ecosystem Metrics</div>
+      <div class="tabs-container">
+        <button class="tab-btn active" onclick="switchTab(this, 'pc-rules')">Forum Code of Conduct</button>
+        <button class="tab-btn" onclick="switchTab(this, 'pc-stats')">Global Traffic Metrics</button>
+      </div>
+      <div id="pc-rules" class="tab-panel active">
+        <h3>Empirical Integrity Standard</h3>
+        <p>Our safe interaction forums protect objective knowledge transfer. Peer replies require descriptive clarity surrounding biological parameters, avoiding anecdotal hearsay to safeguard tracking accuracy models across the network.</p>
+      </div>
+      <div id="pc-stats" class="tab-panel">
+        <h3>Operational Database Streams</h3>
+        <p>Over 14,200 verifiable practitioners actively record movement paths, posture adjustments, and nutritional indicators. Synchronized network tracking loops ensure structural data transparency across regional sub-servers.</p>
+      </div>
+    </div>
+
+    <!-- Core Systems Display Grid (PC View - Exactly 6 Cards) -->
+    <div class="system-grid">
+      <!-- ROOM 1 -->
+      <div class="system-card">
+        <div class="forum-meta">
+          <span class="forum-activity">● Live Discussion</span>
+          <span class="forum-counter">1.2k Active</span>
+        </div>
+        <h2>Biomechanics Forum</h2>
+        <p>Exchanging clinical insight concerning load properties, torque angles, and tissue recovery pacing indexes.</p>
+        <button class="join-room-btn" onclick="triggerToast('Connecting to Biomechanics Secure Feed...')">Enter Channel</button>
+        <ul class="anatomy-details">
+          <li><i class="fa-regular fa-comment-dots"></i> Last text entry 2m ago</li>
+        </ul>
+      </div>
+
+      <!-- ROOM 2 -->
+      <div class="system-card">
+        <div class="forum-meta">
+          <span class="forum-activity">● Live Discussion</span>
+          <span class="forum-counter">840 Active</span>
+        </div>
+        <h2>Ecosystem Mapping</h2>
+        <p>A shared collaborative mapping collective monitoring mycelial signal grids and macro forest preservation trends.</p>
+        <button class="join-room-btn" onclick="triggerToast('Syncing Mycelial Map Coordinates...')">Enter Channel</button>
+        <ul class="anatomy-details">
+          <li><i class="fa-regular fa-comment-dots"></i> Last text entry 14m ago</li>
+        </ul>
+      </div>
+
+      <!-- ROOM 3 -->
+      <div class="system-card">
+        <div class="forum-meta">
+          <span class="forum-activity" style="color: #f59e0b;">○ Archived Hub</span>
+          <span class="forum-counter">3.1k Members</span>
+        </div>
+        <h2>Postural Correction Logs</h2>
+        <p>User-submitted case histories tracking deep stabilizer tracking fixes to fix desk chair slouching patterns.</p>
+        <button class="join-room-btn" onclick="triggerToast('Loading Postural Archive Database...')">View Records</button>
+        <ul class="anatomy-details">
+          <li><i class="fa-regular fa-comment-dots"></i> Last text entry 1h ago</li>
+        </ul>
+      </div>
+
+      <!-- ROOM 4 -->
+      <div class="system-card">
+        <div class="forum-meta">
+          <span class="forum-activity">● Live Discussion</span>
+          <span class="forum-counter">610 Active</span>
+        </div>
+        <h2>Mitochondrial Research</h2>
+        <p>Evaluating chemical transformations under distinct anaerobic thresholds and specialized fasting parameters.</p>
+        <button class="join-room-btn" onclick="triggerToast('Opening Mitochondrial Lab Feeds...')">Enter Channel</button>
+        <ul class="anatomy-details">
+          <li><i class="fa-regular fa-comment-dots"></i> Last text entry 8m ago</li>
+        </ul>
+      </div>
+
+      <!-- ROOM 5 -->
+      <div class="system-card">
+        <div class="forum-meta">
+          <span class="forum-activity">● Live Discussion</span>
+          <span class="forum-counter">990 Active</span>
+        </div>
+        <h2>Nutritional Chemistry</h2>
+        <p>Deconstructing structural amino acids and pure micronutrient chains to stabilize standard metabolic profiles.</p>
+        <button class="join-room-btn" onclick="triggerToast('Connecting to Micronutrient Chat Matrix...')">Enter Channel</button>
+        <ul class="anatomy-details">
+          <li><i class="fa-regular fa-comment-dots"></i> Last text entry 4m ago</li>
+        </ul>
+      </div>
+
+      <!-- ROOM 6 -->
+      <div class="system-card">
+        <div class="forum-meta">
+          <span class="forum-activity" style="color: #f59e0b;">○ Closed Track</span>
+          <span class="forum-counter">450 Registered</span>
+        </div>
+        <h2>Albedo Thermal Study</h2>
+        <p>A specialized task group tracking heat-deflection parameters across regional oceanic ice shelf surfaces.</p>
+        <button class="join-room-btn" onclick="triggerToast('Accessing Thermal Research Vault...')">Request Entry</button>
+        <ul class="anatomy-details">
+          <li><i class="fa-regular fa-comment-dots"></i> Group locked by administrator</li>
+        </ul>
+      </div>
+    </div>
+
+    <footer><span>© 2026 HB Creations | Interactive Forum Engine | Secure Decentralized Peer Verification</span></footer>
+  </div>
+</div>
+
+<!-- ================================================================= -->
+<!--                         MOBILE VERSION                            -->
+<!-- ================================================================= -->
+<div id="mobileVersion">
+  <div class="main-title">
+    <div id="menu-button">☰</div>
+    <div class="letters">
+      <a href="index.html">H</a>
+      <a href="daily-exercise.html">E</a>
+      <a href="articles.html">J</a>
+       <a href="community.html" class="active">R</a>
+    </div>
+    <label class="theme-switch" style="transform: scale(0.8); margin-left: auto;">
+      <input type="checkbox" class="dark-mode-input-toggle">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div id="sidebar">
+    <div class="sidebar-section">
+      <span class="mobile-menu-heading">Menu</span>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="health-advice.html">🩺 Health Advice</a></li>
+        <li><a href="body-structure.html">🧬 Body Structure</a></li>
+        <li><a href="nature.html">🌿 Nature</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <ul>
+        <li><a href="daily-exercise.html">🏃 Daily Exercise</a></li>
+        <li><a href="articles.html">📚 Articles</a></li>
+        <li><a href="community.html" class="active">👥 Community</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Additional</h2>
+      <ul>
+        <li><a href="quiz.html">❓ Quiz</a></li>
+        <li><a href="bmi-calculator.html">⚖️ BMI Calculator</a></li>
+        <li><a href="gallery.html">🖼️ Gallery</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Info</h2>
+      <ul>
+        <li><a href="connect.html">📞 Contact</a></li>
+        <li><a href="about.html">ℹ️ About Us</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="menuOverlay"></div>
+
+  <div class="main">
+    <div class="section-title"><span>Interactive Forums</span></div>
+
+    <!-- Interactive Tabs Component (Mobile View) -->
+    <div class="anatomy-explorer">
+      <div class="tabs-container">
+        <button class="tab-btn active" onclick="switchTab(this, 'mob-rules')">Code of Conduct</button>
+        <button class="tab-btn" onclick="switchTab(this, 'mob-stats')">Ecosystem Stats</button>
+      </div>
+      <div id="mob-rules" class="tab-panel active">
+        <p>Our interaction forums protect data transfer. All replies must maintain clear focus on verified biological parameters.</p>
+      </div>
+      <div id="mob-stats" class="tab-panel">
+        <p>Over 14,200 practitioners actively record physical paths, structural posture shifts, and metabolic indicators globally.</p>
+      </div>
+    </div>
+
+    <!-- Core Systems Display Grid (Mobile View) -->
+    <div class="system-grid">
+      <!-- ROOM 1 -->
+      <div class="system-card">
+        <div class="forum-meta"><span>● Biomechanics</span></div>
+        <p>Exchanging clinical insight concerning tissue recovery loads and torque vectors.</p>
+        <button class="join-room-btn" onclick="triggerToast('Connecting via mobile link...')">Enter Room</button>
+      </div>
+
+      <!-- ROOM 2 -->
+      <div class="system-card">
+        <div class="forum-meta"><span>● Ecosystems</span></div>
+        <p>Monitoring sub-surface root communication grids and global forest trends.</p>
+        <button class="join-room-btn" onclick="triggerToast('Syncing ecosystem map feed...')">Enter Room</button>
+      </div>
+
+      <!-- ROOM 3 -->
+      <div class="system-card">
+        <div class="forum-meta"><span>○ Posture Logs</span></div>
+        <p>User histories detailing deep stabilizer activation methods to combat slouched shoulders.</p>
+        <button class="join-room-btn" onclick="triggerToast('Loading posture archive database...')">View Records</button>
+      </div>
+
+      <!-- ROOM 4 -->
+      <div class="system-card">
+        <div class="forum-meta"><span>● Mitochondria</span></div>
+        <p>Evaluating cellular adaptations under controlled anaerobic thresholds.</p>
+        <button class="join-room-btn" onclick="triggerToast('Opening cellular research line...')">Enter Room</button>
+      </div>
+
+      <!-- ROOM 5 -->
+      <div class="system-card">
+        <div class="forum-meta"><span>● Nutrition</span></div>
+        <p>Deconstructing metabolic patterns using targeted pure amino acids.</p>
+        <button class="join-room-btn" onclick="triggerToast('Opening nutrient chat matrix...')">Enter Room</button>
+      </div>
+
+      <!-- ROOM 6 -->
+      <div class="system-card">
+        <div class="forum-meta"><span>○ Climatology</span></div>
+        <p>Specialized group evaluating heat wave deflection over polar ice structures.</p>
+        <button class="join-room-btn" onclick="triggerToast('Access denied: Channel locked.')">Channel Locked</button>
+      </div>
+    </div>
+
+    <footer><span>© 2026 HB Creations | Made with ❤</span></footer>
+  </div>
+</div>
+
+<script>
+/* --- New Client-Side Poll Interaction Engine --- */
+function castVote(selectedOption, mockupPercentages) {
+  const container = selectedOption.closest('.graphic-wrapper');
+  const options = container.querySelectorAll('.poll-option');
+  
+  options.forEach((opt, idx) => {
+    // Prevent double submissions cleanly by turning off pointer actions
+    opt.style.pointerEvents = 'none';
+    
+    // Animate background bars and reveal percentages dynamically
+    const fillBar = opt.querySelector('.poll-bg-fill');
+    const pctValue = opt.querySelector('.poll-pct');
+    
+    if (fillBar) fillBar.style.width = mockupPercentages[idx] + '%';
+    if (pctValue) {
+      pctValue.innerText = mockupPercentages[idx] + '%';
+      pctValue.style.visibility = 'visible';
+    }
+  });
+  
+  selectedOption.style.borderColor = 'var(--accent-color)';
+  triggerToast("Vote secured! Recalculating community database metrics...");
+}
+
+/* --- New Native Toast Alert Engine --- */
+function triggerToast(message) {
+  const container = document.getElementById('toast-container');
+  if(!container) return;
+  
+  const toast = document.createElement('div');
+  toast.classList.add('toast-alert');
+  toast.innerHTML = `<i class="fa-solid fa-circle-check" style="color:var(--accent-color);"></i> <p>${message}</p>`;
+  
+  container.appendChild(toast);
+  
+  // Micro-stagger delay to allow rendering frames to detect CSS transition transforms
+  setTimeout(() => { toast.classList.add('show'); }, 50);
+  
+  // Systematic removal phase
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => { toast.remove(); }, 400);
+  }, 3500);
+}
+
+/* --- Core UI Sidebar Engine --- */
+const menuButton = document.getElementById("menu-button");
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("menuOverlay");
+
+function openSidebar() {
+  sidebar.classList.add("open");
+  overlay.classList.add("active");
+  document.body.style.overflow = 'hidden';
+  window.scrollTo({ top: 0, behavior: 'smooth' }); 
+  history.pushState({ menu: true }, "");
+}
+
+function closeSidebar() {
+  sidebar.classList.remove("open");
+  overlay.classList.remove("active");
+  document.body.style.overflow = '';
+}
+
+function toggleSidebar() {
+  if (sidebar.classList.contains("open")) { closeSidebar(); } else { openSidebar(); }
+}
+
+if (menuButton) menuButton.addEventListener("click", toggleSidebar);
+if (overlay) overlay.addEventListener("click", closeSidebar);
+
+document.addEventListener("click", (e) => {
+  if (sidebar && sidebar.classList.contains("open") && !sidebar.contains(e.target) && e.target !== menuButton) {
+    closeSidebar();
+  }
+});
+
+let touchStartX = 0;
+let touchEndX = 0;
+document.addEventListener("touchstart", (e) => { touchStartX = e.changedTouches[0].screenX; });
+document.addEventListener("touchend", (e) => { touchEndX = e.changedTouches[0].screenX; handleSwipe(); });
+function handleSwipe() {
+  if (sidebar && sidebar.classList.contains("open") && (touchStartX - touchEndX > 60)) { closeSidebar(); }
+}
+
+window.addEventListener("popstate", () => { if (sidebar && sidebar.classList.contains("open")) { closeSidebar(); } });
+
+
+/* --- Dark Mode Persistent Layout Engine --- */
+const themeToggles = document.querySelectorAll('.dark-mode-input-toggle');
+
+function setTheme(isDark) {
+  if (isDark) {
+    document.body.classList.add('dark-mode');
+  } else {
+    document.body.classList.remove('dark-mode');
+  }
+  themeToggles.forEach(toggle => toggle.checked = isDark);
+  localStorage.setItem('hb-dark-mode', isDark ? 'enabled' : 'disabled');
+}
+
+themeToggles.forEach(toggle => {
+  toggle.addEventListener('change', (e) => {
+    setTheme(e.target.checked);
+  });
+});
+
+if (localStorage.getItem('hb-dark-mode') === 'enabled') {
+  setTheme(true);
+} else {
+  setTheme(false);
+}
+
+
+/* --- Interactive Content Tabs Engine --- */
+function switchTab(clickedTab, panelId) {
+  const container = clickedTab.closest('.anatomy-explorer');
+  
+  container.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  container.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+  
+  clickedTab.classList.add('active');
+  const targetPanel = document.getElementById(panelId);
+  if(targetPanel) targetPanel.classList.add('active');
+  
+  const alternateId = panelId.startsWith('pc-') 
+    ? panelId.replace('pc-', 'mob-') 
+    : panelId.replace('mob-', 'pc-');
+    
+  const alternatePanel = document.getElementById(alternateId);
+  if (alternatePanel) {
+    const altContainer = alternatePanel.closest('.anatomy-explorer');
+    altContainer.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    altContainer.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    
+    alternatePanel.classList.add('active');
+    const panelsArray = Array.from(altContainer.querySelectorAll('.tab-panel'));
+    const targetedIndex = panelsArray.indexOf(alternatePanel);
+    const targetButton = altContainer.querySelectorAll('.tab-btn')[targetedIndex];
+    if(targetButton) targetButton.classList.add('active');
+  }
+}
+</script>
+
+</body>
+</html>

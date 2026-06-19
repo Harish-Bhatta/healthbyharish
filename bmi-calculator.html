@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HB Creations – Diagnostic BMI Hub</title>
+<meta name="description" content="Explore advanced BMI analytics with real-time metrics and health classifications on HB Creations by Harish Bhatta.">
+<meta name="keywords" content="HB Creations, BMI Calculator, Health, Harish Bhatta, Diagnostic Engine">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* ================= GLOBAL VARIABLE DESIGN (THEME UNIFICATION) ================= */
+:root {
+  --bg-main: #fcf9f5;                 /* Warm, soft canvas */
+  --bg-sidebar: #ffffff;              /* Crisp clean sidebar */
+  --text-main: #2d2a26;               /* Soft charcoal for premium readability */
+  --text-inverted: #ffffff;           /* White text for main gradient blocks */
+  --sidebar-border: #f0eae1;
+  
+  /* BRIGHTER & LIGHTER RED-PINK-ORANGE-YELLOW SUNSET GRADIENT */
+  --brand-gradient: linear-gradient(135deg, #ff5a79 0%, #ff6db3 30%, #ff8e43 70%, #facc15 100%); 
+  --panel-bg: linear-gradient(135deg, #fff3eb, #ffe4d3);        
+  --accent-color: #ff5a79;
+
+  /* Sidebar Link Hover states */
+  --light-hover-bg: #e6f7f4;                                    
+  --light-hover-text: #0d9488;                                  
+  
+  /* Dashboard Card Layouts */
+  --dash-card-bg: #ffffff;
+  --dash-card-border: #f3ede4;
+  --progress-track: rgba(45, 42, 38, 0.1);
+  --card-shadow: rgba(223, 190, 169, 0.2);
+  --card-hover-shadow: rgba(255, 90, 121, 0.25);
+}
+
+/* Master Dark Mode Override Palette via Body Class */
+body.dark-mode {
+  --bg-main: #11100e;
+  --bg-sidebar: #181614;
+  --text-main: #f5f2eb;
+  --text-inverted: #11100e;
+  --sidebar-border: #262320;
+  
+  --brand-gradient: linear-gradient(135deg, #ef4444 0%, #f472b6 30%, #f97316 70%, #eab308 100%);
+  --panel-bg: linear-gradient(135deg, #1e1b18, #292420);
+  --accent-color: #ff5a79;
+
+  --light-hover-bg: #ff5a79;
+  --light-hover-text: #11100e;
+  
+  --dash-card-bg: #181614;
+  --dash-card-border: #262320;
+  --progress-track: #2a2622;
+  --card-shadow: rgba(0, 0, 0, 0.5);
+  --card-hover-shadow: rgba(255, 90, 121, 0.15);
+}
+
+/* RESET & BASE RULES */
+* {
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+  color: var(--text-main);
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.2s ease, box-shadow 0.3s ease;
+}
+
+body {
+  background-color: var(--bg-main);
+}
+
+#darkModeToggle { display: none; }
+#pcVersion, #mobileVersion { display: none; }
+
+@media (max-width:768px) { #mobileVersion { display: block; } }
+@media (min-width:769px) { #pcVersion { display: block; } }
+
+/* ================= COMPONENT: MATCHING TOGGLE SWITCH ================= */
+.theme-switch-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0 15px 0;
+  border-bottom: 1px solid var(--sidebar-border);
+  margin-bottom: 15px;
+}
+.theme-switch-wrapper span { font-size: 0.95rem; font-weight: 600; }
+.theme-switch { display: inline-block; height: 26px; position: relative; width: 50px; }
+.slider {
+  background-color: #ccc; bottom: 0; cursor: pointer; left: 0; position: absolute;
+  right: 0; top: 0; transition: .4s; border-radius: 34px;
+}
+.slider:before {
+  background-color: white; bottom: 3px; content: ""; height: 20px; left: 4px;
+  position: absolute; transition: .4s; width: 20px; border-radius: 50%;
+}
+body.dark-mode .slider { background-color: var(--accent-color); }
+body.dark-mode .slider:before { transform: translateX(22px); }
+
+/* ================= COMPONENT: UNIFIED HUB & DASHBOARD CARDS ================= */
+.flex-grid {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+.flex-child {
+  flex: 1;
+  min-width: 300px;
+}
+
+.hub-card, .dash-card {
+  display: flex; 
+  flex-direction: column; 
+  justify-content: space-between;
+  padding: 25px; 
+  border-radius: 16px; 
+  box-shadow: 0 4px 15px var(--card-shadow);
+  border: 1px solid var(--dash-card-border); 
+  position: relative; 
+  overflow: hidden;
+  background-color: var(--dash-card-bg);
+  margin-bottom: 20px;
+}
+
+.hub-card i.card-icon, .dash-card i.card-icon { font-size: 2.5rem; margin-bottom: 15px; display: block; }
+.hub-card h2, .dash-card h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; }
+.hub-card p, .dash-card p { font-size: 0.95rem; line-height: 1.5; opacity: 0.85; }
+
+/* Harmony Layout Theme Variations */
+.theme-blue { background: linear-gradient(135deg, #f0f7ff, #e0effe); border-left: 5px solid #3b82f6; }
+.theme-blue i.card-icon, .theme-blue h2 { color: #2563eb; }
+
+.theme-green { background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-left: 5px solid #22c55e; }
+.theme-green i.card-icon, .theme-green h2 { color: #16a34a; }
+
+.theme-orange { background: linear-gradient(135deg, #fff7ed, #ffedd5); border-left: 5px solid #f97316; }
+.theme-orange i.card-icon, .theme-orange h2 { color: #ea580c; }
+
+.theme-pink { background: linear-gradient(135deg, #fff5f7, #ffe4e6); border-left: 5px solid #f43f5e; }
+.theme-pink i.card-icon, .theme-pink h2 { color: #e11d48; }
+
+.theme-red { background: linear-gradient(135deg, #fef2f2, #fee2e2); border-left: 5px solid #ef4444; }
+.theme-red i.card-icon, .theme-red h2 { color: #dc2626; }
+
+/* Dark Mode card color adjustments */
+body.dark-mode .theme-blue { background: #151e2e; }
+body.dark-mode .theme-green { background: #14241b; }
+body.dark-mode .theme-orange { background: #241912; }
+body.dark-mode .theme-pink { background: #241418; }
+body.dark-mode .theme-red { background: #241414; }
+body.dark-mode .hub-card i.card-icon, body.dark-mode .hub-card h2,
+body.dark-mode .dash-card i.card-icon, body.dark-mode .dash-card h2 { color: var(--text-main); }
+
+/* FORM METRIC DESIGN ELEMENTS */
+.input-row {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 18px; flex-wrap: wrap;
+}
+.input-row label { font-size: 1rem; font-weight: 600; min-width: 70px; cursor: pointer; }
+
+.modern-input {
+  padding: 12px; font-size: 1.05rem; border-radius: 10px;
+  border: 1px solid var(--dash-card-border); background: var(--bg-main);
+  width: 140px; font-weight: 600;
+}
+.modern-input:focus { outline: 2px solid var(--accent-color); }
+
+.modern-select {
+  padding: 12px; font-size: 1rem; border-radius: 10px;
+  border: 1px solid var(--dash-card-border); background: var(--bg-main);
+  font-weight: 700; cursor: pointer;
+}
+
+/* SYSTEM CONTROL CALL-TO-ACTIONS */
+.action-btn {
+  background: var(--brand-gradient); border: none; padding: 12px 24px;
+  border-radius: 25px; cursor: pointer; font-weight: 700; font-size: 0.95rem;
+  display: inline-flex; align-items: center; gap: 8px;
+  box-shadow: 0 4px 12px rgba(255, 90, 121, 0.3);
+}
+.action-btn.secondary {
+  background: var(--bg-main); border: 1px solid var(--dash-card-border); box-shadow: none;
+}
+.action-btn:hover { transform: scale(1.02); }
+.action-btn *, .action-btn span { color: #ffffff !important; }
+.action-btn.secondary * { color: var(--text-main) !important; }
+
+/* METRIC GAUGE AND TRACKSPECTRUM */
+.spectrum-container {
+  margin-top: 25px; padding-top: 15px; border-top: 1px dashed var(--dash-card-border);
+}
+.spectrum-bar {
+  height: 14px; border-radius: 7px; display: flex; overflow: hidden; margin-top: 10px; background: var(--progress-track);
+}
+.spectrum-zone { height: 100%; }
+.zone-under { background: #3b82f6; width: 20%; }
+.zone-normal { background: #10b981; width: 25%; }
+.zone-over { background: #f97316; width: 20%; }
+.zone-obese { background: #ef4444; width: 35%; }
+
+.pointer-track { position: relative; width: 100%; height: 20px; margin-top: 4px; }
+.spectrum-marker {
+  position: absolute; left: 0%; transform: translateX(-50%);
+  font-size: 1.1rem; transition: left 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: none;
+}
+
+.badge-list { list-style: none; }
+.badge-list li {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 14px; border-radius: 10px; margin-bottom: 8px; font-weight: 600;
+  background: var(--bg-main); border: 1px solid var(--dash-card-border);
+}
+
+/* ================= PC STYLING INTERFACE ================= */
+#pcVersion .sidebar {
+  position: fixed; top: 0; left: 0; width: 360px; height: 100vh; background: var(--bg-sidebar);
+  border-right: 1px solid var(--sidebar-border); overflow-y: auto; padding: 20px; scrollbar-width: none;
+}
+#pcVersion .sidebar-section { margin-bottom: 25px; padding: 18px; border-radius: 14px; background: var(--panel-bg); border: 1px solid var(--dash-card-border); }
+#pcVersion .sidebar-section h2 { margin-bottom: 12px; font-size: 1.25rem; font-weight: 700; color: var(--text-main); }
+#pcVersion .sidebar-section ul { list-style: none; }
+#pcVersion .sidebar-section li { margin: 8px 0; font-weight: 500; }
+#pcVersion .sidebar-section li a {
+  text-decoration: none; display: block; padding: 6px 12px; border-radius: 10px; transition: all 0.25s ease;
+}
+#pcVersion .sidebar-section li a:hover, #pcVersion .sidebar-section li a.active {
+  background: var(--light-hover-bg); color: var(--light-hover-text); font-weight: 700;
+}
+#pcVersion .sidebar-section li a:hover *, #pcVersion .sidebar-section li a.active * {
+  color: var(--light-hover-text);
+}
+#pcVersion .main { margin-left: 360px; padding: 30px; height: 100vh; overflow-y: auto; background: var(--bg-main); }
+
+#pcVersion .main-title {
+  text-align: center; background: var(--brand-gradient); border: 1px solid transparent;
+  padding: 25px 15px; border-radius: 16px; font-size: 2.2rem; margin-bottom: 30px; font-weight: 800; box-shadow: 0 4px 15px var(--card-shadow);
+}
+#pcVersion .main-title span { color: var(--text-inverted); }
+
+#pcVersion footer, #mobileVersion footer {
+  text-align: center; padding: 20px; font-size: 1rem; font-weight: 600; background: var(--brand-gradient); border: 1px solid transparent;
+  border-radius: 12px; line-height: 1.6; margin-top: 20px; box-shadow: 0 4px 15px var(--card-shadow);
+}
+#pcVersion footer span, #mobileVersion footer span { color: var(--text-inverted) !important; }
+
+/* ================= MOBILE STYLING INTERFACE ================= */
+#mobileVersion .main-title {
+  display: flex; justify-content: space-between; align-items: center; background: var(--brand-gradient); border: 1px solid transparent;
+  margin: 15px 15px 0px 15px; padding: 12px 20px; border-radius: 14px; font-size: 1.6rem; position: relative; box-shadow: 0 4px 12px var(--card-shadow);
+}
+#mobileVersion .main-title * { color: var(--text-inverted) !important; }
+#mobileVersion .letters { display: flex; gap: 12px; margin-left: 45px; }
+#mobileVersion .letters a { text-decoration: none; padding: 6px 12px; border-radius: 25px; font-weight: 600; font-size: 1.1rem; color: var(--text-inverted); }
+#mobileVersion .letters a.active { font-weight: 700; background: rgba(255, 255, 255, 0.25); color: #ffffff !important; }
+#mobileVersion #menu-button { position: absolute; top: 20%; left: 12px; z-index: 1500; cursor: pointer; font-size: 1.5rem; background: transparent; }
+#mobileVersion #sidebar {
+  position: fixed; top: 0; left: -260px; width: 260px; height: 100%; background: var(--bg-sidebar); z-index: 1400;
+  padding: 15px; transition: left 0.4s ease; box-shadow: 4px 0 25px rgba(0,0,0,0.15); overflow-y: auto;
+}
+#mobileVersion #sidebar.open { left: 0; }
+#mobileVersion .sidebar-section { margin-bottom: 12px; padding: 15px; border-radius: 12px; background: var(--panel-bg); border: 1px solid var(--dash-card-border); }
+#mobileVersion .sidebar-section * { color: var(--text-main) !important; }
+#mobileVersion .sidebar-section h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; }
+#mobileVersion .sidebar-section ul { list-style: none; }
+#mobileVersion .sidebar-section li { margin: 8px 0; font-weight: 500; }
+#mobileVersion .sidebar-section li a { text-decoration: none; display: block; padding: 6px 12px; border-radius: 10px; }
+#mobileVersion .sidebar-section li a.active { background: var(--light-hover-bg); color: var(--light-hover-text) !important; font-weight: 700; }
+#mobileVersion #menuOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1300; display: none; }
+#mobileVersion #menuOverlay.active { display: block; }
+#mobileVersion .main { margin: 10px; padding: 10px; flex: 1; background: var(--bg-main); }
+#mobileVersion .section-title { text-align: center; background: #ffffff; border: 1px solid var(--dash-card-border); border-left: 5px solid var(--accent-color); padding: 12px; border-radius: 14px; color: var(--text-main); font-size: 1.5rem; margin-bottom: 20px; font-weight: 700; box-shadow: 0 4px 12px var(--card-shadow); }
+#mobileVersion .section-title span { color: var(--text-main); }
+body.dark-mode #mobileVersion .section-title { background: var(--dash-card-bg); }
+</style>
+</head>
+
+<body>
+
+<input type="checkbox" id="darkModeToggle">
+
+<div id="pcVersion">
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="theme-switch-wrapper">
+        <span>🌙 Dark Mode</span>
+        <label class="theme-switch" for="darkModeToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <h2>Menu</h2>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="health-advice.html">🩺 Health Advice</a></li>
+        <li><a href="body-structure.html">🧬 Body Structure</a></li>
+        <li><a href="nature.html">🌿 Nature</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Information</h2>
+      <ul>
+        <li><a href="daily-exercise.html">🏃 Daily Exercise</a></li>
+        <li><a href="articles.html">📚 Articles</a></li>
+        <li><a href="community.html">👥 Community</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Additional</h2>
+      <ul>
+        <li><a href="quiz.html">❓ Quiz</a></li>
+        <li><a href="bmi-calculator.html" class="active">⚖️ BMI Calculator</a></li>
+        <li><a href="gallery.html">🖼️ Gallery</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Connect</h2>
+      <ul>
+        <li><a href="connect.html">📞 Contact</a></li>
+        <li><a href="about.html">ℹ️ About Us</a></li>
+        <li><a href="https://www.facebook.com/harish.bhatta.56305" target="_blank"><i class="fa-brands fa-facebook" style="color:#1877f2; margin-right:6px;"></i> Facebook</a></li>
+        <li><a href="https://www.youtube.com/channel/UC8-7dNFrLe4QynzU5cM68cg" target="_blank"><i class="fa-brands fa-youtube" style="color:#ff0000; margin-right:6px;"></i> YouTube</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="main-title"><span>Diagnostic BMI Core</span></div>
+
+    <div class="hub-card theme-pink">
+      <div>
+        <i class="fa-solid fa-circle-info card-icon"></i>
+        <h2>Understanding BMI</h2>
+        <p>Body Mass Index (BMI) is an architectural biosystem calculation estimating body fat configuration patterns mapping height against complete weight metrics.</p>
+      </div>
+    </div>
+
+    <div class="flex-grid">
+      <div class="flex-child dash-card theme-orange">
+        <div>
+          <i class="fa-solid fa-calculator card-icon"></i>
+          <h2>Metrics Engine</h2>
+          
+          <div class="input-row">
+            <label for="weight">Weight</label>
+            <input type="number" id="weight" class="modern-input" placeholder="kg">
+            <select id="weightUnit" class="modern-select">
+              <option value="kg">kg</option>
+              <option value="lb">lb</option>
+            </select>
+          </div>
+
+          <div class="input-row">
+            <label for="height">Height</label>
+            <input type="number" id="height" class="modern-input" placeholder="cm">
+            <input type="number" id="heightInch" class="modern-input" placeholder="in" style="display:none; width: 80px;">
+            <select id="heightUnit" class="modern-select">
+              <option value="cm">cm</option>
+              <option value="ftin">ft/in</option>
+            </select>
+          </div>
+
+          <div style="display:flex; gap:10px; margin-top:25px;">
+            <button class="action-btn" onclick="calculateBMI()"><span>Run Diagnostics</span> <i class="fa-solid fa-bolt"></i></button>
+            <button class="action-btn secondary" onclick="resetBMI()"><span>Clear</span> <i class="fa-solid fa-trash-can"></i></button>
+          </div>
+
+          <div id="bmiResultBox" style="margin-top: 25px; display: none;">
+            <h3 id="bmiResult" style="font-size: 1.5rem; font-weight: 800;"></h3>
+            <div class="spectrum-container">
+              <div class="spectrum-bar">
+                <div class="spectrum-zone zone-under"></div>
+                <div class="spectrum-zone zone-normal"></div>
+                <div class="spectrum-zone zone-over"></div>
+                <div class="spectrum-zone zone-obese"></div>
+              </div>
+              <div class="pointer-track">
+                <div id="pcMarker" class="spectrum-marker">🔻</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex-child dash-card theme-green">
+        <div>
+          <i class="fa-solid fa-heart-pulse card-icon"></i>
+          <h2>Scale Reference</h2>
+          <ul class="badge-list">
+            <li><span>🔵 Underweight</span> <span>&lt; 18.5</span></li>
+            <li><span>🟢 Normal Range</span> <span>18.5 – 24.9</span></li>
+            <li><span>🟡 Overweight</span> <span>25.0 – 29.9</span></li>
+            <li><span>🔴 Obese Condition</span> <span>&ge; 30.0</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <footer><span>© 2026 HB Creations | Premium Health Matrix Dashboard</span></footer>
+  </div>
+</div>
+
+<div id="mobileVersion">
+  <div class="main-title">
+    <div id="menu-button">☰</div>
+    <div class="letters">
+      <a href="index.html">H</a>
+      <a href="quiz.html">Q</a>
+      <a href="bmi-calculator.html" class="active">B</a>
+      <a href="gallery.html">G</a>
+    </div>
+    <label class="theme-switch" for="darkModeToggle" style="transform: scale(0.8); margin-left: auto;">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div id="sidebar">
+    <div class="sidebar-section">
+      <h2>Menu</h2>
+      <ul>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="health-advice.html">🩺 Health Advice</a></li>
+        <li><a href="body-structure.html">🧬 Body Structure</a></li>
+        <li><a href="nature.html">🌿 Nature</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <ul>
+        <li><a href="daily-exercise.html">🏃 Daily Exercise</a></li>
+        <li><a href="articles.html">📚 Articles</a></li>
+        <li><a href="community.html">👥 Community</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Additional</h2>
+      <ul>
+        <li><a href="quiz.html">❓ Quiz</a></li>
+        <li><a href="bmi-calculator.html" class="active">⚖️ BMI Calculator</a></li>
+        <li><a href="gallery.html">🖼️ Gallery</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <h2>Info</h2>
+      <ul>
+        <li><a href="connect.html">📞 Contact</a></li>
+        <li><a href="about.html">ℹ️ About Us</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="menuOverlay"></div>
+
+  <div class="main">
+    <div class="section-title"><span>BMI Diagnostics Engine</span></div>
+
+    <div class="dash-card theme-orange">
+      <div>
+        <i class="fa-solid fa-calculator card-icon"></i>
+        <h2>Metrics Input</h2>
+        
+        <div class="input-row">
+          <label for="m_weight">Weight</label>
+          <input type="number" id="m_weight" class="modern-input" placeholder="kg" style="flex:1;">
+          <select id="m_weightUnit" class="modern-select">
+            <option value="kg">kg</option>
+            <option value="lb">lb</option>
+          </select>
+        </div>
+
+        <div class="input-row">
+          <label for="m_height">Height</label>
+          <input type="number" id="m_height" class="modern-input" placeholder="cm" style="flex:1; min-width: 70px;">
+          <input type="number" id="m_heightInch" class="modern-input" placeholder="in" style="display:none; width: 65px;">
+          <select id="m_heightUnit" class="modern-select">
+            <option value="cm">cm</option>
+            <option value="ftin">ft/in</option>
+          </select>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:20px;">
+          <button class="action-btn" onclick="calculateBMI()" style="flex:1; justify-content: center;"><span>Calculate</span></button>
+          <button class="action-btn secondary" onclick="resetBMI()"><span>Reset</span></button>
+        </div>
+
+        <div id="m_bmiResultBox" style="margin-top: 25px; display: none;">
+          <h3 id="m_bmiResult" style="font-size: 1.3rem; font-weight: 800; text-align: center;"></h3>
+          <div class="spectrum-container">
+            <div class="spectrum-bar">
+              <div class="spectrum-zone zone-under"></div>
+              <div class="spectrum-zone zone-normal"></div>
+              <div class="spectrum-zone zone-over"></div>
+              <div class="spectrum-zone zone-obese"></div>
+            </div>
+            <div class="pointer-track">
+              <div id="mobMarker" class="spectrum-marker">🔻</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dash-card theme-green">
+      <div>
+        <i class="fa-solid fa-heart-pulse card-icon"></i>
+        <h2>Scale Reference</h2>
+        <ul class="badge-list">
+          <li><span>🔵 Underweight</span> <span>&lt; 18.5</span></li>
+          <li><span>🟢 Normal Range</span> <span>18.5 – 24.9</span></li>
+          <li><span>🟡 Overweight</span> <span>25.0 – 29.9</span></li>
+          <li><span>🔴 Obese Condition</span> <span>&ge; 30.0</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <footer><span>© 2026 HB Creations | Made with ❤</span></footer>
+  </div>
+</div>
+
+<script>
+/* ================= NAVIGATION DESKTOP & MOBILE MENU SYSTEM ================= */
+const menuButton = document.getElementById("menu-button");
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("menuOverlay");
+
+function openSidebar() {
+  sidebar.classList.add("open");
+  overlay.classList.add("active");
+  document.body.style.overflow = 'hidden';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  history.pushState({ menu: true }, "");
+}
+
+function closeSidebar() {
+  sidebar.classList.remove("open");
+  overlay.classList.remove("active");
+  document.body.style.overflow = '';
+}
+
+function toggleSidebar() { if (sidebar.classList.contains("open")) { closeSidebar(); } else { openSidebar(); } }
+
+if(menuButton) menuButton.addEventListener("click", toggleSidebar);
+if(overlay) overlay.addEventListener("click", closeSidebar);
+
+document.addEventListener("click", (e) => {
+  if (sidebar && sidebar.classList.contains("open") && !sidebar.contains(e.target) && e.target !== menuButton) {
+    closeSidebar();
+  }
+});
+
+window.addEventListener("popstate", () => { if (sidebar && sidebar.classList.contains("open")) { closeSidebar(); } });
+
+/* ================= THEME SYSTEM SYNCHRONIZATION ================= */
+const toggleNode = document.getElementById('darkModeToggle');
+function setTheme(isDark) {
+  if (isDark) {
+    document.body.classList.add('dark-mode');
+    if (toggleNode) toggleNode.checked = true;
+    localStorage.setItem('hb-dark-mode', 'enabled');
+  } else {
+    document.body.classList.remove('dark-mode');
+    if (toggleNode) toggleNode.checked = false;
+    localStorage.setItem('hb-dark-mode', 'disabled');
+  }
+}
+if (toggleNode) toggleNode.addEventListener('change', (e) => setTheme(e.target.checked));
+if (localStorage.getItem('hb-dark-mode') === 'enabled') setTheme(true);
+
+/* ================= OMNI-CHANNEL FORM VALUE SYNC ENGINE ================= */
+const inputsMap = {
+  weight: ['weight', 'm_weight'],
+  weightUnit: ['weightUnit', 'm_weightUnit'],
+  height: ['height', 'm_height'],
+  heightInch: ['heightInch', 'm_heightInch'],
+  heightUnit: ['heightUnit', 'm_heightUnit']
+};
+
+function setupSync() {
+  Object.keys(inputsMap).forEach(key => {
+    const pcId = inputsMap[key][0];
+    const mobId = inputsMap[key][1];
+    const pcEl = document.getElementById(pcId);
+    const mobEl = document.getElementById(mobId);
+
+    if(pcEl && mobEl) {
+      pcEl.addEventListener('input', () => { mobEl.value = pcEl.value; });
+      mobEl.addEventListener('input', () => { pcEl.value = mobEl.value; });
+      
+      pcEl.addEventListener('change', (e) => { 
+        if(key === 'weightUnit' || key === 'heightUnit') {
+          handleUnitChange(key, e.target.value);
+        } else {
+          mobEl.value = pcEl.value;
+        }
+      });
+      mobEl.addEventListener('change', (e) => { 
+        if(key === 'weightUnit' || key === 'heightUnit') {
+          handleUnitChange(key, e.target.value);
+        } else {
+          pcEl.value = mobEl.value;
+        }
+      });
+    }
+  });
+}
+setupSync();
+
+/* ================= AUTOMATIC VALUE CONVERSION LOGIC ================= */
+function handleUnitChange(type, value) {
+  const pcW = document.getElementById("weight");
+  const mobW = document.getElementById("m_weight");
+  const pcH = document.getElementById("height");
+  const mobH = document.getElementById("m_height");
+  const pcHi = document.getElementById("heightInch");
+  const mobHi = document.getElementById("m_heightInch");
+
+  if(type === 'weightUnit') {
+    document.getElementById("weightUnit").value = value;
+    document.getElementById("m_weightUnit").value = value;
+    
+    let currentVal = parseFloat(pcW.value);
+    if (!isNaN(currentVal)) {
+      if (value === "lb") {
+        let converted = (currentVal * 2.20462).toFixed(1);
+        pcW.value = converted; mobW.value = converted;
+      } else {
+        let converted = (currentVal / 2.20462).toFixed(1);
+        pcW.value = converted; mobW.value = converted;
+      }
+    }
+    pcW.placeholder = value; mobW.placeholder = value;
+  }
+
+  if(type === 'heightUnit') {
+    document.getElementById("heightUnit").value = value;
+    document.getElementById("m_heightUnit").value = value;
+    
+    let currentH = parseFloat(pcH.value);
+    let currentHi = parseFloat(pcHi.value) || 0;
+
+    if(value === 'cm') {
+      if (!isNaN(currentH)) {
+        let totalInches = (currentH * 12) + currentHi;
+        let convertedCm = (totalInches * 2.54).toFixed(1);
+        pcH.value = convertedCm; mobH.value = convertedCm;
+      }
+      pcH.placeholder = "cm"; mobH.placeholder = "cm";
+      pcH.style.width = "140px"; mobH.style.width = "100%";
+      pcHi.style.display = "none"; mobHi.style.display = "none";
+      pcHi.value = ""; mobHi.value = "";
+    } else {
+      if (!isNaN(currentH)) {
+        let totalInches = currentH / 2.54;
+        let feet = Math.floor(totalInches / 12);
+        let inches = Math.round(totalInches % 12);
+        if (inches === 12) { feet += 1; inches = 0; }
+        pcH.value = feet; mobH.value = feet;
+        pcHi.value = inches; mobHi.value = inches;
+      }
+      pcH.placeholder = "ft"; mobH.placeholder = "ft";
+      pcH.style.width = "80px"; mobH.style.width = "45%";
+      pcHi.style.display = "inline-block"; mobHi.style.display = "inline-block";
+    }
+  }
+}
+
+/* ================= BMI COMPUTATION ENGINE ================= */
+function calculateBMI() {
+  const isPC = document.getElementById("pcVersion").offsetParent !== null;
+  const unitW = document.getElementById("weightUnit").value;
+  const unitH = document.getElementById("heightUnit").value;
+  
+  const rawW = parseFloat(document.getElementById(isPC ? "weight" : "m_weight").value);
+  const rawH = parseFloat(document.getElementById(isPC ? "height" : "m_height").value);
+  const rawHi = parseFloat(document.getElementById(isPC ? "heightInch" : "m_heightInch").value) || 0;
+
+  if(isNaN(rawW) || isNaN(rawH) || (unitH === 'ftin' && isNaN(rawHi))) {
+    alert("Please fill out your parameters completely.");
+    return;
+  }
+
+  let mass = rawW;
+  if(unitW === 'lb') mass *= 0.453592;
+
+  let physicalHeight = rawH;
+  if(unitH === 'ftin') {
+    physicalHeight = ((rawH * 12) + rawHi) * 2.54;
+  }
+  physicalHeight /= 100;
+
+  if (physicalHeight === 0) {
+    alert("Height cannot be zero.");
+    return;
+  }
+
+  const bmi = (mass / (physicalHeight * physicalHeight)).toFixed(1);
+  displayMetricsOutput(bmi);
+}
+
+function displayMetricsOutput(bmi) {
+  let category = "", color = "", leftPercentage = 0;
+
+  if (bmi < 18.5) {
+    category = "Underweight"; color = "#3b82f6";
+    leftPercentage = Math.min(Math.max((bmi / 18.5) * 20, 5), 22);
+  } else if (bmi < 25) {
+    category = "Normal Weight"; color = "#10b981";
+    leftPercentage = 20 + ((bmi - 18.5) / 6.5) * 25;
+  } else if (bmi < 30) {
+    category = "Overweight"; color = "#f97316";
+    leftPercentage = 45 + ((bmi - 25) / 5) * 20;
+  } else {
+    category = "Obese"; color = "#ef4444";
+    leftPercentage = 65 + Math.min(((bmi - 30) / 15) * 30, 30);
+  }
+
+  const resPC = document.getElementById("bmiResult");
+  const resMob = document.getElementById("m_bmiResult");
+  const boxPC = document.getElementById("bmiResultBox");
+  const boxMob = document.getElementById("m_bmiResultBox");
+  
+  boxPC.style.display = "block"; boxMob.style.display = "block";
+  resPC.innerHTML = `Result: <span style="color:${color}">${bmi} (${category})</span>`;
+  resMob.innerHTML = `Result: <span style="color:${color}">${bmi} (${category})</span>`;
+
+  document.getElementById("pcMarker").style.display = "block";
+  document.getElementById("mobMarker").style.display = "block";
+  document.getElementById("pcMarker").style.left = `${leftPercentage}%`;
+  document.getElementById("mobMarker").style.left = `${leftPercentage}%`;
+}
+
+function resetBMI() {
+  document.getElementById("weight").value = "";
+  document.getElementById("m_weight").value = "";
+  document.getElementById("height").value = "";
+  document.getElementById("m_height").value = "";
+  document.getElementById("heightInch").value = "";
+  document.getElementById("m_heightInch").value = "";
+  
+  document.getElementById("bmiResultBox").style.display = "none";
+  document.getElementById("m_bmiResultBox").style.display = "none";
+}
+</script>
+
+</body>
+</html>
